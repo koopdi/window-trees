@@ -1,0 +1,11 @@
+#exclude all files and directories
+/*
+
+#include these specific directories and files
+#dirs
+!/src
+!/.vscode
+#files
+!/.gitignore
+!/CMakeLists.txt
+!/Doxyfile
