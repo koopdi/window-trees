@@ -1,3 +1,5 @@
+#include "WMWindow.h"
+
 class WMWorkspace {
 public:
     WMWorkspace(int workspaceID);
