@@ -41,9 +41,9 @@ add_compile_options(
 	-DSGL_GRAPHICAL_CONSOLE_NO_TOOLBAR=1
 )
 
-student writes ordinary main() function, but it must be called within a
-wrapper main() that handles library setup/teardown. Rename student's
-to distinguish between the two main() functions and avoid symbol clash
+# student writes ordinary main() function, but it must be called within a
+# wrapper main() that handles library setup/teardown. Rename student's
+# to distinguish between the two main() functions and avoid symbol clash
 add_compile_options(
 	-Dmain=qMain
 	-DqMain=studentMain
