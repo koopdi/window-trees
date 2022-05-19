@@ -8,5 +8,20 @@
 		60,
 		80,
 		100
-	]
+	],
+
+	// don't launch program if there is a compiler error
+	"debug.onTaskErrors": "abort",
+
+	// settings to keep editor in synch with formatter (ctrl+shift+i)
+	"editor.detectIndentation": false,
+	"editor.insertSpaces": false,
+
+	// how many spaces wide to display tab indents
+	//"editor.tabSize": 2,
+
+	// "C_Cpp.intelliSenseEngineFallback": "Enabled",
+
+	// doxygen, docgen extension settings
+	"doxdocgen.generic.authorName": "Andrew Hanson, Christen Spadevechia, Travis McKinney",
 }
