@@ -103,7 +103,7 @@ struct WMWindowNode{
 };
 
 
-class Workspace {
+class WMWorkspace {
 public:
     Workspace(int workspaceID);
     int getHeight() const;
@@ -127,5 +127,8 @@ private:
 
 
 class WM {
+    vector<WMWorkspace> workspaces;
+    void update(DisplayServerEvent& ev);
+public:
     WM(ServerInterface* server);
 };
