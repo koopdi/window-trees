@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 3.1.0)
 project (sgl VERSION 2021.04.03 LANGUAGES CXX)
 
-# use C++17 language standard
-set(CMAKE_CXX_STANDARD 17)
+# use C++11 language standard
+set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_VERBOSE_MAKEFILE ON)
 
@@ -61,10 +61,16 @@ FILE(GLOB LibHeaders
 # non-sgl-library source / header files specific to this project
 FILE(GLOB ProjectSources
 	src/*.cpp
+	src/WindowManager/*.cpp
+	src/Protocol/*.cpp
+	src/MiniDisplayServer/*.cpp
 )
 
 FILE(GLOB ProjectHeaders
 	src/*.h
+	src/WindowManager/*.h
+	src/Protocol/*.h
+	src/MiniDisplayServer/*.h
 )
 
 # resource files (images, input files, etc.) for this project
@@ -75,122 +81,11 @@ FILE(GLOB ProjectResources
 set(sgl_HDRS
 	${LibHeaders}
 	${ProjectHeaders}
-	# lib/build.h
-	# lib/console.h
-	# lib/consolestreambuf.h
-	# lib/consoletext.h
-	# lib/echoinputstreambuf.h
-	# lib/forwardingstreambuf.h
-	# lib/gbrowserpane.h
-	# lib/gbutton.h
-	# lib/gcanvas.h
-	# lib/gcheckbox.h
-	# lib/gchooser.h
-	# lib/gclipboard.h
-	# lib/gcolorchooser.h
-	# lib/gcolor.h
-	# lib/gconsolewindow.h
-	# lib/gcontainer.h
-	# lib/gdiffgui.h
-	# lib/gdiffimage.h
-	# lib/gdownloader.h
-	# lib/gdrawingsurface.h
-	# lib/gevent.h
-	# lib/geventqueue.h
-	# lib/gexceptions.h
-	# lib/gfilechooser.h
-	# lib/gfontchooser.h
-	# lib/gfont.h
-	# lib/ginit.h
-	# lib/ginteractor.h
-	# lib/glabel.h
-	# lib/glayout.h
-	# lib/gmath.h
-	# lib/gobjects.h
-	# lib/gobservable.h
-	# lib/goptionpane.h
-	# lib/gradiobutton.h
-	# lib/grid.h
-	# lib/gridlocation.h
-	# lib/gscrollbar.h
-	# lib/gscrollpane.h
-	# lib/gslider.h
-	# lib/gsound.h
-	# lib/gspacer.h
-	# lib/gstatic.h
-	# lib/gtable.h
-	# lib/gtextarea.h
-	# lib/gtextfield.h
-	# lib/gthread.h
-	# lib/gtimer.h
-	# lib/gtypes.h
-	# lib/gversion.h
-	# lib/gwindow.h
-	# lib/privatediff.h
-	# lib/privatefilelib.h
-	# lib/privateregexpr.h
-	# lib/privatestrlib.h
-	# lib/qtgui.h
-	# lib/require.h
 )
 
 set(sgl_SRCS
 	${LibSources}
 	${ProjectSources}
-	# lib/console.cpp
-	# lib/gbrowserpane.cpp
-	# lib/gbutton.cpp
-	# lib/gcanvas.cpp
-	# lib/gcheckbox.cpp
-	# lib/gchooser.cpp
-	# lib/gclipboard.cpp
-	# lib/gcolorchooser.cpp
-	# lib/gcolor.cpp
-	# lib/gconsolewindow.cpp
-	# lib/gcontainer.cpp
-	# lib/gdiffgui.cpp
-	# lib/gdiffimage.cpp
-	# lib/gdownloader.cpp
-	# lib/gdrawingsurface.cpp
-	# lib/gevent.cpp
-	# lib/geventqueue.cpp
-	# lib/gexceptions.cpp
-	# lib/gfilechooser.cpp
-	# lib/gfontchooser.cpp
-	# lib/gfont.cpp
-	# lib/ginit.cpp
-	# lib/ginteractor.cpp
-	# lib/glabel.cpp
-	# lib/glayout.cpp
-	# lib/gmath.cpp
-	# lib/gobjects.cpp
-	# lib/gobservable.cpp
-	# lib/goptionpane.cpp
-	# lib/gradiobutton.cpp
-	# lib/gridlocation.cpp
-	# lib/gscrollbar.cpp
-	# lib/gscrollpane.cpp
-	# lib/gslider.cpp
-	# lib/gsound.cpp
-	# lib/gspacer.cpp
-	# lib/gtable.cpp
-	# lib/gtextarea.cpp
-	# lib/gtextfield.cpp
-	# lib/gthread.cpp
-	# lib/gtimer.cpp
-	# lib/gtypes.cpp
-	# lib/gversion.cpp
-	# lib/gwindow.cpp
-	# lib/librarymain.cpp
-	# lib/mainwrapper.cpp
-	# lib/privatediff.cpp
-	# lib/privatefilelib.cpp
-	# lib/privatefilelibunix.cpp
-	# lib/privatefilelibwindows.cpp
-	# lib/privateregexpr.cpp
-	# lib/privatestrlib.cpp
-	# lib/qtgui.cpp
-	# lib/require.cpp
 )
 
 # all libraries to link
@@ -198,15 +93,9 @@ set(sgl_LIBS
 	-lpthread
 )
 
-add_executable(StarterProject
+add_executable(WindowTrees
 	${sgl_SRCS}
 )
-
-# qt5_use_modules(StarterProject
-# 	Widgets
-# 	Multimedia
-# 	Network
-# )
 
 # copy resource files from res/ folder over to the build destination folder
 foreach(resFile ${ProjectResources})
@@ -215,15 +104,19 @@ foreach(resFile ${ProjectResources})
 endforeach()
 # file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/res/ DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/)
 
-target_include_directories(StarterProject
+target_include_directories(WindowTrees
 	PRIVATE
 	lib/
 	src/
+	src/WindowManager/
+	src/Protocol/
+	src/MiniDisplayServer/
 )
 
-target_link_libraries(StarterProject
+target_link_libraries(WindowTrees
 	${sgl_LIBS}
 	Qt5::Widgets
 	Qt5::Multimedia
 	Qt5::Network
 )
+
