@@ -5,6 +5,7 @@
 #dirs
 !/src
 !/.vscode
+!/lib
 #files
 !/.gitignore
 !/CMakeLists.txt
