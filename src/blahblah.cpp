@@ -84,12 +84,12 @@ class DisplayServer : ServerInterface{
 };
 
 struct WMWindow{
-    unordered_set<Workspace*> tags;
+    unordered_set<int> tags;
     bool partVertically;
 
-    bool hasTag(Workspace* tag);
-    bool addTag(Workspace* tag);
-    bool removeTag(Workspace* tag);
+    bool hasTag(int tag);
+    bool addTag(int tag);
+    bool removeTag(int tag);
 };
 
 struct WMWindowNode{
@@ -105,7 +105,7 @@ struct WMWindowNode{
 
 class WMWorkspace {
 public:
-    Workspace(int workspaceID);
+    WMWorkspace(int workspaceID);
     int getHeight() const;
     int getWidth() const;
     int getPosition() const;
