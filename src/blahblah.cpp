@@ -95,6 +95,7 @@ struct WMWindow{
 struct WMWindowNode{
     int windowID;
     int part1Size;
+    WMWindow* window;
     WMWindowNode* part1;
     WMWindowNode* part2;
 
