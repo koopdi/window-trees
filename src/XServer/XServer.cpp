@@ -21,16 +21,6 @@ struct TreeQueryResult{
 void XServer::init() {//														HALF IMPLEMENTED
 	XSelectInput(display, DefaultRootWindow(display),
 		SubstructureRedirectMask | SubstructureNotifyMask); //grab input from root window    		//SINGLE HEAD ONLY
-	//maybe we can set up that map from ids to windows here :)
-
-	// Logger& logg = log;
-	//set default callback for events (logger);                                              DEFAULT EVENT CALLBACK HANDLER FUNC
-	// handlerFunc = [logg](ServerInterface* server, XEvent* event) mutable {
-	// 	logg.warn(" >>> NO XEVENT HANDLER REGISTERED <<<\tDropped Event Type: \"" +
-	// 	std::to_string(event->type) + "\"");
-
-	// 	std::cout << "X Server Event: " << event->type << std::endl;
-	// };
 
 	handlerFunc = [](ServerInterface* server, XEvent* event) mutable {
 		if(event->type == ConfigureRequest){
@@ -44,25 +34,9 @@ void XServer::init() {//														HALF IMPLEMENTED
 	};
 
 	XGrabServer(display); //block X Server
-
-	Window returned_root;
-	Window returned_parent;
-	Window* top_level_windows;
-	unsigned int num_top_level_windows;
-	XQueryTree(display, DefaultRootWindow(display),
-		&returned_root, &returned_parent, &top_level_windows, &num_top_level_windows);
-	log.info("top level windows:" + std::to_string(num_top_level_windows));
-
-	for(int i = 0; i < num_top_level_windows; i++){
-		Window win = top_level_windows[i];
-		XWindowAttributes returned_attrs;
-		XGetWindowAttributes(display, win, &returned_attrs);
-		log.verb("New Window Height: " + std::to_string(returned_attrs.height));
-	}
-
-	log.info("This would be a good time to do any sort of init callback");
 	initFunc(this);
 	XUngrabServer(display); //unblock X Server
+
 	eventLoop(); //enter event loop
 }
 
