@@ -1,9 +1,9 @@
-#include "WM.h"
+#include "WindowManager.h"
 #include <string>
 
 using namespace std;
 
-WM::WM(ServerInterface* server)
+WindowManager::WindowManager(ServerInterface* server)
 {
 	if (server == nullptr)
 	{
