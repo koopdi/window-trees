@@ -1,7 +1,7 @@
 /***********************************************************
- * Class Workspace Manager
- * The workspace manager keeps track of the workspaces.
- * @file WM.h
+ * Class Window Manager
+ * The window manager keeps track of the workspaces.
+ * @file WindowManager.h
  **********************************************************/
 
 #include "ServerInterface.h"
@@ -19,7 +19,7 @@ class WM
 public:
 	// public methods ----------------------------------------
 	/**
-	 * @brief Construct a new WM object
+	 * @brief Construct a new Window Manager object
 	 * @param server
 	 */
 	WM(ServerInterface* server);
