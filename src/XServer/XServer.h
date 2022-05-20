@@ -42,6 +42,7 @@ public:
     virtual void setEventCallback(EventHandlerFn fn) override;
 
     XServer();
+	XServer(EventHandlerFn fn);
 
 	~XServer();
 };

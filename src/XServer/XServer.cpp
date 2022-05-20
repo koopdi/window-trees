@@ -43,6 +43,7 @@ void XServer::eventLoop() {//														HALF IMPLEMENTED
 			log.verb("[Window Manager]: dropped event of type \"" +
 				std::to_string(event.type) + "\"");
 		}
+
 	}
 }
 
@@ -60,20 +61,26 @@ XServer::XServer() : log(Logger()) {
 		log.exit("Failed to get X display; Exiting.");
 	}
 
-	int displayCount = XScreenCount(display);
+	int screenCount = XScreenCount(display);
 	log.verb("Display" + std::string(display_var) + " has "
-		+ std::to_string(displayCount) + "Displays.");
+		+ std::to_string(screenCount) + " Displays.");
 
 	log.verb("Getting displays...");
 	defaultScreeen = DefaultScreen(display);
 
-	for (int i = 0; i < displayCount; i++) {
+	for (int i = 0; i < screenCount; i++) {
 		screens.push_back(XScreenOfDisplay(display, i));
 	}
 
-
+	XServer::~XServer();
+	log.exit("Don't use bad software kids.");
 	init();
 	eventLoop();
+}
+
+XServer::XServer(EventHandlerFn fn) {
+	handler = fn;
+	XServer();
 }
 
 int XServer::getHeight(int screen, int windowID) const {//												NOT IMPLEMENTED

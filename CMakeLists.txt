@@ -93,7 +93,9 @@ set(sgl_SRCS
 # all libraries to link
 set(sgl_LIBS
 	-lpthread
+	-lX11
 )
+#I added -lX11 for XServer (which is really an X client lol) - Chris
 
 add_executable(WindowTrees
 	${sgl_SRCS}

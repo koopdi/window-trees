@@ -1,12 +1,10 @@
 #include "Logger.h"
-Logger::Logger() : out(std::cout){
-	Logger(std::cout, LogLevel::INFO);
-}
 
-Logger::Logger(std::ostream& out, LogLevel level) : out(out){
-	out << MSG_LOGGING_BEGIN << std::endl;
-	Logger::level = level;
-	out << "LOG LEVEL IS: " << level << std::endl;
+Logger::Logger(std::ostream& out, LogLevel level) : out(out), level(level){
+	out << GRN << MSG_LOGGING_BEGIN << std::endl;
+	out << GRN <<"LOG LEVEL IS: " << level << std::endl;
+	out << YEL << "Log levels are currently broken [Logger.cpp]" << std::endl;
+	out << YEL << "Idk why I cant call Logger functions from Logger's constructor [Logger.cpp]" << std::endl;
 }
 
 void Logger::erro(std::string msg){
@@ -16,21 +14,21 @@ void Logger::erro(std::string msg){
 }
 void Logger::warn(std::string msg){
 	if(level >= LogLevel::WARN){
-		out << YEL << "[WARN]    " << reset << msg << std::endl;
+		out << YEL << "[WARN]\t\t" << reset << msg << std::endl;
 	}
 }
 void Logger::info(std::string msg){
 	if(level >= LogLevel::INFO){
-		out << reset << "[Info]    "  << msg << std::endl;
+		out << WHT << "[Info]\t\t"  << msg << std::endl;
 	}
 }
 void Logger::verb(std::string msg){
 	if(level >= LogLevel::VERBOSE){
-		out << GRY << "[verbose]  " << msg << std::endl;
+		out << GRY << "[verbose]\t" << msg << reset << std::endl;
 	}
 }
 
 void Logger::exit(std::string msg){
-	out << BRED << "[FATAL]  " << msg << std::endl;
+	out << BRED << "[FATAL]\t\t" << msg << reset<< std::endl;
 	std::exit(1);
 }

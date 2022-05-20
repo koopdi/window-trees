@@ -1,3 +1,6 @@
+#ifndef SERVERINTERFACE_H
+#define SERVERINTERFACE_H
+
 #include "types.h"
 #include "xtypes.h"
 #include <vector>
@@ -19,3 +22,4 @@ public:
 
 	virtual void setEventCallback(EventHandlerFn fn)                   = 0;
 };
+#endif

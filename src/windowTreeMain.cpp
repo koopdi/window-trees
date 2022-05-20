@@ -1,8 +1,10 @@
 #include <iostream>
-using namespace std;
+#include "WM.h"
+#include "XServer.h"
 
 int main()
 {
-	cout << "hello" << endl;
+	// WM windowManager;
+	XServer();
 	return(0);
 }

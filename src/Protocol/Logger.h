@@ -36,6 +36,7 @@
 	#define MAG ""
 	#define CYN ""
 	#define WHT ""
+	#define GRY ""
 	//Regular bold text
 	#define BBLK ""
 	#define BRED ""
@@ -64,10 +65,9 @@ enum LogLevel {
 class Logger {
 	private:
 		std::ostream& out;
-		static LogLevel level;
+		LogLevel level;
 	public:
-	Logger(std::ostream& out, LogLevel level = LogLevel::INFO);
-	Logger();
+	Logger(std::ostream& out = std::cout, LogLevel level = LogLevel::INFO);
 	void erro(std::string msg);
 	void warn(std::string msg);
 	void info(std::string msg);
