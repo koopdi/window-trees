@@ -1,4 +1,4 @@
-// #define HAS_XLIB
+#define HAS_XLIB
 
 #ifdef HAS_XLIB
 #include <X11/Xlib.h>

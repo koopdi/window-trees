@@ -64,6 +64,7 @@ FILE(GLOB ProjectSources
 	src/WindowManager/*.cpp
 	src/Protocol/*.cpp
 	src/MiniDisplayServer/*.cpp
+	src/XServer/*.cpp
 )
 
 FILE(GLOB ProjectHeaders
@@ -71,6 +72,7 @@ FILE(GLOB ProjectHeaders
 	src/WindowManager/*.h
 	src/Protocol/*.h
 	src/MiniDisplayServer/*.h
+	src/XServer/*.h
 )
 
 # resource files (images, input files, etc.) for this project
@@ -111,6 +113,7 @@ target_include_directories(WindowTrees
 	src/WindowManager/
 	src/Protocol/
 	src/MiniDisplayServer/
+	src/XServer/
 )
 
 target_link_libraries(WindowTrees
