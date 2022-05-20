@@ -1,6 +1,6 @@
 #include <unordered_set>
 
-struct WMWindow{
+struct Window{
     std::unordered_set<int> tags;
     bool partVertically;
 
@@ -9,12 +9,12 @@ struct WMWindow{
     bool removeTag(int tag);
 };
 
-struct WMWindowNode{
+struct WindowNode{
     int windowID;
     int part1Size;
-    WMWindow* window;
-    WMWindowNode* part1;
-    WMWindowNode* part2;
+    Window* window;
+    WindowNode* part1;
+    WindowNode* part2;
 
-    WMWindowNode();
+    WindowNode();
 };
