@@ -10,22 +10,6 @@
 #define CWSibling	(1<<5)
 #define CWStackMode	(1<<6)
 
-struct iFogor{
-	XWindowChanges changes;
-	unsigned int changeBitmask;
-};
-
-iFogor what(Screen* screen){
-	iFogor fogor;
-	fogor.changes.x = 0;
-	fogor.changes.y = 0;
-	fogor.changes.height = XHeightOfScreen(screen);
-	fogor.changes.width = XWidthOfScreen(screen);
-
-	fogor.changeBitmask = CWX | CWY | CWWidth | CWHeight;
-	return fogor;
-}
-
 struct TreeQueryResult{
 	bool success;
 	Window root_return;
@@ -39,17 +23,25 @@ void XServer::init() {//														HALF IMPLEMENTED
 		SubstructureRedirectMask | SubstructureNotifyMask); //grab input from root window    		//SINGLE HEAD ONLY
 	//maybe we can set up that map from ids to windows here :)
 
-	Logger& logg = log;
-	//set default callback for events (logger);
-	handlerFunc = [logg](ServerInterface* server, XEvent* event) mutable {
-		logg.warn(" >>> NO XEVENT HANDLER REGISTERED <<<\tDropped Event Type: \"" +
-		std::to_string(event->type) + "\"");
+	// Logger& logg = log;
+	//set default callback for events (logger);                                              DEFAULT EVENT CALLBACK HANDLER FUNC
+	// handlerFunc = [logg](ServerInterface* server, XEvent* event) mutable {
+	// 	logg.warn(" >>> NO XEVENT HANDLER REGISTERED <<<\tDropped Event Type: \"" +
+	// 	std::to_string(event->type) + "\"");
 
-		std::cout << "X Server Event: " << event->type << std::endl;
+	// 	std::cout << "X Server Event: " << event->type << std::endl;
+	// };
+
+	handlerFunc = [](ServerInterface* server, XEvent* event) mutable {
+		if(event->type == ConfigureRequest){
+			server->setArea(event->xconfigurerequest.window, Area {0, 0, 400, 200});
+		}
 	};
 
-
-	initFunc = [](ServerInterface* server){};
+	initFunc = [this](ServerInterface* server){
+		Area area = server->getArea(DefaultRootWindow(display));
+		std::cout << "RESOLUTION:" << area.width << "x" << area.height << std::endl;
+	};
 
 	XGrabServer(display); //block X Server
 
@@ -81,8 +73,6 @@ void XServer::eventLoop() {//														HALF IMPLEMENTED
 
 		handlerFunc(this, &event);
 
-		iFogor bitMaskAndChanges = what(screens[0]);
-
 		//internal event handling
 		switch (event.type)
 		{
@@ -100,7 +90,6 @@ void XServer::eventLoop() {//														HALF IMPLEMENTED
 			break;
 
 		case ConfigureRequest:
-			XConfigureWindow(display, event.xconfigurerequest.window, bitMaskAndChanges.changeBitmask, &bitMaskAndChanges.changes);
 			break;
 
 		case MapRequest:
@@ -164,6 +153,11 @@ Area XServer::getArea(long windowID) {
 	XGetWindowAttributes(display, (Window)windowID, &attrs);
 	return Area {attrs.x, attrs.y, attrs.width, attrs.height};
 }
+
+Area XServer::getScreenSize(long screenID){
+	return getArea(XRootWindowOfScreen(XScreenOfDisplay(display, screenID)));
+}
+
 
 void XServer::setArea(long windowID, Area area) {
 	unsigned int areaBitmask = CWX | CWY | CWWidth | CWHeight;

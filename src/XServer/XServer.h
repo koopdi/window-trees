@@ -36,9 +36,11 @@ public:
 	virtual void setArea(long windowID, Area area) override;
 	virtual std::vector<long> getScreens() override;
 	virtual std::vector<long> getWindows(long screenID) override;
+	virtual Area getScreenSize(long screenID) override;
 
-	virtual void setInitCallback(InitHandlerFn fn);
-    virtual void setEventCallback(EventHandlerFn fn);
+
+	virtual void setInitCallback(InitHandlerFn fn) override;
+    virtual void setEventCallback(EventHandlerFn fn) override;
 
     XServer();
 	XServer(InitHandlerFn initFn, EventHandlerFn eventFn);

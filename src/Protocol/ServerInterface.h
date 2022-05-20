@@ -14,8 +14,9 @@ typedef std::function<void(ServerInterface* server, XEvent* event)> EventHandler
 class ServerInterface
 {
 public:
-	virtual Area getArea(long windowID)					= 0;
 	virtual void setArea(long windowID, Area area) 		= 0;
+	virtual Area getArea(long windowID)					= 0;
+	virtual Area getScreenSize(long screenID)			= 0;
 	virtual std::vector<long> getScreens()				= 0;
 	virtual std::vector<long> getWindows(long screenID)	= 0;
 
