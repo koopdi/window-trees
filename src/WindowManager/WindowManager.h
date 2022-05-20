@@ -5,7 +5,7 @@
  **********************************************************/
 
 #include "ServerInterface.h"
-#include "WMWorkspace.h"
+#include "Workspace.h"
 #include "xtypes.h"
 
 #include <set>
