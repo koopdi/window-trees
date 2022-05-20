@@ -1,15 +1,15 @@
-#include "WMWindow.h"
+#include "WindowNode.h"
 
-class WMWorkspace {
+class Workspace {
 public:
-    WMWorkspace(int workspaceID);
+    Workspace(int workspaceID);
     int getHeight() const;
     int getWidth() const;
     int getPosition() const;
     int getNumWindows() const;
 
 private:
-    WMWindowNode* root;
+    WindowNode* root;
     int height;
     int width;
     int numWindows;
