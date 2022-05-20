@@ -1,7 +1,7 @@
 #include "XServer.h"
 
 
-/* Configure window value mask bits */
+/* Configure window value mask bits - https://tronche.com/gui/x/xlib/window/configure.html*/
 #define CWX		(1<<0)
 #define CWY		(1<<1)
 #define CWWidth		(1<<2)
@@ -51,32 +51,17 @@ void XServer::eventLoop() {//														HALF IMPLEMENTED
 		switch (event.type)
 		{
 		case CreateNotify:
-			// XConfigureWindow(display, event.xconfigurerequest.window, bitMaskAndChanges.changeBitmask, &bitMaskAndChanges.changes);
-			break;
 		case DestroyNotify:
-			break;
-
 		case ReparentNotify:
-			break;
-
 		case ConfigureNotify:
-
-			break;
-
 		case ConfigureRequest:
+		case MapNotify: //returned when MapRequest is awknowledged by X server
+		case UnmapNotify: //when a window disappears
 			break;
 
 		case MapRequest:
 			//framing could be done here
 			XMapWindow(display, event.xmap.window); //make window visible
-			break;
-
-		case MapNotify:
-			//returned when MapRequest is awknowledged by X server
-			break;
-
-		case UnmapNotify:
-			//when a window disappears
 			break;
 
 		default:
@@ -182,5 +167,3 @@ XServer::~XServer(){
 	XCloseDisplay(display);
 	log.warn("The current destructor in Xserver.cpp does not free any memory itself");					//review this fact
 }
-
-
