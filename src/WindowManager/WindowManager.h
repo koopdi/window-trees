@@ -14,7 +14,7 @@
  * @brief Manage Workspaces
  *
  */
-class WM
+class WindowManager
 {
 public:
 	// public methods ----------------------------------------
@@ -22,7 +22,7 @@ public:
 	 * @brief Construct a new Window Manager object
 	 * @param server
 	 */
-	WM(ServerInterface* server);
+	WindowManager(ServerInterface* server);
 
 	/**
 	 * @brief do something with events?
@@ -34,7 +34,7 @@ private:
 	// private attributes ------------------------------------
 
 	/// A collection of workspaces.
-	std::set<WMWorkspace> workspaces;
+	std::set<Workspace> workspaces;
 
 	// private methods ---------------------------------------
 };
