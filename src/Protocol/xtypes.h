@@ -365,7 +365,7 @@ are reserved in the protocol for errors and replies. */
 #define BadMatch	   8	/* parameter mismatch */
 #define BadDrawable	   9	/* parameter not a Pixmap or Window */
 #define BadAccess	  10	/* depending on context:
-				 /*- key/button already grabbed                                                      i added /* at the start of this line
+				 - key/button already grabbed
 				 - attempt to free an illegal
 				   cmap entry
 				- attempt to store into a read-only
