@@ -20,9 +20,11 @@ private:
 	int defaultScreeen;
 	std::vector<Screen*> screens; //acts as a map between int and Screen*
 	std::unordered_map<Screen*, std::set<Window>> windowsPerScreenById;
-	EventHandlerFn handler;
+	EventHandlerFn handlerFunc;
+	InitHandlerFn initFunc;
 	bool running = true;																		//is this bad style?
 
+	void setXAttribute(unsigned int bitmask);
 
 	void addWindow(Screen* screen, Window w);
 	void removeWindow(Screen* screen, Window w);
@@ -30,19 +32,16 @@ private:
 	void eventLoop();
 
 public:
-    virtual int getHeight(int screen, int windowID) const override;
-    virtual int getWidth(int screen, int windowID) const override;
-    virtual Point getPosition(int screen, int windowID) const override;
-    virtual void setHeight(int screen, int windowID, int height) override;
-    virtual void setWidth(int screen, int windowID, int width) override;
-    virtual void setPosition(int screen, int windowID, Point position) override;
-	virtual std::vector<int> getWindowsOnScreen(int screen);
-	virtual int getScreenCount();
+    virtual Area getArea(long windowID) override;
+	virtual void setArea(long windowID, Area area) override;
+	virtual std::vector<long> getScreens() override;
+	virtual std::vector<long> getWindows(long screenID) override;
 
-    virtual void setEventCallback(EventHandlerFn fn) override;
+	virtual void setInitCallback(InitHandlerFn fn);
+    virtual void setEventCallback(EventHandlerFn fn);
 
     XServer();
-	XServer(EventHandlerFn fn);
+	XServer(InitHandlerFn initFn, EventHandlerFn eventFn);
 
 	~XServer();
 };

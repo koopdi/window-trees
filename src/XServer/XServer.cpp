@@ -25,6 +25,15 @@ iFogor what(Screen* screen){
 	fogor.changeBitmask = CWX | CWY | CWWidth | CWHeight;
 	return fogor;
 }
+
+struct TreeQueryResult{
+	bool success;
+	Window root_return;
+	Window parent_return;
+	Window *children_return;
+	unsigned int nchildren_return;
+};
+
 void XServer::init() {//														HALF IMPLEMENTED
 	XSelectInput(display, DefaultRootWindow(display),
 		SubstructureRedirectMask | SubstructureNotifyMask); //grab input from root window    		//SINGLE HEAD ONLY
@@ -32,12 +41,15 @@ void XServer::init() {//														HALF IMPLEMENTED
 
 	Logger& logg = log;
 	//set default callback for events (logger);
-	handler = [logg](XEvent* event) mutable {
+	handlerFunc = [logg](ServerInterface* server, XEvent* event) mutable {
 		logg.warn(" >>> NO XEVENT HANDLER REGISTERED <<<\tDropped Event Type: \"" +
 		std::to_string(event->type) + "\"");
 
 		std::cout << "X Server Event: " << event->type << std::endl;
 	};
+
+
+	initFunc = [](ServerInterface* server){};
 
 	XGrabServer(display); //block X Server
 
@@ -57,7 +69,9 @@ void XServer::init() {//														HALF IMPLEMENTED
 	}
 
 	log.info("This would be a good time to do any sort of init callback");
+	initFunc(this);
 	XUngrabServer(display); //unblock X Server
+	eventLoop(); //enter event loop
 }
 
 void XServer::eventLoop() {//														HALF IMPLEMENTED
@@ -65,7 +79,7 @@ void XServer::eventLoop() {//														HALF IMPLEMENTED
 		XEvent event;
 		XNextEvent(display, &event);
 
-		handler(&event);
+		handlerFunc(this, &event);
 
 		iFogor bitMaskAndChanges = what(screens[0]);
 
@@ -124,14 +138,12 @@ XServer::XServer() : log(Logger()) {
 		log.exit("Failed to get X display; Exiting.");
 	}
 
-	int screenCount = XScreenCount(display);
+	int screenCount = ScreenCount(display);
 	log.verb("Display " + std::string(display_var) + " has "
 		+ std::to_string(screenCount) + " screen(s).");
 
 	log.verb("Getting default screen...");
 	defaultScreeen = DefaultScreen(display);
-
-	log.info("Default Screen Name = " + std::string(XDisplayName(display_var)));
 
 	log.verb("Getting other screens...");
 	for (int i = 0; i < screenCount; i++) {
@@ -139,62 +151,63 @@ XServer::XServer() : log(Logger()) {
 	}
 
 	init();
-	eventLoop();
 }
 
-XServer::XServer(EventHandlerFn fn) {
-	handler = fn;
+XServer::XServer(InitHandlerFn initFn, EventHandlerFn eventFn) {
+	handlerFunc = eventFn;
+	initFunc = initFn;
 	XServer();
 }
 
-int XServer::getHeight(int screen, int windowID) const {//												NOT IMPLEMENTED
-
-	return screen + windowID + 1;
+Area XServer::getArea(long windowID) {
+	XWindowAttributes attrs;
+	XGetWindowAttributes(display, (Window)windowID, &attrs);
+	return Area {attrs.x, attrs.y, attrs.width, attrs.height};
 }
 
-int XServer::getWidth(int screen, int windowID) const {//												NOT IMPLEMENTED
-	return screen + windowID + 1;
+void XServer::setArea(long windowID, Area area) {
+	unsigned int areaBitmask = CWX | CWY | CWWidth | CWHeight;
+	XWindowChanges changes;
+	changes.x = area.x;
+	changes.y = area.y;
+	changes.width = area.width;
+	changes.height = area.height;
+	XConfigureWindow(display, (Window)windowID, areaBitmask, &changes);
 }
 
-Point XServer::getPosition(int screen, int windowID) const { //												NOT IMPLEMENTED
-	return Point{ screen, windowID };
+std::vector<long> XServer::getScreens() {
+	std::vector<long> screens;
+	int numScreens = ScreenCount(display);
+	for (int i = 0; i < numScreens; i++){ 											// I unironically have no idea
+		screens.push_back(i);
+	}
+	return screens;
 }
 
-void XServer::setHeight(int screen, int windowID, int height) {//												NOT IMPLEMENTED
-	log.erro("setHeignt not implemented.\tParams:"
-		+ std::to_string(screen) + ", "
-		+ std::to_string(windowID) + ", "
-		+ std::to_string(height) + ", ");
-}
+std::vector<long> XServer::getWindows(long screenID) { 						//NOT FUNCTIONAL?
+	log.erro("XServer::getWindows() does not support functioning.");
+	TreeQueryResult qry;
+	Screen* screen = XScreenOfDisplay(display, screenID); //PROBLEM IS (PROBABLY) HERE (if there is one) I HAVE NO IDEA IF XScreenOfDisplay() takes these parameters
+	qry.success = XQueryTree(display, screen->root,
+		&qry.root_return, &qry.parent_return, &qry.children_return, &qry.nchildren_return);
+	if(!qry.success){
+		throw std::string("failed to query windows of screen");
+	}
+	std::vector<long> windows;
 
-void XServer::setWidth(int screen, int windowID, int width) {//												NOT IMPLEMENTED
-	log.erro("setWidth not implemented.\tParams:"
-		+ std::to_string(screen) + ", "
-		+ std::to_string(windowID) + ", "
-		+ std::to_string(width) + ", ");
-}
+	for(int i = 0; i < qry.nchildren_return; i++){
+		windows.push_back(qry.children_return[i]);
+	}
 
-void XServer::setPosition(int screen, int windowID, Point position) {//										NOT IMPLEMENTED
-	log.erro("setPosition not implemented.\tParams:"
-		+ std::to_string(screen) + ", "
-		+ std::to_string(windowID) + ", "
-		+ + "x:" + std::to_string(position.x) + "y:" + std::to_string(position.y) + ", ");
-}
-
-std::vector<int> XServer::getWindowsOnScreen(int screen){//												NOT IMPLEMENTED
-	std::vector<int> garbageData;
-	garbageData.push_back(69);
-	garbageData.push_back(420);
-	garbageData.push_back(screen);
-	return garbageData;
-}
-
-int XServer::getScreenCount(){
-	return screens.size();
+	return windows;
 }
 
 void XServer::setEventCallback(EventHandlerFn fn) {
-	handler = fn;
+	handlerFunc = fn;
+}
+
+void XServer::setInitCallback(InitHandlerFn fn) {
+	initFunc = fn;
 }
 
 XServer::~XServer(){

@@ -4,6 +4,13 @@ struct Point{
     int x;
     int y;
 };
+
+struct Area{
+	int x;
+	int y;
+	int width;
+	int height;
+};
 #endif
 
 
