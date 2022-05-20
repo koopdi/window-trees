@@ -1,5 +1,5 @@
 #include <iostream>
-#include "WM.h"
+#include "WindowManager.h"
 #include "XServer.h"
 
 int main()
