@@ -1,10 +1,15 @@
-#include "ServerInterface.h"
-#include <iostream>
 #include "Logger.h"
+#include "ServerInterface.h"
 #include "types.h"
-#include <vector>
-#include <unordered_map>
+#include <iostream>
 #include <set>
+#include <unordered_map>
+#include <vector>
+
+/**
+ * @brief Provide an xserver backend to the server interface API.
+ *
+ */
 
 // #define XSERVER_H //disable XServer
 
@@ -13,16 +18,22 @@
 #include <X11/Xlib.h>
 #include <X11/extensions/randr.h>
 #endif
+
+/**
+ * @brief An implementation of the server interface.
+ *
+ */
+
 class XServer : public ServerInterface {
 private:
-    Display* display;
+	Display* display;
 	Logger log;
 	int defaultScreeen;
-	std::vector<Screen*> screens; //acts as a map between int and Screen*
+	std::vector<Screen*> screens; // acts as a map between int and Screen*
 	std::unordered_map<Screen*, std::set<Window>> windowsPerScreenById;
 	EventHandlerFn handlerFunc;
 	InitHandlerFn initFunc;
-	bool running = true;																		//is this bad style?
+	bool running = true; // is this bad style?
 
 	void setXAttribute(unsigned int bitmask);
 
@@ -31,19 +42,20 @@ private:
 	void eventLoop();
 
 public:
-    virtual Area getArea(long windowID) override;
+	virtual Area getArea(long windowID) override;
 	virtual void setArea(long windowID, Area area) override;
 	virtual std::vector<long> getScreens() override;
 	virtual std::vector<long> getWindows(long screenID) override;
 	virtual Area getScreenSize(long screenID) override;
 
-
 	virtual void setInitCallback(InitHandlerFn fn) override;
-    virtual void setEventCallback(EventHandlerFn fn) override;
+
+	virtual void setEventCallback(EventHandlerFn fn) override;
+
 	virtual void run() override;
 
 
-    XServer();
+	XServer();
 	XServer(InitHandlerFn initFn, EventHandlerFn eventFn);
 
 	~XServer();
