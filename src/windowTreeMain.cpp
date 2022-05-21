@@ -2,13 +2,14 @@
 #include "WindowManager.h"
 #include "DisplayServer.h"
 #include "ServerInterface.h"
+#ifdef HAS_XLIB
 #include "XServer.h"
-
+#endif
 #define _DEBUG_PRINT_
 
 int main(){
 ////********************************************************
-	#ifdef _WIN32
+	#ifndef HAS_XLIB
 	#ifdef _DEBUG_PRINT_
 	std::cout << "new" << std::endl;
 	#endif
