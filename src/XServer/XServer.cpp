@@ -18,7 +18,7 @@ struct TreeQueryResult{
 	unsigned int nchildren_return;
 };
 
-void XServer::init() {//														HALF IMPLEMENTED
+void XServer::run() {//														HALF IMPLEMENTED
 	XSelectInput(display, DefaultRootWindow(display),
 		SubstructureRedirectMask | SubstructureNotifyMask); //grab input from root window    		//SINGLE HEAD ONLY
 
@@ -97,8 +97,6 @@ XServer::XServer() : log(Logger()) {
 	for (int i = 0; i < screenCount; i++) {
 		screens.push_back(XScreenOfDisplay(display, i));
 	}
-
-	init();
 }
 
 XServer::XServer(InitHandlerFn initFn, EventHandlerFn eventFn) {

@@ -13,7 +13,7 @@
 #include <X11/Xlib.h>
 #include <X11/extensions/randr.h>
 #endif
-class XServer : ServerInterface {
+class XServer : public ServerInterface {
 private:
     Display* display;
 	Logger log;
@@ -28,7 +28,6 @@ private:
 
 	void addWindow(Screen* screen, Window w);
 	void removeWindow(Screen* screen, Window w);
-	void init();
 	void eventLoop();
 
 public:
@@ -41,6 +40,8 @@ public:
 
 	virtual void setInitCallback(InitHandlerFn fn) override;
     virtual void setEventCallback(EventHandlerFn fn) override;
+	virtual void run() override;
+
 
     XServer();
 	XServer(InitHandlerFn initFn, EventHandlerFn eventFn);

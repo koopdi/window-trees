@@ -22,5 +22,6 @@ public:
 
 	virtual void setInitCallback(InitHandlerFn fn)		= 0;
 	virtual void setEventCallback(EventHandlerFn fn)	= 0;
+	virtual void run()									= 0;
 };
 #endif
