@@ -1,6 +1,6 @@
 #include "DisplayServer.h"
 
-DisplayServer::DisplayServer() {};
+// DisplayServer::DisplayServer() {};
 
 // void DisplayServer::setArea(long windowID, Area area) {};
 // Area DisplayServer::getArea(long windowID) {
