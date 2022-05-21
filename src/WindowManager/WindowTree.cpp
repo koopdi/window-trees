@@ -1,4 +1,4 @@
-#include "windowtree.h"
+#include "WindowTree.h"
 
 WindowTree::WindowTree() {};
 int WindowTree::getSize() const {
