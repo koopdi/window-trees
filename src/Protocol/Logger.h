@@ -1,3 +1,5 @@
+#pragma once
+
 #include <iostream>
 
 #ifdef __linux__

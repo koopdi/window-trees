@@ -1,3 +1,5 @@
+#pragma once
+
 /***********************************************************
  * Class Window Manager
  * The window manager keeps track of the workspaces.
