@@ -13,11 +13,12 @@
 
 // #define XSERVER_H //disable XServer
 
-#ifndef XSERVER_H
 #ifdef HAS_XLIB
+#ifndef XSERVER_H
+
 #include <X11/Xlib.h>
 #include <X11/extensions/randr.h>
-#endif
+
 
 /**
  * @brief An implementation of the server interface.
@@ -56,8 +57,10 @@ public:
 
 
 	XServer();
-	XServer(InitHandlerFn initFn, EventHandlerFn eventFn);
+	XServer(InitHandlerk-uoFn initFn, EventHandlerFn eventFn);
 
 	~XServer();
 };
+
+#endif
 #endif

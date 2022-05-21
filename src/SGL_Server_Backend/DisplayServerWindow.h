@@ -3,7 +3,7 @@
 class DisplayServerWindow {
 public:
     DisplayServerWindow(int height = 0, int width = 0,
-        Point position = Point{0, 0}, bool partVertically = true);
+    Point position = Point{0, 0}, bool partVertically = true);
     int getHeight() const;
     int getWidth() const;
     int getPosition() const;
@@ -14,7 +14,7 @@ public:
 
 private:
     static int idTicker;
-    sgl::GObject* gobj;
+    //sgl::GObject* gobj;
     int height;
     int width;
     int windowID;

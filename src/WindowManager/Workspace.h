@@ -1,15 +1,17 @@
 #include "WindowNode.h"
+#include "types.h"
+#include "WindowTree.h"
 
 class Workspace {
 public:
     Workspace(int workspaceID);
     int getHeight() const;
     int getWidth() const;
-    int getPosition() const;
+    Point getPosition() const;
     int getNumWindows() const;
 
 private:
-    WindowNode* root;
+    WindowTree* tree;
     int height;
     int width;
     int numWindows;
@@ -18,6 +20,6 @@ private:
     void setHeight(int height);
     void setWidth(int width);
     void setPosition(Point position);
-    bool addWindow(int windowID);
+    bool addWindow();
     bool removeWindow(int windowID);
 };

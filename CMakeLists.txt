@@ -62,6 +62,8 @@ FILE(GLOB LibHeaders
 FILE(GLOB ProjectSources
 	src/*.cpp
 	src/WindowManager/*.cpp
+	src/WinServer/*.cpp
+	src/SGL_Server_Backend/*.cpp
 	src/Protocol/*.cpp
 	src/MiniDisplayServer/*.cpp
 	src/XServer/*.cpp
@@ -70,6 +72,7 @@ FILE(GLOB ProjectSources
 FILE(GLOB ProjectHeaders
 	src/*.h
 	src/WindowManager/*.h
+	src/SGL_Server_Backend/*.h
 	src/Protocol/*.h
 	src/MiniDisplayServer/*.h
 	src/XServer/*.h
@@ -93,9 +96,17 @@ set(sgl_SRCS
 # all libraries to link
 set(sgl_LIBS
 	-lpthread
-	-lX11
 )
-#I added -lX11 for XServer (which is really an X client lol) - Chris
+
+if (WIN32)
+    #do nothing
+else(
+	set(
+		-lX11
+		#I added -lX11 for XServer (which is really an X client lol) - Chris
+	) # modified to work for windows - Andrew
+)
+endif (WIN32)
 
 add_executable(WindowTrees
 	${sgl_SRCS}
@@ -114,7 +125,7 @@ target_include_directories(WindowTrees
 	src/
 	src/WindowManager/
 	src/Protocol/
-	src/MiniDisplayServer/
+	src/SGL_Server_Backend/
 	src/XServer/
 )
 
