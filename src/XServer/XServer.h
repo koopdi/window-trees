@@ -49,7 +49,9 @@ public:
 	virtual Area getScreenSize(long screenID) override;
 
 	virtual void setInitCallback(InitHandlerFn fn) override;
+
 	virtual void setEventCallback(EventHandlerFn fn) override;
+
 	virtual void run() override;
 
 
