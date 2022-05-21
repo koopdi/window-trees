@@ -6,6 +6,26 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_VERBOSE_MAKEFILE ON)
 
+
+# stack overflow example -----------------------------------
+# project(myproject)
+# I am not sure how you get cmake to use clang++ over g++
+# CXX = clang++
+
+# add_definitions(-std=c++11)
+set(COMMON_SOURCES file1.cpp file2.cpp)
+set(TARGET_SOURCES main.cpp)
+set(TEST_SOURCES  run_tests.cpp test_file1.cpp test_file2.cpp)
+add_executable(application ${COMMON_SOURCES} ${TARGET_SOURCES})
+add_executable(tests ${COMMON_SOURCES} ${TEST_SOURCES})
+
+# ----------------------------------------------------------
+# example 2
+# add_custom_target(tests) # Note: without 'ALL'
+# add_executable(test_executable ...) # Note: without 'ALL'
+# add_dependencies(tests test_executable)
+# ----------------------------------------------------------
+
 # What is a moc and do we need it?
 # tell CMake to run moc when necessary
 # set(CMAKE_AUTOMOC ON)
