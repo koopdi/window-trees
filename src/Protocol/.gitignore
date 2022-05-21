@@ -1,0 +1,11 @@
+#exclude all files and directories
+/*
+
+#include these specific directories and files
+#dirs
+
+#files
+!/*.h
+!/*.cpp
+!/.gitignore
+!/CMakeLists.txt
