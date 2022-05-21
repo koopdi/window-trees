@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.2.0)
-project (WindowManager VERSION 2022.05.21 LANGUAGES CXX)
+project (Protocol VERSION 2022.05.21 LANGUAGES CXX)
 
 # use C++17 language standard
 set(CMAKE_CXX_STANDARD 17)
@@ -7,29 +7,34 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_VERBOSE_MAKEFILE ON)
 
 # source / header files specific to this project
-FILE(GLOB WindowManager_Headers
+FILE(GLOB Protocol_Headers
 	*.cpp
 )
 
-FILE(GLOB WindowManager_Sources
+FILE(GLOB Protocol_Sources
 	*.h
 )
 
-FILE(GLOB WindowManager_Library_Headers
-	../Protocol/*.h
+add_library(Protocol STATIC
+	${Protocol_Headers}
+	${Protocol_Sources}
 )
 
-add_library(WindowManager
-	${WindowManager_Headers}
-	${WindowManager_Sources}
-	${WindowManager_Library_Headers}
-)
+# target_include_directories(Protocol
+#                            PUBLIC
+#                            "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>"
+#                            "$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>"
+# )
 
-target_include_directories(WindowManager PRIVATE "../Protocol/"
-)
-# TARGET_LINK_LIBRARIES(WindowManager ../Protocol/Protocol)
+# install(TARGETS Protocol
+#         EXPORT ProtocolTargets
+#         LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+#         ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+#         RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+#         INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+# )
 
-
+# export(EXPORT libProtocol)
 # ADD_LIBRARY(mylib SHARED ${mylibSRCS})
 
 # PROJECT(myproject)
