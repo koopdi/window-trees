@@ -150,6 +150,7 @@ std::vector<long> XServer::getWindows(long screenID) { 						//NOT FUNCTIONAL?
 		windows.push_back(qry.children_return[i]);
 	}
 
+	XFree(qry.children_return); //prevent returned child windows from being leaked
 	return windows;
 }
 
