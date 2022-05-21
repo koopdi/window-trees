@@ -3,14 +3,14 @@
 DisplayServer::DisplayServer() {};
 
 void DisplayServer::setArea(long windowID, Area area) {};
-Area DisplayServer::getArea(long windowID) {
-	Area foo;
-	return foo;
-};
-Area DisplayServer::getScreenSize(long screenID) {
-	Area foo;
-	return foo;
-};
+// Area DisplayServer::getArea(long windowID) {
+// 	Area foo;
+// 	return foo;
+// };
+// Area DisplayServer::getScreenSize(long screenID) {
+// 	Area foo;
+// 	return foo;
+// };
 std::vector<long> DisplayServer::getScreens() {
 	std::vector<long> foo;
 	return foo;

@@ -2,7 +2,7 @@
 #ifdef _WIN32
 // do nothing
 #else
-#define HAS_XLIB
+// #define HAS_XLIB
 ////////////***********DO NOT MODIFY********////////////////
 #endif
 ////********************************************************

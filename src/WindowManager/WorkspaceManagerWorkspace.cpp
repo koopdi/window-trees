@@ -24,14 +24,14 @@ void Workspace::setWidth(int width) {
 void Workspace::setPosition(Point position) {
 	this->position = position;
 }
-bool Workspace::addWindow() {
-	bool success = tree->add();
-	// if (success) {
-	//		TODO: add to map<windowID:set<workspaceID>>
-	//		map[windowID];
-	// }
-	return success;
-}
+// bool Workspace::addWindow() {
+// 	// bool success = tree->add();
+// 	// if (success) {
+// 	//		TODO: add to map<windowID:set<workspaceID>>
+// 	//		map[windowID];
+// 	// }
+// 	return success;
+// }
 bool Workspace::removeWindow(int windowID) {
 	bool success = tree->remove(windowID);
 	// if (success) {

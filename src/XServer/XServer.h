@@ -1,3 +1,4 @@
+#ifdef HAS_XLIB
 #include "Logger.h"
 #include "ServerInterface.h"
 #include "types.h"
@@ -13,7 +14,6 @@
 
 // #define XSERVER_H //disable XServer
 
-#ifdef HAS_XLIB
 #ifndef XSERVER_H
 
 #include <X11/Xlib.h>
