@@ -13,7 +13,7 @@ int main(){
 	#ifdef _DEBUG_PRINT_
 	std::cout << "new" << std::endl;
 	#endif
-	ServerInterface* server = new DisplayServer();
+	// ServerInterface* server = new DisplayServer();
 	/*
 	struct foo{
 		void run() {};
@@ -24,7 +24,7 @@ int main(){
 	#ifdef _DEBUG_PRINT_
 	std::cout << "windowManager()" << std::endl;
 	#endif
-	WindowManager windowManager(server);
+	// WindowManager windowManager(server);
 ////********************************************************
 	#else
 	ServerInterface* server = new XServer();
@@ -35,7 +35,7 @@ int main(){
 	std::cout << "run" << std::endl;
 	#endif
 
-	server->run();
+	// server->run();
 
 	#ifdef _DEBUG_PRINT_
 	std::cout << "return(0)" << std::endl;
