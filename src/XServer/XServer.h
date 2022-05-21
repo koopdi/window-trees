@@ -18,6 +18,7 @@
 #include <X11/Xlib.h>
 #include <X11/extensions/randr.h>
 #endif
+<<<<<<< ours
 
 /**
  * @brief An implementation of the server interface.
@@ -25,6 +26,9 @@
  */
 class XServer : ServerInterface
 {
+=======
+class XServer : public ServerInterface {
+>>>>>>> theirs
 private:
 	Display* display;
 	Logger log;
@@ -39,7 +43,6 @@ private:
 
 	void addWindow(Screen* screen, Window w);
 	void removeWindow(Screen* screen, Window w);
-	void init();
 	void eventLoop();
 
 public:
@@ -50,7 +53,13 @@ public:
 	virtual Area getScreenSize(long screenID) override;
 
 	virtual void setInitCallback(InitHandlerFn fn) override;
+<<<<<<< ours
 	virtual void setEventCallback(EventHandlerFn fn) override;
+=======
+    virtual void setEventCallback(EventHandlerFn fn) override;
+	virtual void run() override;
+
+>>>>>>> theirs
 
 	XServer();
 	XServer(InitHandlerFn initFn, EventHandlerFn eventFn);
