@@ -1,3 +1,5 @@
+#pragma once
+
 #include "DisplayServerScreen.h"
 #include "ServerInterface.h"
 #include "xtypes.h"
@@ -10,7 +12,7 @@ class DisplayServer : public ServerInterface{
 public:
 	std::vector<DisplayServerScreen> screens;
 
-	DisplayServer();
+	// DisplayServer();
 	/**
 	 * @brief Set the Init Callback object
 	 * Provides a concrete server interface.
