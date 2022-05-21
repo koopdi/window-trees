@@ -1,4 +1,8 @@
+#ifndef _WINDOW_NODE_
+#define _WINDOW_NODE_
+
 #include <unordered_set>
+
 
 struct WindowPane{
     std::unordered_set<int> tags;
@@ -18,3 +22,5 @@ struct WindowNode{
 
     WindowNode();
 };
+
+#endif

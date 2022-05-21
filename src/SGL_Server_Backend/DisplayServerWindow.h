@@ -14,7 +14,7 @@ public:
 
 private:
     static int idTicker;
-    sgl::GObject* gobj;
+    //sgl::GObject* gobj;
     int height;
     int width;
     int windowID;
