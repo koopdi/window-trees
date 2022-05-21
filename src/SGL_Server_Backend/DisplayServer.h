@@ -1,6 +1,10 @@
 #include "ServerInterface.h"
 #include "xtypes.h"
 
+/**
+ * @brief
+ *
+ */
 class DisplayServer : ServerInterface{
     vector<DisplayServerScreen> screens;
 
