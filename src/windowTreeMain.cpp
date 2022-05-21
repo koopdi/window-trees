@@ -1,10 +1,11 @@
 #include <iostream>
 #include "WindowManager.h"
 #include "XServer.h"
+#include "ServerInterface.h"
 
-int main()
-{
-	// WM windowManager;
-	XServer();
+int main(){
+	ServerInterface* server = new XServer();
+	WindowManager windowManager(server);
+	server->run();
 	return(0);
 }
