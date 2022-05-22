@@ -17,11 +17,13 @@ add_library(XServer
 	${XServer_Library_Headers}
 )
 
-target_include_directories(XServer PRIVATE
+target_include_directories(XServer
+	PUBLIC
 	"../Protocol/"
 )
 target_link_libraries(XServer
-	"../Protocol/Protocol"
+	PUBLIC
+	Protocol
 	"-lX11"
 )
 

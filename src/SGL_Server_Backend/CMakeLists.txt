@@ -87,13 +87,14 @@ add_library(SGL_Server_Backend
 	${sgl_SRCS}
 )
 
-target_include_directories(SGL_Server_Backend	PRIVATE
+target_include_directories(SGL_Server_Backend
+	PUBLIC
 	"../Protocol/"
 	lib/
 )
 
 target_link_libraries(SGL_Server_Backend
-	"../Protocol/Protocol"
+	Protocol
 	${sgl_LIBS}
 	Qt5::Widgets
 	Qt5::Multimedia
