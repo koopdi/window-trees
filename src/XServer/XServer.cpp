@@ -1,10 +1,10 @@
+#include "XServer.h"
 ////****************************************************************************
 #ifndef HAS_XLIB
 	//do nothing
 #else
 ////****************************************************************************
 
-#include "XServer.h"
 
 
 /* Configure window value mask bits - https://tronche.com/gui/x/xlib/window/configure.html*/

@@ -1,7 +1,8 @@
+#include "xtypes.h"
 #ifdef HAS_XLIB
+#include "types.h"
 #include "Logger.h"
 #include "ServerInterface.h"
-#include "types.h"
 #include <iostream>
 #include <set>
 #include <unordered_map>
@@ -15,6 +16,7 @@
 // #define XSERVER_H //disable XServer
 
 #ifndef XSERVER_H
+#define XSERVER_H
 
 #include <X11/Xlib.h>
 #include <X11/extensions/randr.h>
@@ -57,7 +59,7 @@ public:
 
 
 	XServer();
-	XServer(InitHandlerk-uoFn initFn, EventHandlerFn eventFn);
+	XServer(InitHandlerFn initFn, EventHandlerFn eventFn);
 
 	~XServer();
 };
