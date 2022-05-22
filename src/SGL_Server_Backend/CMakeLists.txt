@@ -1,12 +1,12 @@
-cmake_minimum_required(VERSION 3.1.0)
-project (sgl VERSION 2021.04.03 LANGUAGES CXX)
+cmake_minimum_required(VERSION 3.2.0)
+project (SGL_Server_Backend VERSION 05.21.2022 LANGUAGES CXX)
 
 # use C++11 language standard
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_VERBOSE_MAKEFILE ON)
 
-# tell CMake to run moc when necessary
+# tell CMake to run the QT prepocessor (moc), when necessary
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 #set(CMAKE_AUTOUIC ON)
@@ -41,13 +41,14 @@ add_compile_options(
 	-DSGL_GRAPHICAL_CONSOLE_NO_TOOLBAR=1
 )
 
-# student writes ordinary main() function, but it must be called within a
-# wrapper main() that handles library setup/teardown. Rename student's
-# to distinguish between the two main() functions and avoid symbol clash
-add_compile_options(
-	-Dmain=qMain
-	-DqMain=studentMain
-)
+#this is now a library, use this for a main that runs sgl
+# # student writes ordinary main() function, but it must be called within a
+# # wrapper main() that handles library setup/teardown. Rename student's
+# # to distinguish between the two main() functions and avoid symbol clash
+# add_compile_options(
+# 	-Dmain=qMain
+# 	-DqMain=studentMain
+# )
 
 # convenience variables to represent all source / header files to compile
 FILE(GLOB LibSources
@@ -60,22 +61,11 @@ FILE(GLOB LibHeaders
 
 # non-sgl-library source / header files specific to this project
 FILE(GLOB ProjectSources
-	src/*.cpp
-	src/WindowManager/*.cpp
-	src/WinServer/*.cpp
-	src/SGL_Server_Backend/*.cpp
-	src/Protocol/*.cpp
-	src/MiniDisplayServer/*.cpp
-	src/XServer/*.cpp
+	*.cpp
 )
 
 FILE(GLOB ProjectHeaders
-	src/*.h
-	src/WindowManager/*.h
-	src/SGL_Server_Backend/*.h
-	src/Protocol/*.h
-	src/MiniDisplayServer/*.h
-	src/XServer/*.h
+	*.h
 )
 
 set(sgl_HDRS
@@ -91,34 +81,19 @@ set(sgl_SRCS
 # all libraries to link
 set(sgl_LIBS
 	-lpthread
-	-lX11
-# )
-
-# if (WIN32)
-#     #do nothing
-# else(
-# 	set(sgl_LIBS
-# 		-lX11
-# 		#I added -lX11 for XServer (which is really an X client lol) - Chris
-# 	) # modified to work for windows - Andrew
 )
-# endif (WIN32)
 
-add_executable(WindowTrees
+add_library(SGL_Server_Backend
 	${sgl_SRCS}
 )
 
-target_include_directories(WindowTrees
-	PRIVATE
+target_include_directories(SGL_Server_Backend	PRIVATE
+	"../Protocol/"
 	lib/
-	src/
-	src/WindowManager/
-	src/Protocol/
-	src/SGL_Server_Backend/
-	src/XServer/
 )
 
-target_link_libraries(WindowTrees
+target_link_libraries(SGL_Server_Backend
+	"../Protocol/Protocol"
 	${sgl_LIBS}
 	Qt5::Widgets
 	Qt5::Multimedia
