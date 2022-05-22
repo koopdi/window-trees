@@ -6,18 +6,6 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_VERBOSE_MAKEFILE ON)
 
-# add_compile_options(
-# 	-DSGL_GRAPHICAL_CONSOLE_NO_TOOLBAR=1
-# )
-
-# student writes ordinary main() function, but it must be called within a
-# wrapper main() that handles library setup/teardown. Rename student's
-# to distinguish between the two main() functions and avoid symbol clash
-# add_compile_options(
-# 	-Dmain=qMain
-# 	-DqMain=studentMain
-# )
-
 FILE(GLOB WindowTree_Headers
 	src/*.h
 )
@@ -78,7 +66,11 @@ add_compile_options(
 	-Wno-sign-conversion
 )
 
-# add_subdirectory("src/Protocol/" "src/Protocol/build/")
-# add_subdirectory("src/WindowManager/" "src/WindowManager/build/")
-# add_subdirectory("src/SGL_Server_Backend/" "src/SGL_Server_Backend/build/")
-# add_subdirectory("src/XServer/" "src/XServer/build/")
+# this might come in handy for the sgl build
+# student writes ordinary main() function, but it must be called within a
+# wrapper main() that handles library setup/teardown. Rename student's
+# to distinguish between the two main() functions and avoid symbol clash
+# add_compile_options(
+# 	-Dmain=qMain
+# 	-DqMain=studentMain
+# )
