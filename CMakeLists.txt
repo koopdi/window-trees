@@ -78,11 +78,6 @@ FILE(GLOB ProjectHeaders
 	src/XServer/*.h
 )
 
-# resource files (images, input files, etc.) for this project
-FILE(GLOB ProjectResources
-	res/*
-)
-
 set(sgl_HDRS
 	${LibHeaders}
 	${ProjectHeaders}
@@ -96,28 +91,22 @@ set(sgl_SRCS
 # all libraries to link
 set(sgl_LIBS
 	-lpthread
-)
+	-lX11
+# )
 
-if (WIN32)
-    #do nothing
-else(
-	set(
-		-lX11
-		#I added -lX11 for XServer (which is really an X client lol) - Chris
-	) # modified to work for windows - Andrew
+# if (WIN32)
+#     #do nothing
+# else(
+# 	set(sgl_LIBS
+# 		-lX11
+# 		#I added -lX11 for XServer (which is really an X client lol) - Chris
+# 	) # modified to work for windows - Andrew
 )
-endif (WIN32)
+# endif (WIN32)
 
 add_executable(WindowTrees
 	${sgl_SRCS}
 )
-
-# copy resource files from res/ folder over to the build destination folder
-foreach(resFile ${ProjectResources})
-	get_filename_component(resFileName ${resFile} NAME)
-	configure_file(${CMAKE_CURRENT_SOURCE_DIR}/res/${resFileName} ${CMAKE_CURRENT_BINARY_DIR}/${resFileName} COPYONLY)
-endforeach()
-# file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/res/ DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/)
 
 target_include_directories(WindowTrees
 	PRIVATE
