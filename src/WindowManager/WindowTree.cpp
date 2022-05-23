@@ -37,6 +37,7 @@ bool WindowTree::contains(int windowID) const {
 
 bool WindowTree::add(bool partVertically, int windowID, double part1Size) {
 	add(root, partVertically, windowID, part1Size);
+	return true;
 }
 
 /**

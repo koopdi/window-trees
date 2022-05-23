@@ -24,8 +24,8 @@ void Workspace::setWidth(int width) {
 void Workspace::setPosition(Point position) {
 	this->position = position;
 }
-bool Workspace::addWindow() {
-	bool success = tree->add();
+bool Workspace::addWindow(bool partVertically, int windowID, double part1Size) {
+	bool success = tree->add(partVertically, windowID, part1Size);
 	// if (success) {
 	//		TODO: add to map<windowID:set<workspaceID>>
 	//		map[windowID];

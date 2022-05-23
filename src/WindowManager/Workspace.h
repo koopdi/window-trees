@@ -20,6 +20,6 @@ private:
     void setHeight(int height);
     void setWidth(int width);
     void setPosition(Point position);
-    bool addWindow();
+    bool addWindow(bool partVertically, int windowID, double part1Size);
     bool removeWindow(int windowID);
 };
