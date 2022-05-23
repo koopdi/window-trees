@@ -53,7 +53,7 @@
 	const char CRESET[] = "";
 	const char COLOR_RESET[] = "";
 
-	const char MSG_LOGGING_BEGIN[] "BEGIN LOGGING: [Notice]: Colored output is not supported on your platform.";
+	const char MSG_LOGGING_BEGIN[] = "BEGIN LOGGING: [Notice]: Colored output is not supported on your platform.";
 #endif
 
 enum LogLevel {

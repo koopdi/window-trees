@@ -24,11 +24,15 @@ target_include_directories(XServer
 	PUBLIC
 	"../Protocol/"
 )
+
 target_link_libraries(XServer
 	PUBLIC
 	Protocol
-	"-lX11"
 )
+
+if (NOT WIN32)
+	target_link_libraries("-lX11")
+endif(NOT WIN32)
 
 # Configure flags for the C++ compiler
 # (In general, many warnings/errors are enabled to tighten compile-time checking.
