@@ -1,3 +1,6 @@
+cmake_minimum_required(VERSION 3.2.0)
+project (XServer VERSION 05.23.2022 LANGUAGES CXX)
+
 # source / header files specific to this project
 FILE(GLOB XServer_Headers
 	*.cpp
