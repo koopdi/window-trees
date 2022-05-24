@@ -9,8 +9,6 @@
  *
  */
 
-#pragma once
-
 #include "Workspace.h"
 
 /**
