@@ -49,6 +49,7 @@ PUBLIC
 Protocol
 WindowManager
 SGL_Server_Backend
+XServer
 )
 
 # Configure flags for the C++ compiler
