@@ -31,7 +31,10 @@ target_link_libraries(XServer
 )
 
 if (NOT WIN32)
-	target_link_libraries("-lX11")
+	target_link_libraries(XServer
+	PUBLIC
+		"-lX11"
+)
 endif(NOT WIN32)
 
 # Configure flags for the C++ compiler
