@@ -49,8 +49,16 @@ PUBLIC
 Protocol
 WindowManager
 SGL_Server_Backend
+# XServer
+)
+# Don't link to XServer if running on windows.
+if (NOT WIN32)
+target_link_libraries(WindowTrees
+PUBLIC
 XServer
 )
+endif(NOT WIN32)
+
 
 # Configure flags for the C++ compiler
 # (In general, many warnings/errors are enabled to tighten compile-time checking.
