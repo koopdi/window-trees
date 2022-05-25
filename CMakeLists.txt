@@ -2,8 +2,6 @@ cmake_minimum_required(VERSION 3.2.0)
 
 project (WindowTrees VERSION 05.21.2022 LANGUAGES CXX)
 
-# set(WIN32 TRUE)
-
 # use C++17 language standard
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -59,7 +57,6 @@ XServer
 )
 endif(NOT WIN32)
 
-
 # Configure flags for the C++ compiler
 # (In general, many warnings/errors are enabled to tighten compile-time checking.
 # A few overly pedantic/confusing errors are turned off to avoid confusion.)
@@ -76,6 +73,15 @@ add_compile_options(
 	-Wno-sign-compare
 	-Wno-sign-conversion
 )
+
+# set a cmake variable
+# set(WIN32 TRUE)
+
+# set a preprocessor variable
+# add_compile_definitions(
+# 	VAR1
+# 	VAR2=VALUE
+# )
 
 # this might come in handy for the sgl build
 # student writes ordinary main() function, but it must be called within a
