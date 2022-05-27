@@ -1,7 +1,9 @@
+# SGL Server Backend
+
 cmake_minimum_required(VERSION 3.2.0)
 project (SGL_Server_Backend VERSION 05.21.2022 LANGUAGES CXX)
 
-# use C++11 language standard
+# use C++17 language standard
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_VERBOSE_MAKEFILE ON)
@@ -45,10 +47,10 @@ add_compile_options(
 # # student writes ordinary main() function, but it must be called within a
 # # wrapper main() that handles library setup/teardown. Rename student's
 # # to distinguish between the two main() functions and avoid symbol clash
-# add_compile_options(
-# 	-Dmain=qMain
-# 	-DqMain=studentMain
-# )
+add_compile_options(
+	-Dmain=qMain
+	-DqMain=studentMain
+)
 
 # convenience variables to represent all source / header files to compile
 FILE(GLOB LibSources
@@ -84,6 +86,7 @@ set(sgl_LIBS
 )
 
 add_library(SGL_Server_Backend
+	# PUBLIC
 	${sgl_SRCS}
 )
 
@@ -91,9 +94,11 @@ target_include_directories(SGL_Server_Backend
 	PUBLIC
 	"../Protocol/"
 	lib/
+	.
 )
 
 target_link_libraries(SGL_Server_Backend
+	PUBLIC
 	Protocol
 	${sgl_LIBS}
 	Qt5::Widgets
