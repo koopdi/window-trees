@@ -1,3 +1,7 @@
+
+# Project Root
+# WindowTrees
+#
 cmake_minimum_required(VERSION 3.2.0)
 
 project (WindowTrees VERSION 05.21.2022 LANGUAGES CXX)
@@ -41,6 +45,7 @@ add_subdirectory("src/Protocol/")
 add_subdirectory("src/WindowManager/")
 add_subdirectory("src/SGL_Server_Backend/")
 add_subdirectory("src/XServer/")
+add_subdirectory("src/Tiles")
 
 target_link_libraries(WindowTrees
 PUBLIC
