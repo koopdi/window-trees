@@ -49,7 +49,7 @@ add_compile_options(
 # # to distinguish between the two main() functions and avoid symbol clash
 add_compile_options(
 	-Dmain=qMain
-	-DqMain=studentMain
+	# -DqMain=studentMain
 )
 
 # convenience variables to represent all source / header files to compile
