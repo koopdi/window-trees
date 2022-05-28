@@ -46,6 +46,7 @@ add_subdirectory("src/WindowManager/")
 add_subdirectory("src/SGL_Server_Backend/")
 add_subdirectory("src/XServer/")
 add_subdirectory("src/Tiles")
+add_subdirectory("src/SGL_Client")
 
 target_link_libraries(WindowTrees
 PUBLIC
