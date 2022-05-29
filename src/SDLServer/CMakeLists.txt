@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.2.0)
-project (sdlClient VERSION 05.23.2022 LANGUAGES CXX)
+project (SDLServer VERSION 05.23.2022 LANGUAGES CXX)
 
 add_subdirectory("SDLClient")
 
@@ -31,6 +31,7 @@ target_include_directories(SDLServer
 target_link_libraries(SDLServer
 	PUBLIC
 	Protocol
+	WindowManager
 	"-lSDL"
 )
 
