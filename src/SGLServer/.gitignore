@@ -4,6 +4,7 @@
 #include these specific directories and files
 #dirs
 !/lib
+!/SGLClient
 
 #files
 !/*.h
