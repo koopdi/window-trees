@@ -24,6 +24,8 @@ typedef std::function<void(ServerInterface* server, XEvent* event)>
 class ServerInterface
 {
 public:
+	// public methods ----------------------------------------
+
 	/**
 	 * @brief Set the shape and position of a window.
 	 * @param windowID The window to set.
@@ -75,5 +77,9 @@ public:
 	 * it you.
 	 */
 	virtual void run()                                  = 0;
+
+private:
+	// private attributes ------------------------------------
+	// private methods ---------------------------------------
 };
 #endif
