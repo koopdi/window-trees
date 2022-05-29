@@ -1,5 +1,4 @@
 #include "xtypes.h"
-#ifdef HAS_XLIB
 #include "Logger.h"
 #include "ServerInterface.h"
 #include "types.h"
@@ -63,5 +62,4 @@ public:
 	~XServer();
 };
 
-#endif
 #endif
