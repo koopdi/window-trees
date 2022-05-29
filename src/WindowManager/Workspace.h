@@ -31,6 +31,10 @@ public:
 	 */
     Workspace();
 
+	// operator to allow using sorted containers
+	bool operator<(Workspace& other);
+
+
 	/**
 	 * @brief Get the Height object
 	 *
