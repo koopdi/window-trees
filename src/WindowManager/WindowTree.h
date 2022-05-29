@@ -14,6 +14,9 @@
 #include <queue>
 
 #include "WindowNode.h"
+#include "types.h"
+
+class Workspace;
 
 /**
  * @brief
@@ -27,7 +30,9 @@ public:
 	 * @brief Construct a new Window Tree object
 	 *
 	 */
-    WindowTree();
+    WindowTree(Workspace* workspace);
+
+	Point getCoordinate(int windowID);
 
 	/**
 	 * @brief
@@ -36,7 +41,6 @@ public:
 	 * @return WindowNode*
 	 */
 	WindowNode* get(int windowID);
-
 
 	/**
 	 * @brief
@@ -98,6 +102,7 @@ public:
 
 private:
 	// private attributes ------------------------------------
+	Workspace* workspace;
 
 	// the number of windows
 	int numWindows;
@@ -147,6 +152,11 @@ private:
 	 */
     void postOrderTraverse(WindowNode* node, std::function<void(WindowNode*)> func) const;
 
+	void breadthFirstSearch(WindowNode* node, std::function<bool(WindowNode*)> func);
+
+
+	int WindowTree::calculateHeight(WindowNode* node, int windowID, double height);
+
 	/**
 	 * @brief
 	 *
@@ -156,8 +166,6 @@ private:
 	WindowNode*& getByIndex(int index);
 
 	bool remove(WindowNode*& node);
-
-	void breadthFirstSearch(WindowNode* node, std::function<bool(WindowNode*)> func);
 
 	int height(WindowNode* node);
 

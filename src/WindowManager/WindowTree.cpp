@@ -10,6 +10,7 @@
  */
 
 #include "WindowTree.h"
+#include "Workspace.h"
 
 #include <string>
 #include <queue>
@@ -20,7 +21,8 @@ using namespace std;
  * @brief Construct a new Window Tree:: Window Tree object
  *
  */
-WindowTree::WindowTree() {};
+WindowTree::WindowTree(Workspace* workspace) : workspace(workspace){
+};
 
 /**
  * @brief
@@ -163,11 +165,14 @@ bool WindowTree::contains(WindowNode* target) const {
  * @param windowID
  */
 bool WindowTree::add(bool partVertically, double part1Size, int windowID) {
+	// TODO: need to set partVertically
+
 	bool success = false;
     if(root == nullptr) {
         root = new WindowNode(partVertically, part1Size, windowID, workspaceID);
 		success = contains(windowID);
 		if (success) size++;
+
 	} else {
 		// get a reference to a pointer to the next node to build off of
 		WindowNode*& node = getByIndex(numWindows);
@@ -229,10 +234,11 @@ bool WindowTree::add(bool partVertically, double part1Size, int windowID) {
  * @return false
  */
 bool WindowTree::remove(WindowNode*& node){
+	//TODO: this is probably broken
+
 	bool success = false;
 	if (node == nullptr) return true;
 
-	//TODO reorder
 	int index = getIndex(node);
 	WindowNode*& next = getByIndex(index+1);
 	if (next == nullptr) return true;
@@ -382,3 +388,51 @@ void WindowTree::queueLevel(WindowNode* node, int level, queue<WindowNode*>& lev
 		queueLevel(node->part2, level - 1, levelOrder);
     }
 }
+
+
+// work in progress ******************************
+
+int WindowTree::calculateHeight(WindowNode* node, int windowID, double height) {
+	if (node == nullptr) return 0;
+	if (node->isWindow() && (node->window->windowID == windowID)) {
+		return height;
+	} else if (node->partVertically){
+		calculateHeight(node->part1, windowID, (height * node->part1Size));
+		calculateHeight(node->part2, windowID, (height * (100. - node->part1Size)));
+	} else {
+		calculateHeight(node->part1, windowID, height);
+		calculateHeight(node->part2, windowID, height);
+	}
+}
+
+Point WindowTree::getCoordinate(int windowID) {
+	Point coordinate ({0,0});
+	double height = workspace->getHeight();
+	double width = workspace->getWidth();
+
+
+
+
+/*
+	std::function<bool(WindowNode*)> func = [&height, &width, windowID](WindowNode* node) -> bool {
+		if (node->partVertically) {
+			height = height * node->part1Size;
+
+		} else{
+			height =
+		}
+
+		if (node->isWindow() && node->window->windowID == windowID) {  // check
+			if (node == nullptr) return false;
+			return false;  // stop looking
+		}
+		return true;  //  keep looking
+	};
+
+
+	preOrderTraverse(root, func);
+*/
+	return coordinate;
+}
+
+// work in progress ******************************

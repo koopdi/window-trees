@@ -15,6 +15,8 @@
 #include "types.h"
 #include "WindowTree.h"
 
+class WindowTree;
+
 /**
  * @brief
  *
