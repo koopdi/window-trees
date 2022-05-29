@@ -37,13 +37,13 @@ PUBLIC
 src/
 src/WindowManager/
 src/Protocol/
-src/SGL_Server_Backend/
+src/sglServer/
 src/XServer/
 )
 
 add_subdirectory("src/Protocol/")
 add_subdirectory("src/WindowManager/")
-add_subdirectory("src/SGL_Server_Backend/")
+add_subdirectory("src/sglServer/")
 add_subdirectory("src/XServer/")
 add_subdirectory("src/Tiles")
 add_subdirectory("src/SGL_Client")
