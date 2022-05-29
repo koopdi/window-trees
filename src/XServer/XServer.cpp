@@ -1,5 +1,5 @@
 #include "XServer.h"
-
+using namespace std;
 struct TreeQueryResult
 {
 	bool success;
@@ -34,7 +34,7 @@ void XServer::run()
 	XGrabServer(display); // block X Server
 	initFunc(this);
 	XUngrabServer(display); // unblock X Server
-
+	cout << "entering event loop" << endl;
 	eventLoop(); // enter event loop
 }
 
@@ -42,9 +42,11 @@ void XServer::eventLoop()
 { //														HALF IMPLEMENTED
 	while (running)
 	{
+		cout << "loopding" << endl;
 		XEvent event;
+		cout << "getting next event" << endl;
 		XNextEvent(display, &event);
-
+		cout << "got next event";
 		handlerFunc(&event);
 
 		// internal event handling
@@ -148,8 +150,9 @@ std::vector<long> XServer::getWindows(long screenID)
 	log.erro("XServer::getWindows() does not support functioning.");
 	TreeQueryResult qry;
 	Screen* screen = XScreenOfDisplay(
-	    display, screenID); // PROBLEM IS (PROBABLY) HERE (if there is one) I HAVE
-	                        // NO IDEA IF XScreenOfDisplay() takes these parameters
+	    display,
+	    screenID); // PROBLEM IS (PROBABLY) HERE (if there is one) I HAVE
+	               // NO IDEA IF XScreenOfDisplay() takes these parameters
 	qry.success = XQueryTree(display,
 	                         screen->root,
 	                         &qry.root_return,
