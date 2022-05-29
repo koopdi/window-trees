@@ -2,9 +2,9 @@
 
 #include "types.h"
 
-class DisplayServerWindow {
+class SGLServerWindow {
 public:
-    DisplayServerWindow(int height = 0, int width = 0,
+    SGLServerWindow(int height = 0, int width = 0,
     Point position = Point{0, 0}, bool partVertically = true);
     int getHeight() const;
     int getWidth() const;

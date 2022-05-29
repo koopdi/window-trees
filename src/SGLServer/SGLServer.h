@@ -1,6 +1,6 @@
 #pragma once
 
-#include "DisplayServerScreen.h"
+#include "SGLServerScreen.h"
 #include "ServerInterface.h"
 #include "xtypes.h"
 
@@ -8,11 +8,11 @@
  * @brief
  *
  */
-class DisplayServer : public ServerInterface{
+class SGLServer : public ServerInterface{
 public:
-	std::vector<DisplayServerScreen> screens;
+	std::vector<SGLServerScreen> screens;
 
-	// DisplayServer();
+	// SGLServer();
 	/**
 	 * @brief Set the Init Callback object
 	 * Provides a concrete server interface.

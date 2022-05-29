@@ -1,21 +1,23 @@
-#pragma once
-
 /***********************************************************
  * Class Window Manager
- * The window manager keeps track of the workspaces.
+ * *********************************************************
  * @file WindowManager.h
- **********************************************************/
+ * @author Andrew Hanson, Christen Spadevechia, Travis McKinney
+ * @brief A collection of work spaces.
+ */
+
+#pragma once
+
+#include <set>
 
 #include "ServerInterface.h"
 #include "Workspace.h"
 #include "xtypes.h"
 
-#include <set>
-
-/**
- * @brief Manage Workspaces
- *
- */
+/***********************************************************
+ * Class Window Manager
+ * The window manager keeps track of the workspaces.
+ **********************************************************/
 class WindowManager
 {
 public:

@@ -1,20 +1,67 @@
+/**
+ * @file WindowTree.cpp
+ * @author Andrew Hanson, Christen Spadevechia, Travis McKinney (you@domain.com)
+ * @brief
+ * @version 0.1
+ * @date 2022-05-23
+ *
+ * @copyright Copyright (c) 2022
+ *
+ */
+
 #include "WindowTree.h"
 
+/**
+ * @brief Construct a new Window Tree:: Window Tree object
+ *
+ */
 WindowTree::WindowTree() {};
+
+/**
+ * @brief
+ *
+ * @return int
+ */
 int WindowTree::getSize() const {
     return size;
 }
 
+/**
+ * @brief
+ *
+ * @return int
+ */
 int WindowTree::getNumWindows() const {
 	return numWindows;
 }
 
+/**
+ * @brief
+ *
+ * @param windowID
+ * @return WindowNode*
+ */
 WindowNode* WindowTree::get(int windowID) {
 	return 0;
 }
+
+/**
+ * @brief
+ *
+ * @return true
+ * @return false
+ */
 bool WindowTree::isEmpty() const{
 	return 0;
 }
+
+/**
+ * @brief
+ *
+ * @param windowID
+ * @return true
+ * @return false
+ */
 bool WindowTree::contains(int windowID) const {
 	bool contains = false;
 	/**
@@ -24,7 +71,7 @@ bool WindowTree::contains(int windowID) const {
 	 * our function must return bool and take in a windowNode pointer
 	 * however we can add extra paramaters including return paramaters in the [] brackets */
 	std::function<bool(WindowNode*)> func = [&contains, windowID](WindowNode* node) -> bool {
-		if (node->windowID == windowID) {  // check
+		if (node->isWindow() && node->window->windowID == windowID) {  // check
 			contains = true;  // check successful
 			return false;  // stop looking
 		}
@@ -35,9 +82,18 @@ bool WindowTree::contains(int windowID) const {
 	return contains;  // return success/failure
 }
 
-// bool WindowTree::add(bool partVertically, int windowID, double part1Size) {
-// 	add(root, partVertically, windowID, part1Size);
-// }
+/**
+ * @brief
+ *
+ * @param partVertically
+ * @param windowID
+ * @param part1Size
+ * @return true
+ * @return false
+ */
+bool WindowTree::add(bool partVertically, int windowID, double part1Size) {
+	add(root, partVertically, windowID, part1Size);
+}
 
 /**
  * @brief private helper function for adding window nodes
@@ -50,7 +106,7 @@ bool WindowTree::contains(int windowID) const {
 void WindowTree::add(WindowNode*& node, bool partVertically, int windowID, double part1Size) {
 	//TODO: will WindowIDs be generated in the WindowTree or passed in?
     if(node == nullptr) {
-        node = new WindowNode(partVertically, windowID, part1Size);
+        node = new WindowNode(partVertically, part1Size);
 		size++;
     } /* else if (val > node->data) {
         add(node->right, val);
@@ -60,12 +116,25 @@ void WindowTree::add(WindowNode*& node, bool partVertically, int windowID, doubl
 	*/
 }
 
+/**
+ * @brief
+ *
+ * @param windowID
+ * @return true
+ * @return false
+ */
 bool WindowTree::remove(int windowID) {
     size--;
     // TODO: remove node
 	return 0;
 }
 
+/**
+ * @brief
+ *
+ * @param node
+ * @param func
+ */
 void WindowTree::preOrderTraverse(WindowNode* node, const std::function<bool(WindowNode*)>& func) const{
     if (node == nullptr) return;
     // run the function and save result
@@ -77,6 +146,12 @@ void WindowTree::preOrderTraverse(WindowNode* node, const std::function<bool(Win
 	}
 }
 
+/**
+ * @brief
+ *
+ * @param node
+ * @param func
+ */
 void WindowTree::inOrderTraverse(WindowNode* node, std::function<bool(WindowNode*)> func) const{
     if (node == nullptr) return;
 
@@ -87,6 +162,12 @@ void WindowTree::inOrderTraverse(WindowNode* node, std::function<bool(WindowNode
 	}
 }
 
+/**
+ * @brief
+ *
+ * @param node
+ * @param func
+ */
 void WindowTree::postOrderTraverse(WindowNode* node, std::function<bool(WindowNode*)> func) const{
     if (node == nullptr) return;
 

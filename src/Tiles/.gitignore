@@ -3,10 +3,8 @@
 
 #include these specific directories and files
 #dirs
-!/XClient
+!/src
 
 #files
-!/*.h
-!/*.cpp
 !/.gitignore
 !/CMakeLists.txt
