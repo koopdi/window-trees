@@ -1,4 +1,3 @@
-
 # Project Root
 # WindowTrees
 #
@@ -37,13 +36,13 @@ PUBLIC
 src/
 src/WindowManager/
 src/Protocol/
-src/sglServer/
+src/SGLServer/
 src/XServer/
 )
 
 add_subdirectory("src/Protocol/")
 add_subdirectory("src/WindowManager/")
-add_subdirectory("src/sglServer/")
+add_subdirectory("src/SGLServer/")
 add_subdirectory("src/XServer/")
 add_subdirectory("src/Tiles")
 add_subdirectory("src/SGL_Client")
