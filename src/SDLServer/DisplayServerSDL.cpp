@@ -8,11 +8,11 @@ void DisplayServerSDL::setArea(long windowID, Area area) {
 
 }
 
-DisplayServerSDL:::vector<long> getScreens() {
+std::vector<long> DisplayServerSDL::getScreens() {
 
 }
 
-DisplayServerSDL:::vector<long> getWindows(long screenID) {
+std::vector<long> DisplayServerSDL::getWindows(long screenID) {
 
 }
 
@@ -21,7 +21,7 @@ Area DisplayServerSDL::getScreenSize(long screenID) {
 }
 
 
-virtual void setInitCallback(InitHandlerFn fn) {
+void DisplayServerSDL::setInitCallback(InitHandlerFn fn) {
 
 }
 
@@ -37,7 +37,15 @@ void DisplayServerSDL::run() {
 
 
 
-DisplayServerSDL::DisplayServerSDL();
-DisplayServerSDL::DisplayServerSDL(InitHandlerFn initFn, EventHandlerFn eventFn);
+DisplayServerSDL::DisplayServerSDL(){
 
-DisplayServerSDL::~DisplayServerSDL();
+}
+
+DisplayServerSDL::DisplayServerSDL(InitHandlerFn initFn, EventHandlerFn eventFn){
+
+}
+
+
+DisplayServerSDL::~DisplayServerSDL(){
+
+}
