@@ -3,6 +3,7 @@
 #include "Logger.h"
 #include "ServerScreenSDL.h"
 #include <vector>
+#include <mutex>
 
 class DisplayServerSDL : public ServerInterface{
 private:
@@ -12,6 +13,7 @@ private:
 	std::vector<ServerScreenSDL> screens;
 	EventHandlerFn handlerFunc;
 	InitHandlerFn initFunc;
+	std::mutex mutex;
 
 public:
 	virtual Area getArea(long windowID) override;
