@@ -9,8 +9,6 @@ private:
 	static int numScreensToConstruct;
 	static Area defaultWindowArea;
 
-	unsigned int width;
-	unsigned int height;
 	std::vector<ServerScreenSDL> screens;
 	EventHandlerFn handlerFunc;
 	InitHandlerFn initFunc;
