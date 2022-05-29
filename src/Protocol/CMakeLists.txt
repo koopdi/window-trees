@@ -1,4 +1,3 @@
-
 # Protocol
 
 cmake_minimum_required(VERSION 3.2.0)
@@ -21,6 +20,11 @@ FILE(GLOB Protocol_Sources
 add_library(Protocol STATIC
 	${Protocol_Headers}
 	${Protocol_Sources}
+)
+
+target_include_directories(Protocol
+	PUBLIC
+	.
 )
 
 # Configure flags for the C++ compiler
