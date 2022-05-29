@@ -37,8 +37,8 @@ public:
 private:
 	// private attributes ------------------------------------
 
-	/// A collection of workspaces.
-	std::set<Workspace> workspaces;
+	/// A collection of workspace pointers.
+	std::set<Workspace*> workspaces;
 
 	// private methods ---------------------------------------
 };
