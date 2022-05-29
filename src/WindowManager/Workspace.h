@@ -15,6 +15,8 @@
 #include "types.h"
 #include "WindowTree.h"
 
+#include <memory>
+
 class WindowTree;
 
 /**
@@ -125,3 +127,5 @@ private:
 	 */
     bool removeWindow(int windowID);
 };
+
+bool operator<(std::shared_ptr<Workspace>& a, std::shared_ptr<Workspace>& b);
