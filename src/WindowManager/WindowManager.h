@@ -8,6 +8,7 @@
 
 #pragma once
 
+#include <memory>
 #include <set>
 
 #include "ServerInterface.h"
@@ -38,7 +39,7 @@ private:
 	// private attributes ------------------------------------
 
 	/// A collection of workspace pointers.
-	std::set<Workspace*> workspaces;
+	std::set<std::shared_ptr<Workspace>> workspaces;
 
 	// private methods ---------------------------------------
 };

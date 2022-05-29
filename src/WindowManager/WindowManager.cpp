@@ -3,12 +3,12 @@
  * @author Andrew Hanson, Christen Spadevechia, Travis McKinney
  * @brief
  */
-
+#include<iostream>
 #include <string>
+using namespace std;
 
 #include "WindowManager.h"
 
-using namespace std;
 
 // public methods ------------------------------------------
 
@@ -23,6 +23,9 @@ WindowManager::WindowManager(ServerInterface* server)
 		throw "Failed to initialize Workspace Manager: "
 		      "Provided server is null.";
 	}
+
+	// add a workspace
+	workspaces.insert(make_shared<Workspace>);
 }
 
 /**
@@ -32,5 +35,5 @@ WindowManager::WindowManager(ServerInterface* server)
  */
 void WindowManager::update(XEvent& ev)
 {
-
+	cout << "event got" << endl;
 }
