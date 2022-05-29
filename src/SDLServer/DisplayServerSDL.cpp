@@ -1,3 +1,5 @@
+#include "DisplayServerSDL.h"
+
 Area DisplayServerSDL::getArea(long windowID) {
 
 }
