@@ -1,3 +1,5 @@
+#pragma once
+
 #include "xtypes.h"
 #include "Logger.h"
 #include "ServerInterface.h"
@@ -11,11 +13,6 @@
  * @brief Provide an xserver backend to the server interface API.
  *
  */
-
-// #define XSERVER_H //disable XServer
-
-#ifndef XSERVER_H
-#define XSERVER_H
 
 #include <X11/Xlib.h>
 #include <X11/extensions/randr.h>
@@ -61,5 +58,3 @@ public:
 
 	~XServer();
 };
-
-#endif
