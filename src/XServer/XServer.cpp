@@ -1,15 +1,5 @@
 #include "XServer.h"
 
-/* Configure window value mask bits -
- * https://tronche.com/gui/x/xlib/window/configure.html*/
-#define CWX (1 << 0)
-#define CWY (1 << 1)
-#define CWWidth (1 << 2)
-#define CWHeight (1 << 3)
-#define CWBorderWidth (1 << 4)
-#define CWSibling (1 << 5)
-#define CWStackMode (1 << 6)
-
 struct TreeQueryResult
 {
 	bool success;
