@@ -18,7 +18,7 @@ class ServerInterface;
 typedef std::function<void(ServerInterface* server)> InitHandlerFn;
 
 /// The server calls this function when events are produced.
-typedef std::function<void(ServerInterface* server, XEvent* event)>
+typedef std::function<void(XEvent* event)>
     EventHandlerFn;
 
 class ServerInterface
