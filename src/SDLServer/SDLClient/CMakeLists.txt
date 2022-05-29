@@ -1,21 +1,19 @@
-# Project Root
-# WindowTrees
-#
-cmake_minimum_required(VERSION 3.2.0)
 
-project (WindowTrees VERSION 05.21.2022 LANGUAGES CXX)
+# SDL_Client
 
-# use C++17 language standard
+cmake_minimum_required(VERSION 3.7)
+project(sdlClient VERSION 0.0.1)
+
+find_package(SDL2 REQUIRED)
+include_directories(sdlClient ${SDL2_INCLUDE_DIRS})
+
+add_executable(sdlClient Main.cpp)
+target_link_libraries(sdlClient ${SDL2_LIBRARIES})
+
+# use C++11 language standard
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_VERBOSE_MAKEFILE ON)
-
-add_subdirectory("src/Protocol/")
-add_subdirectory("src/WindowManager/")
-add_subdirectory("src/XServer/")
-add_subdirectory("src/SGLServer/")
-add_subdirectory("src/SDLServer/")
-add_subdirectory("src/Tiles")
 
 # Configure flags for the C++ compiler
 # (In general, many warnings/errors are enabled to tighten compile-time checking.
@@ -33,12 +31,3 @@ add_compile_options(
 	-Wno-sign-compare
 	-Wno-sign-conversion
 )
-
-# set a cmake variable
-# set(WIN32 TRUE)
-
-# set a preprocessor variable
-# add_compile_definitions(
-# 	VAR1
-# 	VAR2=VALUE
-# )
