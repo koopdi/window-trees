@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.2.0)
 project (XServer VERSION 05.23.2022 LANGUAGES CXX)
 
+add_subdirectory(XClient)
+
 # source / header files specific to this project
 FILE(GLOB XServer_Headers
 	*.cpp
@@ -23,19 +25,14 @@ add_library(XServer
 target_include_directories(XServer
 	PUBLIC
 	"../Protocol/"
+	.
 )
 
 target_link_libraries(XServer
 	PUBLIC
 	Protocol
+	"-lX11"
 )
-
-if (NOT WIN32)
-	target_link_libraries(XServer
-	PUBLIC
-		"-lX11"
-)
-endif(NOT WIN32)
 
 # Configure flags for the C++ compiler
 # (In general, many warnings/errors are enabled to tighten compile-time checking.

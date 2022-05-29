@@ -28,6 +28,7 @@ add_library(WindowManager
 target_include_directories(WindowManager
 	PUBLIC
 	"../Protocol/"
+	.
 )
 
 # Configure flags for the C++ compiler
