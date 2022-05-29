@@ -38,7 +38,11 @@ struct WindowNode{
     WindowNode* part1;
     WindowNode* part2;
 
+	WindowNode();
 	WindowNode(bool partVertically, double part1Size);
 	WindowNode(bool partVertically, double part1Size, int windowID, int workspaceID);
+
+	~WindowNode();
+
 	bool isWindow();
 };

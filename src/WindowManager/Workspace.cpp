@@ -11,12 +11,10 @@
 
 #include "Workspace.h"
 
-/**
- * @brief Construct a new Workspace:: Workspace object
- *
- * @param workspaceID
- */
-Workspace::Workspace(int workspaceID) {}
+
+Workspace::Workspace() : workspaceID((long long)(this)){
+
+}
 
 /**
  * @brief
@@ -91,7 +89,7 @@ void Workspace::setPosition(Point position) {
  * @return false
  */
 bool Workspace::addWindow(bool partVertically, int windowID, double part1Size) {
-	bool success = tree->add(partVertically, windowID, part1Size);
+	bool success = tree->add(partVertically, part1Size,  windowID);
 	// if (success) {
 	//		TODO: add to map<windowID:set<workspaceID>>
 	//		map[windowID];

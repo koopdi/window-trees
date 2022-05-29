@@ -11,8 +11,12 @@
 #pragma once
 
 #include <functional>
+#include <queue>
 
 #include "WindowNode.h"
+#include "types.h"
+
+class Workspace;
 
 /**
  * @brief
@@ -26,7 +30,9 @@ public:
 	 * @brief Construct a new Window Tree object
 	 *
 	 */
-    WindowTree();
+    WindowTree(Workspace* workspace);
+
+	Point getCoordinate(int windowID);
 
 	/**
 	 * @brief
@@ -40,12 +46,13 @@ public:
 	 * @brief
 	 *
 	 * @param partVertically
-	 * @param windowID
 	 * @param part1Size
+	 * @param WindowID
+	 * @param WorkspaceID
 	 * @return true
 	 * @return false
 	 */
-    bool add(bool partVertically, int windowID, double part1Size);
+    bool add(bool partVertically, double part1Size, int windowID);
 
 	/**
 	 * @brief
@@ -73,6 +80,8 @@ public:
 	 */
     bool contains(int windowID) const;
 
+	bool contains(WindowNode* node) const;
+
 	/**
 	 * @brief Get the Size object
 	 *
@@ -87,17 +96,27 @@ public:
 	 */
     int getNumWindows() const;
 
+	void clear();
+
+	~WindowTree();
+
 private:
 	// private attributes ------------------------------------
+	Workspace* workspace;
 
 	// the number of windows
 	int numWindows;
+
+	int workspaceID;
 
 	// the size of the tree
     int size;
 
 	// a pointer to the root node of the tree
     WindowNode* root;
+
+	// a pointer to the most recently added node
+	WindowNode* last;
 
 	// private methods ----------------------------------------
 
@@ -108,6 +127,14 @@ private:
 	 * @param func
 	 */
     void preOrderTraverse(WindowNode* node, const std::function<bool(WindowNode*)>& func) const;
+
+	/**
+	 * @brief
+	 *
+	 * @param windowID
+	 * @return WindowNode*&
+	 */
+	WindowNode*& getRef(int windowID);
 
 	/**
 	 * @brief
@@ -123,15 +150,28 @@ private:
 	 * @param node
 	 * @param func
 	 */
-    void postOrderTraverse(WindowNode* node, std::function<bool(WindowNode*)> func) const;
+    void postOrderTraverse(WindowNode* node, std::function<void(WindowNode*)> func) const;
+
+	void breadthFirstSearch(WindowNode* node, std::function<bool(WindowNode*)> func);
+
+
+	int WindowTree::calculateHeight(WindowNode* node, int windowID, double height);
 
 	/**
 	 * @brief
 	 *
-	 * @param node
-	 * @param partVertically
 	 * @param windowID
-	 * @param part1Size
+	 * @return WindowNode*
 	 */
-	void add(WindowNode*& node, bool partVertically, int windowID, double part1Size);
+	WindowNode*& getByIndex(int index);
+
+	bool remove(WindowNode*& node);
+
+	int height(WindowNode* node);
+
+	void QueueTree(WindowNode* root, std::queue<WindowNode*>& levelOrder);
+
+	void queueLevel(WindowNode* node, int level, std::queue<WindowNode*>& levelOrder);
+
+	int getIndex(WindowNode* target);
 };

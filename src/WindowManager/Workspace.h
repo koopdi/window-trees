@@ -15,6 +15,8 @@
 #include "types.h"
 #include "WindowTree.h"
 
+class WindowTree;
+
 /**
  * @brief
  *
@@ -26,9 +28,8 @@ public:
 	/**
 	 * @brief Construct a new Workspace object
 	 *
-	 * @param workspaceID
 	 */
-    Workspace(int workspaceID);
+    Workspace();
 
 	/**
 	 * @brief Get the Height object
@@ -69,6 +70,8 @@ private:
 
 	// the width of the workspace
     int width;
+
+	int workspaceID;
 
 	// the number of windows in the workspace
     int numWindows;

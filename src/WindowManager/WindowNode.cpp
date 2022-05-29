@@ -63,15 +63,25 @@ bool WindowPane::removeTag(int tag) {
  * @param windowID
  * @param part1Size
  */
+WindowNode::WindowNode(){
+	WindowNode(0, 0);
+}
+
 WindowNode::WindowNode (bool partVertically, double part1Size)
 	: partVertically(partVertically), part1Size(part1Size),
 	window(nullptr), part1(nullptr), part2(nullptr) {}
 
 WindowNode::WindowNode (bool partVertically, double part1Size, int WindowID, int WorkspaceID)
 	: partVertically(partVertically), part1Size(part1Size), part1(nullptr), part2(nullptr) {
-		window = new WindowPane(WindowID, WorkspaceID);
-	}
+	window = new WindowPane(WindowID, WorkspaceID);
+}
 
-	bool WindowNode::isWindow() {
-		return window != nullptr;
+bool WindowNode::isWindow() {
+	return window != nullptr;
+}
+
+WindowNode::~WindowNode() {
+	if (window != nullptr) {
+		delete window; // no memory leaks
 	}
+}
