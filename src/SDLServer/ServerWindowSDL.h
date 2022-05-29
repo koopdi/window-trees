@@ -3,6 +3,9 @@
 struct ServerWindowSDL
 {
 	long windowID;
-	int height;
+	int depth;
 	Area area;
+
+	bool operator==(ServerWindowSDL& win2);
+	bool operator<(ServerWindowSDL& win2);
 };

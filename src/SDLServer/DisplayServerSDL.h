@@ -6,6 +6,9 @@
 
 class DisplayServerSDL : public ServerInterface{
 private:
+	static int numScreensToConstruct;
+	static Area defaultWindowArea;
+
 	unsigned int width;
 	unsigned int height;
 	std::vector<ServerScreenSDL> screens;
@@ -20,9 +23,7 @@ public:
 	virtual Area getScreenSize(long screenID) override;
 
 	virtual void setInitCallback(InitHandlerFn fn) override;
-
 	virtual void setEventCallback(EventHandlerFn fn) override;
-
 	virtual void run() override;
 
 
