@@ -18,6 +18,11 @@ bool Workspace::operator<(Workspace& other)
 	return workspaceID < other.workspaceID;
 }
 
+bool operator<(std::shared_ptr<Workspace>& a, std::shared_ptr<Workspace>& b)
+{
+	return (*a) < (*b);
+}
+
 /**
  * @brief
  *
