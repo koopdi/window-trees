@@ -12,11 +12,18 @@ int main(){
 	#endif
 
 	ServerInterface* server = new XServer();
-	WindowManager windowManager(server);
+	WindowManager winMan(server);
 
 	#ifdef _DEBUG_PRINT_
 	std::cout << "run" << std::endl;
 	#endif
+
+	// EventHandlerFn evCallback = [&](XEvent& ev)
+	// {
+	// 	winMan.update(ev);
+	// };
+
+	server->setEventCallback([&](XEvent ev){winMan.update()});
 
 	server->run();
 
