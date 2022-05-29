@@ -1,8 +1,8 @@
 #include "xtypes.h"
 #ifdef HAS_XLIB
-#include "types.h"
 #include "Logger.h"
 #include "ServerInterface.h"
+#include "types.h"
 #include <iostream>
 #include <set>
 #include <unordered_map>
@@ -21,13 +21,13 @@
 #include <X11/Xlib.h>
 #include <X11/extensions/randr.h>
 
-
 /**
  * @brief An implementation of the server interface.
  *
  */
 
-class XServer : public ServerInterface {
+class XServer : public ServerInterface
+{
 private:
 	Display* display;
 	Logger log;
@@ -56,7 +56,6 @@ public:
 	virtual void setEventCallback(EventHandlerFn fn) override;
 
 	virtual void run() override;
-
 
 	XServer();
 	XServer(InitHandlerFn initFn, EventHandlerFn eventFn);
