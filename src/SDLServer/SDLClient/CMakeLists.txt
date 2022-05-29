@@ -8,7 +8,10 @@ find_package(SDL2 REQUIRED)
 include_directories(sdlClient ${SDL2_INCLUDE_DIRS})
 
 add_executable(sdlClient SDLClient.cpp)
-target_link_libraries(sdlClient ${SDL2_LIBRARIES})
+target_link_libraries(sdlClient
+	SDLServer
+	${SDL2_LIBRARIES}
+)
 
 # use C++11 language standard
 set(CMAKE_CXX_STANDARD 17)
