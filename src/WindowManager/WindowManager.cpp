@@ -25,7 +25,8 @@ WindowManager::WindowManager(ServerInterface* server)
 	}
 
 	// add a workspace
-	workspaces.insert(make_shared<Workspace>);
+	shared_ptr<Workspace> spw = make_shared<Workspace>();
+	workspaces.insert(spw);
 }
 
 /**
