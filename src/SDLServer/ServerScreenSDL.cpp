@@ -40,7 +40,7 @@ ServerScreenSDL::ServerScreenSDL(std::string name, Area area) : running(true) {
 
 ServerScreenSDL::~ServerScreenSDL() {
 	for (int i = 0; i < windows.size(); i++) {
-		/* code */
+		/* send close events for all windows */
 	}
 
 	SDL_DestroyRenderer(ren);

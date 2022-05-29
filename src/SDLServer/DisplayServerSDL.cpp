@@ -4,7 +4,10 @@ int DisplayServerSDL::numScreensToConstruct = 1;
 
 Area DisplayServerSDL::defaultWindowArea = {0, 0, 800, 600 };
 void DisplayServerSDL::run() {
+	//call init fn
 
+	//event loop?
+	while(true);
 }
 
 
