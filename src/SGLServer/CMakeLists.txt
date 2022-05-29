@@ -3,6 +3,8 @@
 cmake_minimum_required(VERSION 3.2.0)
 project (SGL_Server_Backend VERSION 05.21.2022 LANGUAGES CXX)
 
+add_subdirectory(SGLClient)
+
 # use C++17 language standard
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)

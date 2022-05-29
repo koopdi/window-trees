@@ -73,7 +73,7 @@ ${SGL_Client_Library_Headers}
 
 target_include_directories(SGL_Client
 	PUBLIC
-	"../SGL_Server_Backend/lib/"
+	"../SGLServer/lib/"
 )
 
 target_link_libraries(SGL_Client
