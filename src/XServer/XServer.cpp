@@ -1,9 +1,4 @@
 #include "XServer.h"
-////****************************************************************************
-#ifndef HAS_XLIB
-// do nothing
-#else
-////****************************************************************************
 
 /* Configure window value mask bits -
  * https://tronche.com/gui/x/xlib/window/configure.html*/
@@ -197,7 +192,3 @@ XServer::~XServer()
 	log.warn(
 	    "The current destructor in Xserver.cpp does not free any memory itself"); // review this fact
 }
-
-////****************************************************************************
-#endif
-////****************************************************************************
