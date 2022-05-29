@@ -2,7 +2,6 @@ cmake_minimum_required(VERSION 3.2.0)
 project (sdlClient VERSION 05.23.2022 LANGUAGES CXX)
 
 add_subdirectory("SDLClient")
-add_subdirectory("lib")
 
 # source / header files specific to this project
 FILE(GLOB SDL_Headers

@@ -7,7 +7,7 @@ project(sdlClient VERSION 0.0.1)
 find_package(SDL2 REQUIRED)
 include_directories(sdlClient ${SDL2_INCLUDE_DIRS})
 
-add_executable(sdlClient Main.cpp)
+add_executable(sdlClient SDLClient.cpp)
 target_link_libraries(sdlClient ${SDL2_LIBRARIES})
 
 # use C++11 language standard
