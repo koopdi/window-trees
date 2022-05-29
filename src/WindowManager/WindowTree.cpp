@@ -11,6 +11,10 @@
 
 #include "WindowTree.h"
 
+#include <string>
+
+using namespace std;
+
 /**
  * @brief Construct a new Window Tree:: Window Tree object
  *
@@ -42,7 +46,41 @@ int WindowTree::getNumWindows() const {
  * @return WindowNode*
  */
 WindowNode* WindowTree::get(int windowID) {
-	return 0;
+	WindowNode* found = nullptr;
+
+	std::function<bool(WindowNode*)> func = [&found, windowID](WindowNode* node) -> bool {
+		if (node->isWindow() && node->window->windowID == windowID) {  // check
+			return node;  // stop looking
+		}
+		return true;  //  keep looking
+	};
+
+	preOrderTraverse(root, func);
+	return found;
+}
+
+WindowNode*& WindowTree::getref(int index) {
+	index = index - 1; // convert to zero based index
+	WindowNode** target = nullptr;
+	int num = 0;
+
+	if (index != 0) {
+
+	}
+
+	std::function<bool(WindowNode*)> func = [&target, index, &num](WindowNode* node) -> bool {
+		if (num == index) {  // check
+			target = &node;
+			return false;  // stop looking
+		}
+		num++;
+		return true;  //  keep looking
+	};
+
+	preOrderTraverse(root, func);
+
+	WindowNode*& mutableWindowNode = *target;
+	return mutableWindowNode;
 }
 
 /**
@@ -52,7 +90,7 @@ WindowNode* WindowTree::get(int windowID) {
  * @return false
  */
 bool WindowTree::isEmpty() const{
-	return 0;
+	return root == nullptr;
 }
 
 /**
@@ -83,37 +121,64 @@ bool WindowTree::contains(int windowID) const {
 }
 
 /**
- * @brief
+ * @brief add a window to the window tree!
  *
  * @param partVertically
- * @param windowID
  * @param part1Size
- * @return true
- * @return false
- */
-bool WindowTree::add(bool partVertically, int windowID, double part1Size) {
-	add(root, partVertically, windowID, part1Size);
-}
-
-/**
- * @brief private helper function for adding window nodes
- *
- * @param node
- * @param partVertically
  * @param windowID
- * @param part1Size
  */
-void WindowTree::add(WindowNode*& node, bool partVertically, int windowID, double part1Size) {
-	//TODO: will WindowIDs be generated in the WindowTree or passed in?
-    if(node == nullptr) {
-        node = new WindowNode(partVertically, part1Size);
+bool WindowTree::add(bool partVertically, double part1Size, int windowID) {
+    if(root == nullptr) {
+        root = new WindowNode(partVertically, part1Size, windowID, workspaceID);
 		size++;
-    } /* else if (val > node->data) {
-        add(node->right, val);
-    } else if (val < node->data) {
-        add(node->left, val);
-    }
+	} else {
+		// get a reference to a pointer to the next node to build off of
+		WindowNode*& node = getref(numWindows);
+
+		// add a new parent node and a leaf node, move the old leaf to be a child of the new parent
+		WindowNode* temp = node;
+		node = new WindowNode();
+		node->part1 = temp;
+		node->part2 = new WindowNode(partVertically, part1Size, windowID, workspaceID);
+	}
+	numWindows++;
+
+	bool success = contains(windowID);
+	if (!success) throw string("ERROR: fail to add WindowNode to WindowTree");
+	return success;
+
+		/*
+    } else if (size = 1) {
+		WindowNode* temp = root;
+		root = new WindowNode();
+		size++;
+		if (partVertically) {
+			root->part1 = temp;
+			root->part2 = new WindowNode(partVertically, part1Size, windowID, workspaceID);
+		} else {
+			root->part2 = temp;
+			root->part1 = new WindowNode(partVertically, part1Size, windowID, workspaceID);
+		}
+		size++;
+		numWindows++;
+	} else {
+		// get a reference to a nullpointer in the correct spot to add the new node
+		WindowNode*& node = getref(size);
+
+		// add the new node
+		node = new WindowNode(partVertically, part1Size, windowID, workspaceID);
+	}
 	*/
+
+			/*
+				// find level to add node
+		int level = 0;
+		while (size > ((level + 1) * 2 + 1)) {
+			level++;
+		}
+		// find exact position to add node
+		int remainder = size - ((level + 1) * 2 + 1);
+		*/
 }
 
 /**
@@ -168,10 +233,21 @@ void WindowTree::inOrderTraverse(WindowNode* node, std::function<bool(WindowNode
  * @param node
  * @param func
  */
-void WindowTree::postOrderTraverse(WindowNode* node, std::function<bool(WindowNode*)> func) const{
+void WindowTree::postOrderTraverse(WindowNode* node, std::function<void(WindowNode*)> func) const{
     if (node == nullptr) return;
 
     postOrderTraverse(node->part1, func);
     postOrderTraverse(node->part2, func);
 	func(node);
+}
+
+WindowTree::~WindowTree(){
+	clear();
+}
+
+void WindowTree::clear(){
+	std::function<void(WindowNode*)> func = [](WindowNode* node) {
+		delete node;
+	};
+	postOrderTraverse(root, func);
 }

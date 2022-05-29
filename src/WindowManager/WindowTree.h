@@ -36,16 +36,18 @@ public:
 	 */
 	WindowNode* get(int windowID);
 
+
 	/**
 	 * @brief
 	 *
 	 * @param partVertically
-	 * @param windowID
 	 * @param part1Size
+	 * @param WindowID
+	 * @param WorkspaceID
 	 * @return true
 	 * @return false
 	 */
-    bool add(bool partVertically, int windowID, double part1Size);
+    bool add(bool partVertically, double part1Size, int windowID);
 
 	/**
 	 * @brief
@@ -87,17 +89,26 @@ public:
 	 */
     int getNumWindows() const;
 
+	void clear();
+
+	~WindowTree();
+
 private:
 	// private attributes ------------------------------------
 
 	// the number of windows
 	int numWindows;
 
+	int workspaceID;
+
 	// the size of the tree
     int size;
 
 	// a pointer to the root node of the tree
     WindowNode* root;
+
+	// a pointer to the most recently added node
+	WindowNode* last;
 
 	// private methods ----------------------------------------
 
@@ -123,15 +134,14 @@ private:
 	 * @param node
 	 * @param func
 	 */
-    void postOrderTraverse(WindowNode* node, std::function<bool(WindowNode*)> func) const;
+    void postOrderTraverse(WindowNode* node, std::function<void(WindowNode*)> func) const;
 
 	/**
 	 * @brief
 	 *
-	 * @param node
-	 * @param partVertically
 	 * @param windowID
-	 * @param part1Size
+	 * @return WindowNode*
 	 */
-	void add(WindowNode*& node, bool partVertically, int windowID, double part1Size);
+	WindowNode*& getref(int index);
+
 };
