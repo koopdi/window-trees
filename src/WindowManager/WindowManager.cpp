@@ -24,3 +24,13 @@ WindowManager::WindowManager(ServerInterface* server)
 		      "Provided server is null.";
 	}
 }
+
+/**
+ * @brief This function is called whenever the server sends
+ *  an event.
+ * @param ev An event union.
+ */
+void WindowManager::update(XEvent& ev)
+{
+
+}
