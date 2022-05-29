@@ -33,6 +33,7 @@ target_link_libraries(SDLServer
 	Protocol
 	WindowManager
 	"-lSDL"
+	"-lpthread"
 )
 
 # Configure flags for the C++ compiler
