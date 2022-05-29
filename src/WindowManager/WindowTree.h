@@ -11,6 +11,7 @@
 #pragma once
 
 #include <functional>
+#include <queue>
 
 #include "WindowNode.h"
 
@@ -75,6 +76,8 @@ public:
 	 */
     bool contains(int windowID) const;
 
+	bool contains(WindowNode* node) const;
+
 	/**
 	 * @brief Get the Size object
 	 *
@@ -123,6 +126,14 @@ private:
 	/**
 	 * @brief
 	 *
+	 * @param windowID
+	 * @return WindowNode*&
+	 */
+	WindowNode*& getRef(int windowID);
+
+	/**
+	 * @brief
+	 *
 	 * @param node
 	 * @param func
 	 */
@@ -142,6 +153,17 @@ private:
 	 * @param windowID
 	 * @return WindowNode*
 	 */
-	WindowNode*& getref(int index);
+	WindowNode*& getByIndex(int index);
 
+	bool remove(WindowNode*& node);
+
+	void breadthFirstSearch(WindowNode* node, std::function<bool(WindowNode*)> func);
+
+	int height(WindowNode* node);
+
+	void QueueTree(WindowNode* root, std::queue<WindowNode*>& levelOrder);
+
+	void queueLevel(WindowNode* node, int level, std::queue<WindowNode*>& levelOrder);
+
+	int getIndex(WindowNode* target);
 };

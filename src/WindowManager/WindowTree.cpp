@@ -12,6 +12,7 @@
 #include "WindowTree.h"
 
 #include <string>
+#include <queue>
 
 using namespace std;
 
@@ -50,7 +51,8 @@ WindowNode* WindowTree::get(int windowID) {
 
 	std::function<bool(WindowNode*)> func = [&found, windowID](WindowNode* node) -> bool {
 		if (node->isWindow() && node->window->windowID == windowID) {  // check
-			return node;  // stop looking
+			found = node;
+			return false;  // stop looking
 		}
 		return true;  //  keep looking
 	};
@@ -59,7 +61,24 @@ WindowNode* WindowTree::get(int windowID) {
 	return found;
 }
 
-WindowNode*& WindowTree::getref(int index) {
+WindowNode*& WindowTree::getRef(int windowID) {
+	WindowNode** target = nullptr;
+
+	std::function<bool(WindowNode*)> func = [&target, windowID](WindowNode* node) -> bool {
+		if (node->isWindow() && node->window->windowID == windowID) {  // check
+			target = &node;
+			return false;  // stop looking
+		}
+		return true;  //  keep looking
+	};
+
+	preOrderTraverse(root, func);
+
+	WindowNode*& mutableWindowNode = *target;
+	return mutableWindowNode;
+}
+
+WindowNode*& WindowTree::getByIndex(int index) {
 	index = index - 1; // convert to zero based index
 	WindowNode** target = nullptr;
 	int num = 0;
@@ -77,7 +96,7 @@ WindowNode*& WindowTree::getref(int index) {
 		return true;  //  keep looking
 	};
 
-	preOrderTraverse(root, func);
+	breadthFirstSearch(root, func);
 
 	WindowNode*& mutableWindowNode = *target;
 	return mutableWindowNode;
@@ -120,6 +139,22 @@ bool WindowTree::contains(int windowID) const {
 	return contains;  // return success/failure
 }
 
+bool WindowTree::contains(WindowNode* target) const {
+	bool contains = false;
+
+	std::function<bool(WindowNode*)> func = [&contains, target](WindowNode* node) -> bool {
+		if (node == target) {
+			contains = true;
+			return false;
+		}
+		return true;
+	};
+
+	WindowNode* node = root;
+	preOrderTraverse(node, func);
+	return contains;
+}
+
 /**
  * @brief add a window to the window tree!
  *
@@ -128,22 +163,25 @@ bool WindowTree::contains(int windowID) const {
  * @param windowID
  */
 bool WindowTree::add(bool partVertically, double part1Size, int windowID) {
+	bool success = false;
     if(root == nullptr) {
         root = new WindowNode(partVertically, part1Size, windowID, workspaceID);
-		size++;
+		success = contains(windowID);
+		if (success) size++;
 	} else {
 		// get a reference to a pointer to the next node to build off of
-		WindowNode*& node = getref(numWindows);
+		WindowNode*& node = getByIndex(numWindows);
 
 		// add a new parent node and a leaf node, move the old leaf to be a child of the new parent
 		WindowNode* temp = node;
 		node = new WindowNode();
 		node->part1 = temp;
 		node->part2 = new WindowNode(partVertically, part1Size, windowID, workspaceID);
+		success = contains(windowID);
+		if (success) size += 2;
 	}
-	numWindows++;
+	if (success) numWindows++;
 
-	bool success = contains(windowID);
 	if (!success) throw string("ERROR: fail to add WindowNode to WindowTree");
 	return success;
 
@@ -163,7 +201,7 @@ bool WindowTree::add(bool partVertically, double part1Size, int windowID) {
 		numWindows++;
 	} else {
 		// get a reference to a nullpointer in the correct spot to add the new node
-		WindowNode*& node = getref(size);
+		WindowNode*& node = getByIndex(size);
 
 		// add the new node
 		node = new WindowNode(partVertically, part1Size, windowID, workspaceID);
@@ -181,6 +219,49 @@ bool WindowTree::add(bool partVertically, double part1Size, int windowID) {
 		*/
 }
 
+
+
+/**
+ * @brief reorder tree after removal
+ *
+ * @param node
+ * @return true
+ * @return false
+ */
+bool WindowTree::remove(WindowNode*& node){
+	bool success = false;
+	if (node == nullptr) return true;
+
+	//TODO reorder
+	int index = getIndex(node);
+	WindowNode*& next = getByIndex(index+1);
+	if (next == nullptr) return true;
+
+	node = next;
+	remove(next);
+	success &= remove(node);
+
+	if (!success) throw string("ERROR: fail to reorder WindowTree after removal");
+	return success;
+}
+
+int WindowTree::getIndex(WindowNode* target) {
+	WindowNode* found = nullptr;
+	int index = 0;
+
+	std::function<bool(WindowNode*)> func = [&found, target, &index](WindowNode* node) -> bool {
+		if (node == target) return false;
+		index++;
+		return true;
+	};
+
+	breadthFirstSearch(target, func);
+
+	bool success = contains(target);
+	if (!success) throw string("ERROR: getIndex failed to find target WindowNode");
+	return index;
+}
+
 /**
  * @brief
  *
@@ -189,9 +270,18 @@ bool WindowTree::add(bool partVertically, double part1Size, int windowID) {
  * @return false
  */
 bool WindowTree::remove(int windowID) {
-    size--;
+	bool success = false;
+
     // TODO: remove node
-	return 0;
+	WindowNode*& target = getRef(windowID);
+	WindowNode* temp = target;
+
+	success &= remove(target);
+
+	success = contains(windowID);
+	if (success) size--;
+	if (!success) throw string("ERROR: fail to remove WindowNode from WindowTree");
+	return success;
 }
 
 /**
@@ -250,4 +340,45 @@ void WindowTree::clear(){
 		delete node;
 	};
 	postOrderTraverse(root, func);
+}
+
+void WindowTree::breadthFirstSearch(WindowNode* node, std::function<bool(WindowNode*)> func) {
+	queue<WindowNode*> levelOrder;
+	QueueTree(root, levelOrder);
+
+	while (!levelOrder.empty()) {
+		WindowNode* node = levelOrder.front();
+		func(node);
+		levelOrder.pop();
+	}
+}
+
+int WindowTree::height(WindowNode* node) {
+    if (node == nullptr) return 0;
+
+	int left = height(node->part1);
+	int right = height(node->part2);
+
+	if (left > right) {
+		return (left + 1);
+	} else {
+		return (right + 1);
+    }
+}
+
+void WindowTree::QueueTree(WindowNode* root, queue<WindowNode*>& levelOrder) {
+    int treeHeight = height(root);
+    for (int i = 1; i <= treeHeight; i++) {
+		queueLevel(root, i, levelOrder);
+    }
+}
+
+void WindowTree::queueLevel(WindowNode* node, int level, queue<WindowNode*>& levelOrder) {
+    if (node == nullptr) return;
+    if (level == 1)
+        levelOrder.push(node);
+    else if (level > 1 ) {
+		queueLevel(node->part1, level - 1, levelOrder);
+		queueLevel(node->part2, level - 1, levelOrder);
+    }
 }
