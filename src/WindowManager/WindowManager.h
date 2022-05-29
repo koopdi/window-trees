@@ -1,12 +1,9 @@
-/**
+/***********************************************************
+ * Class Window Manager
+ * *********************************************************
  * @file WindowManager.h
- * @author Andrew Hanson, Christen Spadevechia, Travis McKinney (you@domain.com)
- * @brief
- * @version 0.1
- * @date 2022-05-23
- *
- * @copyright Copyright (c) 2022
- *
+ * @author Andrew Hanson, Christen Spadevechia, Travis McKinney
+ * @brief A collection of work spaces.
  */
 
 #pragma once
