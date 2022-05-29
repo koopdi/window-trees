@@ -6,12 +6,14 @@ int ServerScreenSDL::eventLoop() {
 
 int ServerScreenSDL::newWinID = 0;
 ServerScreenSDL::ServerScreenSDL(std::string name, Area area) : running(true) {
-	win = SDL_CreateWindow(name.c_str(), area.x, area.y, area.width, area.height, 0);
-	ren = SDL_CreateRenderer(win, -1, 0);
-	tex = SDL_CreateTexture(ren, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_STATIC,
-		area.width, area.height);
+	auto enterEventLoop = [this, name, area]() {
+		SDL_Init(SDL_INIT_VIDEO);
 
-	auto eventLoop = [this]() {
+		win = SDL_CreateWindow(name.c_str(), area.x, area.y, area.width, area.height, 0);
+		ren = SDL_CreateRenderer(win, -1, 0);
+		tex = SDL_CreateTexture(ren, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_STATIC,
+			area.width, area.height);
+
 		SDL_RenderCopy(ren, tex, NULL, NULL);
 		SDL_RenderPresent(ren);
 
@@ -34,7 +36,7 @@ ServerScreenSDL::ServerScreenSDL(std::string name, Area area) : running(true) {
 		return 1;
 	};
 
-	screenThread = new std::thread(eventLoop);
+	screenThread = new std::thread(enterEventLoop);
 
 }
 

@@ -13,7 +13,6 @@ void DisplayServerSDL::run() {
 
 DisplayServerSDL::DisplayServerSDL() {
 	atexit(SDL_Quit);
-	SDL_Init(SDL_INIT_VIDEO);
 
 	SDL_DisplayMode displayMode;
 	SDL_GetCurrentDisplayMode(0, &displayMode);
