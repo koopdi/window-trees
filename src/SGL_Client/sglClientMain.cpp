@@ -29,6 +29,8 @@ int main()
 	win.setWindowTitle("WindowTrees");
 	win.setKeyListener([window](GEvent ev) { keyEv(ev, *window); });
 
+
+
 	// this doesn't close the window
 	// delete window; // don't delete the window
 	return 0;
