@@ -1,9 +1,5 @@
 #include "ServerScreenSDL.h"
 
-int ServerScreenSDL::eventLoop() {
-
-}
-
 int ServerScreenSDL::newWinID = 0;
 ServerScreenSDL::ServerScreenSDL(std::string name, Area area) : running(true) {
 	auto enterEventLoop = [this, name, area]() {
@@ -20,9 +16,6 @@ ServerScreenSDL::ServerScreenSDL(std::string name, Area area) : running(true) {
 		SDL_Event e;
 		while (running) {
 			while (SDL_WaitEvent(&e)) {
-				SDL_RenderCopy(ren, tex, NULL, NULL);
-				SDL_RenderPresent(ren);
-
 				switch (e.type) {
 				case SDL_QUIT:
 					return 0;
@@ -31,6 +24,9 @@ ServerScreenSDL::ServerScreenSDL(std::string name, Area area) : running(true) {
 					if (e.key.keysym.sym == SDLK_ESCAPE) return (0);
 
 				}
+
+				SDL_RenderCopy(ren, tex, NULL, NULL);
+				SDL_RenderPresent(ren);
 			}
 		}
 		return 1;

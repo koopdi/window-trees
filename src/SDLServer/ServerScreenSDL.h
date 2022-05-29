@@ -15,8 +15,6 @@ private:
 	SDL_Window* win;
 	SDL_Texture* tex;
 
-	int eventLoop();
-
 public:
 	ServerScreenSDL(std::string name, Area area);
 	~ServerScreenSDL();
