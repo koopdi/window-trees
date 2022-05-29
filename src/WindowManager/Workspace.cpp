@@ -13,6 +13,11 @@
 
 Workspace::Workspace() : workspaceID((long long)(this)) {}
 
+bool Workspace::operator<(Workspace& other)
+{
+	return workspaceID < other.workspaceID;
+}
+
 /**
  * @brief
  *
