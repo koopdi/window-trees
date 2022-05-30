@@ -1,17 +1,17 @@
 #pragma once
 
-#include "gwindow.h"
+// #include "xtypes.h"
 #include "gbutton.h"
-
+#include "gwindow.h"
 #include "SGLServerScreen.h"
 #include "ServerInterface.h"
 
 #include "types.h"
-#include "xtypes.h"
 
 /**
- * @brief
- *
+ * @brief The SGL Server acts as a system layer that forwards
+ * mouse and keeb inputs to the WindowManager.
+ * Buttons are provided to simulate window creation, etc.
  */
 class SGLServer : public ServerInterface
 {
@@ -57,5 +57,4 @@ private:
 
 	// Add buttons to the GWindow for sending events.
 	void addButtons();
-
 };
