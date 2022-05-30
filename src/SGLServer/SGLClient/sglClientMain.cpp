@@ -45,7 +45,6 @@ int main()
 
 	addButtons(win);
 
-
 	// Don't delete the window, that memory is managed elsewhere.
 	// delete window;
 	return 0;
@@ -53,11 +52,15 @@ int main()
 
 void addButtons(GWindow &win)
 {
-	win.addToolbar("toolbar"s);
-	win.addToolbarItem("Distance"s);
+	win.addToolbar("toolbar");
+	win.addToolbarItem("Add");
+	win.addToolbarItem("Remove");
+	win.addToolbarSeparator();
+	win.addToolbarItem("Distance");
 	win.addToolbarItem("Speed");
 	win.addToolbarItem("Acceleration");
 	win.addToolbarItem("Jerk");
-	// win.repaint();
-	// GButton* distance = new GButton();
+	win.addToolbarItem("Snap");
+	win.addToolbarItem("Crackle");
+	win.addToolbarItem("Pop");
 }
