@@ -9,8 +9,13 @@
  */
 
 #include <iostream>
+
 #include "gwindow.h"
 #include "gbutton.h"
+
+#include "SGLServer.h"
+
+#include "WindowManager.h"
 
 using namespace std;
 using namespace sgl;
@@ -44,6 +49,13 @@ int main()
 	win.setKeyListener([window](GEvent ev) { keyEv(ev, *window); });
 
 	addButtons(win);
+
+	// Create a SGL Server for the Window Manager to interface with.
+	// This is broken, undefined reference to vtable for SGLServer.
+	// It could be a build configuration thing but I think it's todo
+	// with the implementation of ServerInterface in SGLServer.
+	// SGLServer* server = new SGLServer();
+
 
 	// Don't delete the window, that memory is managed elsewhere.
 	// delete window;
