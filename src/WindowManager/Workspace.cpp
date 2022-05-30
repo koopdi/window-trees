@@ -5,7 +5,19 @@
 
 #include "Workspace.h"
 
-Workspace::Workspace() : workspaceID((long long)(this)) {}
+#include <iostream>
+#include <string>
+
+Workspace::Workspace() : workspaceID((long long)(this))
+{
+	using namespace std;
+	tree = new WindowTree(this);
+	if (tree == nullptr)
+	{
+		cout << "tree is null" << endl;
+		throw "Workspace: cannot add to null tree"s;
+	}
+}
 
 bool Workspace::operator<(Workspace& other)
 {
@@ -33,6 +45,13 @@ void Workspace::setPosition(Point position) { this->position = position; }
 
 bool Workspace::addWindow(bool partVertically, int windowID, double part1Size)
 {
+	using namespace std;
+	cout << "In method workspace::addWindow." << endl;
+	if (tree == nullptr)
+	{
+		cout << "tree is null" << endl;
+		throw "Workspace: cannot add to null tree"s;
+	}
 	bool success = tree->add(partVertically, part1Size, windowID);
 	// if (success) {
 	//		TODO: add to map<windowID:set<workspaceID>>
