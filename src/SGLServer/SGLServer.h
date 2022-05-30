@@ -37,5 +37,6 @@ public:
 	int getPosition(int screen, int windowID) const;
 
 private:
+	InitHandlerFn inFun;
 	EventHandlerFn evFun;
 };
