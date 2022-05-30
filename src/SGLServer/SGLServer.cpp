@@ -1,6 +1,6 @@
 #include "SGLServer.h"
 
-// SGLServer::SGLServer() {};
+SGLServer::SGLServer() {}
 
 // void SGLServer::setArea(long windowID, Area area) {};
 // Area SGLServer::getArea(long windowID) {
