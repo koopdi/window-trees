@@ -1,131 +1,70 @@
 /**
  * @file Workspace.h
  * @author Andrew Hanson, Christen Spadevechia, Travis McKinney (you@domain.com)
- * @brief
- * @version 0.1
- * @date 2022-05-23
- *
- * @copyright Copyright (c) 2022
- *
  */
 
 #pragma once
 
 #include "WindowNode.h"
-#include "types.h"
 #include "WindowTree.h"
+#include "types.h"
 
 #include <memory>
 
 class WindowTree;
 
-/**
- * @brief
- *
- */
-class Workspace {
+class Workspace
+{
 public:
 	// public methods ----------------------------------------
 
 	/**
 	 * @brief Construct a new Workspace object
-	 *
 	 */
-    Workspace();
+	Workspace();
 
-	// operator to allow using sorted containers
+	/// operator to allow using sorted containers
 	bool operator<(Workspace& other);
 
+	int getHeight() const;
 
-	/**
-	 * @brief Get the Height object
-	 *
-	 * @return int
-	 */
-    int getHeight() const;
+	int getWidth() const;
 
-	/**
-	 * @brief Get the Width object
-	 *
-	 * @return int
-	 */
-    int getWidth() const;
+	Point getPosition() const;
 
-	/**
-	 * @brief Get the Position object
-	 *
-	 * @return Point
-	 */
-    Point getPosition() const;
-
-	/**
-	 * @brief Get the Num Windows object
-	 *
-	 * @return int
-	 */
-    int getNumWindows() const;
+	int getNumWindows() const;
 
 private:
 	// private attributes ------------------------------------
 
 	// a pointer to the window tree
-    WindowTree* tree;
+	WindowTree* tree;
 
 	// the height of the workspace
-    int height;
+	int height;
 
 	// the width of the workspace
-    int width;
+	int width;
 
 	int workspaceID;
 
 	// the number of windows in the workspace
-    int numWindows;
+	int numWindows;
 
 	// a point representing the position of the top left corner of the workspace
-    Point position;
+	Point position;
 
-	// private methods ----------------------------------------
+	// private methods ---------------------------------------
 
-	/**
-	 * @brief Set the Height object
-	 *
-	 * @param height
-	 */
-    void setHeight(int height);
+	void setHeight(int height);
 
-	/**
-	 * @brief Set the Width object
-	 *
-	 * @param width
-	 */
-    void setWidth(int width);
+	void setWidth(int width);
 
-	/**
-	 * @brief Set the Position object
-	 *
-	 * @param position
-	 */
-    void setPosition(Point position);
-	/**
-	 * @brief
-	 *
-	 * @param partVertically
-	 * @param windowID
-	 * @param part1Size
-	 * @return true
-	 * @return false
-	 */
-    bool addWindow(bool partVertically, int windowID, double part1Size);
+	void setPosition(Point position);
 
-	/**
-	 * @brief
-	 *
-	 * @param windowID
-	 * @return true
-	 * @return false
-	 */
-    bool removeWindow(int windowID);
+	bool addWindow(bool partVertically, int windowID, double part1Size);
+
+	bool removeWindow(int windowID);
 };
 
 bool operator<(std::shared_ptr<Workspace>& a, std::shared_ptr<Workspace>& b);
