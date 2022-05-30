@@ -2,7 +2,7 @@
 
 SGLServer::SGLServer() {}
 
-void SGLServer::setArea(long windowID, Area area){}
+void SGLServer::setArea(long windowID, Area area) {}
 
 Area SGLServer::getArea(long windowID)
 {
@@ -27,9 +27,6 @@ std::vector<long> SGLServer::getWindows(long screenID)
 	return foo;
 }
 
-void SGLServer::setInitCallback(InitHandlerFn fn)
-{
-
-}
-void SGLServer::setEventCallback(EventHandlerFn fn){}
-void SGLServer::run(){}
+void SGLServer::setInitCallback(InitHandlerFn fn) {}
+void SGLServer::setEventCallback(EventHandlerFn fn) { evFun = fn; }
+void SGLServer::run() {}
