@@ -73,7 +73,6 @@ void SGLServer::keyEv(sgl::GEvent ev)
 
 void SGLServer::menuEv(sgl::GEvent ev)
 {
-	// GWindow& win = *window;
 	if (ev.getClass() == sgl::EventClass::ACTION_EVENT)
 	{
 		string action = ev.getActionCommand();

@@ -19,6 +19,7 @@
  * ev->type = ev::EventType::ADD;
  * ev->add.atributeA = 13;
  *
+ *
  * Further thoughts:
  * Does it make sense for events to be passed as pointers?
  * Who is responsible for that memory?

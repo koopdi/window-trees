@@ -31,7 +31,7 @@ WindowManager::WindowManager(ServerInterface* server) : server(server)
 /**
  * @brief This function is called whenever the server sends
  *  an event.
- * @param ev An event union.
+ * @param ev A tagged event union.
  */
 void WindowManager::update(ev::Event& ev)
 {
