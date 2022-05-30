@@ -14,22 +14,33 @@
 
 #include "WindowManager.h"
 
-using namespace std;
-using namespace sgl;
+// using namespace std;
+// using namespace sgl;
+
+using std::cin;
+using std::cout;
+using std::endl;
+using std::string;
 
 int main()
 {
 	try
 	{ // Create an SGL Server for the Window Manager to interface with.
-		SGLServer* server = new SGLServer();
+		SGLServer* server     = new SGLServer();
 		// Create a Window Manager.
-		WindowManager winMan(server);
+		WindowManager* winMan = new WindowManager(server);
 
 		// Tell the server where to send events.
-		EventHandlerFn evFun = [&winMan](ev::Event* event)
-		{ winMan.update(*event); };
+		EventHandlerFn evFun  = [&winMan](ev::Event* event)
+		{ winMan->update(*event); };
 
 		server->setEventCallback(evFun);
+
+		string block;
+		while (cin >> block)
+		{ // loop forever until sgl quits
+			cout << block;
+		}
 	}
 	catch (string error)
 	{
