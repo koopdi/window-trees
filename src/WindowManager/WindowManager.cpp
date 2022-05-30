@@ -3,12 +3,11 @@
  * @author Andrew Hanson, Christen Spadevechia, Travis McKinney
  * @brief
  */
-#include<iostream>
+#include <iostream>
 #include <string>
 using namespace std;
 
 #include "WindowManager.h"
-
 
 // public methods ------------------------------------------
 
@@ -16,7 +15,7 @@ using namespace std;
  * @brief Construct a new Window Manager
  * @param server
  */
-WindowManager::WindowManager(ServerInterface* server)
+WindowManager::WindowManager(ServerInterface* server) : server(server)
 {
 	if (server == nullptr)
 	{
@@ -34,7 +33,7 @@ WindowManager::WindowManager(ServerInterface* server)
  *  an event.
  * @param ev An event union.
  */
-void WindowManager::update(XEvent& ev)
+void WindowManager::update(ev::Event& ev)
 {
 	cout << "Window Manager: event got" << endl;
 }
