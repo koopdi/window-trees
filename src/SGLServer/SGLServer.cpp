@@ -1,10 +1,12 @@
 #include "SGLServer.h"
 #include <string>
-using namespace sgl;
 using namespace std;
 
 SGLServer::SGLServer()
 {
+	using sgl::GWindow;
+	using sgl::GEvent;
+
 	// create a window
 	window       = new GWindow(WINDOW_WIDTH, WINDOW_HEIGHT);
 	// create a handy reference
@@ -56,13 +58,14 @@ void SGLServer::setEventCallback(EventHandlerFn fn) { evFun = fn; }
 void SGLServer::run()
 {
 	// forward events to window manager?
+	// event forwarding can happen asynchronously.
 }
 
-void SGLServer::keyEv(GEvent ev)
+void SGLServer::keyEv(sgl::GEvent ev)
 {
-	GWindow& win = *window;
+	sgl::GWindow& win = *window;
 
-	if (ev.getKeyCode() == GEvent::KeyCode::ESCAPE_KEY)
+	if (ev.getKeyCode() == sgl::GEvent::KeyCode::ESCAPE_KEY)
 	{
 		win.close();
 	}
@@ -71,14 +74,16 @@ void SGLServer::keyEv(GEvent ev)
 void SGLServer::menuEv(sgl::GEvent ev)
 {
 	// GWindow& win = *window;
-	if (ev.getClass() == EventClass::ACTION_EVENT)
+	if (ev.getClass() == sgl::EventClass::ACTION_EVENT)
 	{
 		string action = ev.getActionCommand();
 		cout << action << endl;
 
 		if(action == "add")
 		{
-
+			ev::Event* ev = new ev::Event;
+			ev->type = ev::EventType::ADD;
+			ev->add.atributeA = 13;
 		}
 	}
 }
@@ -89,7 +94,7 @@ void SGLServer::addButtons()
 	{
 		throw "cannot add buttons"s;
 	}
-	GWindow& win = *window;
+	sgl::GWindow& win = *window;
 
 	win.addToolbar("toolbar");
 	win.addToolbarItem("Add");
