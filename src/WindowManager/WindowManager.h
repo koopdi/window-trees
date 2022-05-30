@@ -33,13 +33,16 @@ public:
 	 * @brief do something with events?
 	 * @param ev
 	 */
-	void update(XEvent& ev);
+	void update(ev::Event& ev);
 
 private:
 	// private attributes ------------------------------------
 
 	/// A collection of workspace pointers.
 	std::set<std::shared_ptr<Workspace>> workspaces;
+
+	/// A pointer to the server.
+	ServerInterface* server;
 
 	// private methods ---------------------------------------
 };
