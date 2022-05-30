@@ -10,8 +10,8 @@
 
 #include <iostream>
 
-#include "gwindow.h"
 #include "gbutton.h"
+#include "gwindow.h"
 
 #include "SGLServer.h"
 
@@ -25,14 +25,14 @@ const int WINDOW_HEIGHT = 480;
 
 void keyEv(GEvent ev, GWindow& win)
 {
-	if(ev.getKeyCode()==GEvent::ESCAPE_KEY)
+	if (ev.getKeyCode() == GEvent::ESCAPE_KEY)
 	{
 		win.close();
 	}
 }
 
 // Add buttons to the window for sending events.
-void addButtons(GWindow &win);
+void addButtons(GWindow& win);
 
 int main()
 {
@@ -51,18 +51,14 @@ int main()
 	addButtons(win);
 
 	// Create a SGL Server for the Window Manager to interface with.
-	// This is broken, undefined reference to vtable for SGLServer.
-	// It could be a build configuration thing but I think it's todo
-	// with the implementation of ServerInterface in SGLServer.
-	// SGLServer* server = new SGLServer();
-
+	SGLServer* server = new SGLServer();
 
 	// Don't delete the window, that memory is managed elsewhere.
 	// delete window;
 	return 0;
 }
 
-void addButtons(GWindow &win)
+void addButtons(GWindow& win)
 {
 	win.addToolbar("toolbar");
 	win.addToolbarItem("Add");
