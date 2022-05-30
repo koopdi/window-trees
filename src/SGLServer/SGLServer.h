@@ -1,7 +1,11 @@
 #pragma once
 
+#include "gwindow.h"
+#include "gbutton.h"
+
 #include "SGLServerScreen.h"
 #include "ServerInterface.h"
+
 #include "types.h"
 #include "xtypes.h"
 
@@ -39,4 +43,17 @@ public:
 private:
 	InitHandlerFn inFun;
 	EventHandlerFn evFun;
+
+	sgl::GWindow* window;
+	const int WINDOW_WIDTH  = 640;
+	const int WINDOW_HEIGHT = 480;
+
+	// private methods ---------------------------------------
+
+	// A function to handle key events.
+	void keyEv(sgl::GEvent ev);
+
+	// Add buttons to the GWindow for sending events.
+	void addButtons();
+
 };

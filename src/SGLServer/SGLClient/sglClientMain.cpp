@@ -10,9 +10,6 @@
 
 #include <iostream>
 
-#include "gbutton.h"
-#include "gwindow.h"
-
 #include "SGLServer.h"
 
 #include "WindowManager.h"
@@ -20,37 +17,9 @@
 using namespace std;
 using namespace sgl;
 
-const int WINDOW_WIDTH  = 640;
-const int WINDOW_HEIGHT = 480;
-
-void keyEv(GEvent ev, GWindow& win)
-{
-	if (ev.getKeyCode() == GEvent::ESCAPE_KEY)
-	{
-		win.close();
-	}
-}
-
-// Add buttons to the window for sending events.
-void addButtons(GWindow& win);
 
 int main()
 {
-	// create a window
-	GWindow* window = new GWindow(WINDOW_WIDTH, WINDOW_HEIGHT);
-	// create a handy reference
-	GWindow& win    = *window;
-
-	// set window properties
-	win.setExitOnClose(true);
-	win.center();
-	win.drawImage("edmonds.png");
-	win.setWindowTitle("WindowTrees");
-	win.setKeyListener([window](GEvent ev) { keyEv(ev, *window); });
-
-	// Add some buttons.
-	addButtons(win);
-
 	// Create an SGL Server for the Window Manager to interface with.
 	SGLServer* server = new SGLServer();
 	// Create a Window Manager.
@@ -65,19 +34,4 @@ int main()
 	// Don't delete the GWindow, that memory is managed elsewhere.
 	// delete window;
 	return 0;
-}
-
-void addButtons(GWindow& win)
-{
-	win.addToolbar("toolbar");
-	win.addToolbarItem("Add");
-	win.addToolbarItem("Remove");
-	win.addToolbarSeparator();
-	win.addToolbarItem("Distance");
-	win.addToolbarItem("Speed");
-	win.addToolbarItem("Acceleration");
-	win.addToolbarItem("Jerk");
-	win.addToolbarItem("Snap");
-	win.addToolbarItem("Crackle");
-	win.addToolbarItem("Pop");
 }
