@@ -102,6 +102,7 @@ target_include_directories(SGL_Server_Backend
 target_link_libraries(SGL_Server_Backend
 	PUBLIC
 	Protocol
+	WindowManager
 	${sgl_LIBS}
 	Qt5::Widgets
 	Qt5::Multimedia
