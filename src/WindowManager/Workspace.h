@@ -23,6 +23,16 @@ public:
 	 */
 	Workspace();
 
+	void setHeight(int height);
+
+	void setWidth(int width);
+
+	void setPosition(Point position);
+
+	bool addWindow(bool partVertically, int windowID, double part1Size);
+
+	bool removeWindow(int windowID);
+
 	/// operator to allow using sorted containers
 	bool operator<(Workspace& other);
 
@@ -55,16 +65,6 @@ private:
 	Point position;
 
 	// private methods ---------------------------------------
-
-	void setHeight(int height);
-
-	void setWidth(int width);
-
-	void setPosition(Point position);
-
-	bool addWindow(bool partVertically, int windowID, double part1Size);
-
-	bool removeWindow(int windowID);
 };
 
 bool operator<(std::shared_ptr<Workspace>& a, std::shared_ptr<Workspace>& b);
