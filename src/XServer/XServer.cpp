@@ -17,13 +17,14 @@ void XServer::run()
 	                 SubstructureNotifyMask); // grab input from root window
 	                                          // //SINGLE HEAD ONLY
 
-	handlerFunc = [this](XEvent* event) mutable
-	{
-		if (event->type == ConfigureRequest)
-		{
-			setArea(event->xconfigurerequest.window, Area{0, 0, 400, 200});
-		}
-	};
+	// handlerFunc = [this](XEvent* event) mutable
+	// {
+	// 	cout << "xserver self event ding?" << endl;
+	// 	if (event->type == ConfigureRequest)
+	// 	{
+	// 		setArea(event->xconfigurerequest.window, Area{0, 0, 400, 200});
+	// 	}
+	// };
 
 	initFunc = [this](ServerInterface* server)
 	{
@@ -46,7 +47,7 @@ void XServer::eventLoop()
 		XEvent event;
 		cout << "getting next event" << endl;
 		XNextEvent(display, &event);
-		cout << "got next event";
+		cout << "got next event" << endl;
 		handlerFunc(&event);
 
 		// internal event handling
