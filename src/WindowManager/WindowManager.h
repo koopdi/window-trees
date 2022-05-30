@@ -23,20 +23,16 @@ class WindowManager
 {
 public:
 	// public methods ----------------------------------------
-	/**
-	 * @brief Construct a new Window Manager object
-	 * @param server
-	 */
+
 	WindowManager(ServerInterface* server);
 
-	/**
-	 * @brief do something with events?
-	 * @param ev
-	 */
 	void update(ev::Event& ev);
 
 private:
 	// private attributes ------------------------------------
+
+	/// A collection of window IDs.
+	std::set<int> winDex;
 
 	/// A collection of workspace pointers.
 	std::set<std::shared_ptr<Workspace>> workspaces;
