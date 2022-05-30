@@ -47,21 +47,21 @@ public:
 private:
 	// private attributes ------------------------------------
 
-	// a pointer to the window tree
+	/// a pointer to the window tree
 	WindowTree* tree;
 
-	// the height of the workspace
+	/// the height of the workspace
 	int height;
 
-	// the width of the workspace
+	/// the width of the workspace
 	int width;
 
 	int workspaceID;
 
-	// the number of windows in the workspace
+	/// the number of windows in the workspace
 	int numWindows;
 
-	// a point representing the position of the top left corner of the workspace
+	/// a point representing the position of the top left corner of the workspace
 	Point position;
 
 	// private methods ---------------------------------------
