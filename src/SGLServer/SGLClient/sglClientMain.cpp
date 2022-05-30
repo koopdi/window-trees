@@ -1,7 +1,17 @@
-#include <iostream>
-using namespace std;
+/***********************************************************
+ * This is the main entry point to test WindowTrees using SGL
+ * as a server backend and as a system layer that forwards
+ * mouse and keeb inputs to the event system of said server.
+ *
+ * @file sglClientMain.cpp
+ * @author Andrew Hanson, Christen Spadevechia, Travis McKinney
+ * @brief An interactive graphics environment to test Windowing.
+ */
 
+#include <iostream>
 #include "gwindow.h"
+
+using namespace std;
 using namespace sgl;
 
 const int WINDOW_WIDTH  = 640;
@@ -30,8 +40,7 @@ int main()
 	win.setKeyListener([window](GEvent ev) { keyEv(ev, *window); });
 
 
-
-	// this doesn't close the window
-	// delete window; // don't delete the window
+	// Don't delete the window, that memory is managed elsewhere.
+	// delete window;
 	return 0;
 }
