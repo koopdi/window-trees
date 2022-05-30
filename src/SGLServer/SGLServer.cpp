@@ -6,19 +6,22 @@ using namespace std;
 SGLServer::SGLServer()
 {
 	// create a window
-	window = new GWindow(WINDOW_WIDTH, WINDOW_HEIGHT);
+	window       = new GWindow(WINDOW_WIDTH, WINDOW_HEIGHT);
 	// create a handy reference
-	GWindow& win    = *window;
+	GWindow& win = *window;
 
 	// set window properties
 	win.setExitOnClose(true);
 	win.center();
 	win.drawImage("edmonds.png");
 	win.setWindowTitle("WindowTrees");
+
 	win.setKeyListener([this](GEvent ev) { keyEv(ev); });
 
 	// Add some buttons.
 	addButtons();
+
+	win.setMenuListener([this](GEvent ev) { menuEv(ev); });
 }
 
 void SGLServer::setArea(long windowID, Area area) {}
@@ -59,9 +62,24 @@ void SGLServer::keyEv(GEvent ev)
 {
 	GWindow& win = *window;
 
-	if (ev.getKeyCode() == GEvent::ESCAPE_KEY)
+	if (ev.getKeyCode() == GEvent::KeyCode::ESCAPE_KEY)
 	{
 		win.close();
+	}
+}
+
+void SGLServer::menuEv(sgl::GEvent ev)
+{
+	// GWindow& win = *window;
+	if (ev.getClass() == EventClass::ACTION_EVENT)
+	{
+		string action = ev.getActionCommand();
+		cout << action << endl;
+
+		if(action == "add")
+		{
+
+		}
 	}
 }
 

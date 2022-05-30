@@ -52,6 +52,8 @@ private:
 
 	// A function to handle key events.
 	void keyEv(sgl::GEvent ev);
+	// A function to handle menu events.
+	void menuEv(sgl::GEvent ev);
 
 	// Add buttons to the GWindow for sending events.
 	void addButtons();
