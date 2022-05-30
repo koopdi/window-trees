@@ -72,14 +72,21 @@ int main()
 	// adds a bottom row with two add buttons and a clear to the window
 	createButtons(window, manager);
 
-	// adds the top row of radiobuttons
+	// global pointers to the top row of radio buttons
 	GRadioButton* grbHighlight;
 	GRadioButton* grbRaise;
 	GRadioButton* grbLower;
 	GRadioButton* grbRemove;
 	GRadioButton* grbRemoveAll;
-	createRadioButtons(
-	    window, &grbRaise, &grbLower, &grbRemove, &grbRemoveAll, &grbHighlight);
+
+	// forward declaration
+	// adds the top row of radiobuttons
+	createRadioButtons(window,
+	                   &grbRaise,
+	                   &grbLower,
+	                   &grbRemove,
+	                   &grbRemoveAll,
+	                   &grbHighlight); //
 
 	// adds the mouse position to the bottom right
 	GLabel* glMousePos = createLabels(window);
