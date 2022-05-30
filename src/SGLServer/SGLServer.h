@@ -2,6 +2,7 @@
 
 #include "SGLServerScreen.h"
 #include "ServerInterface.h"
+#include "types.h"
 #include "xtypes.h"
 
 /**
