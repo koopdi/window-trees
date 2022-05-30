@@ -100,7 +100,9 @@ WindowNode*& WindowTree::getByIndex(int index) {
 
 	breadthFirstSearch(root, func);
 
+	if (target == nullptr) throw string("Target not found in getByIndex, can't derefernce nullptr, can't return");
 	WindowNode*& mutableWindowNode = *target;
+
 	return mutableWindowNode;
 }
 
@@ -232,8 +234,9 @@ bool WindowTree::add(bool partVertically, double part1Size, int windowID) {
  * @param node
  * @return true
  * @return false
- */
+*//*
 bool WindowTree::remove(WindowNode*& node){
+
 	//TODO: this is probably broken
 
 	bool success = false;
@@ -250,6 +253,7 @@ bool WindowTree::remove(WindowNode*& node){
 	if (!success) throw string("ERROR: fail to reorder WindowTree after removal");
 	return success;
 }
+*/
 
 int WindowTree::getIndex(WindowNode* target) {
 	WindowNode* found = nullptr;
@@ -278,13 +282,18 @@ int WindowTree::getIndex(WindowNode* target) {
 bool WindowTree::remove(int windowID) {
 	bool success = false;
 
-    // TODO: remove node
 	WindowNode*& target = getRef(windowID);
 	WindowNode* temp = target;
 
-	success &= remove(target);
+	WindowNode*& last = getByIndex(size);
 
-	success = contains(windowID);
+	// swap target with the last node and then remove it.
+	target = last;
+	last = temp;
+	delete last;
+	last = nullptr;
+
+	success = !contains(windowID);
 	if (success) size--;
 	if (!success) throw string("ERROR: fail to remove WindowNode from WindowTree");
 	return success;
@@ -393,6 +402,7 @@ void WindowTree::queueLevel(WindowNode* node, int level, queue<WindowNode*>& lev
 // work in progress ******************************
 
 int WindowTree::calculateHeight(WindowNode* node, int windowID, double height) {
+	// TODO: fix this
 	if (node == nullptr) return 0;
 	if (node->isWindow() && (node->window->windowID == windowID)) {
 		return height;
@@ -403,12 +413,17 @@ int WindowTree::calculateHeight(WindowNode* node, int windowID, double height) {
 		calculateHeight(node->part1, windowID, height);
 		calculateHeight(node->part2, windowID, height);
 	}
+	return 0;
 }
+
+//Point WindowTree::getCoordinate(WindowNode* node, int windowID, int height, int width)
 
 Point WindowTree::getCoordinate(int windowID) {
 	Point coordinate ({0,0});
 	double height = workspace->getHeight();
 	double width = workspace->getWidth();
+
+	//coordinate = getCoordinate(root, windowID, height, width);
 
 
 

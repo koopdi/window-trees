@@ -155,7 +155,7 @@ private:
 	void breadthFirstSearch(WindowNode* node, std::function<bool(WindowNode*)> func);
 
 
-	int WindowTree::calculateHeight(WindowNode* node, int windowID, double height);
+	int calculateHeight(WindowNode* node, int windowID, double height);
 
 	/**
 	 * @brief
