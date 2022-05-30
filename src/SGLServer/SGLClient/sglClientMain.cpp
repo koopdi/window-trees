@@ -17,19 +17,23 @@
 using namespace std;
 using namespace sgl;
 
-
 int main()
 {
-	// Create an SGL Server for the Window Manager to interface with.
-	SGLServer* server = new SGLServer();
-	// Create a Window Manager.
-	WindowManager winMan(server);
+	try
+	{ // Create an SGL Server for the Window Manager to interface with.
+		SGLServer* server = new SGLServer();
+		// Create a Window Manager.
+		WindowManager winMan(server);
 
-	// Tell the server where to send events.
-	EventHandlerFn evFun = [&winMan](ev::Event* event)
-	{ winMan.update(*event); };
+		// Tell the server where to send events.
+		EventHandlerFn evFun = [&winMan](ev::Event* event)
+		{ winMan.update(*event); };
 
-	server->setEventCallback(evFun);
-
+		server->setEventCallback(evFun);
+	}
+	catch (string error)
+	{
+		cout << error << endl;
+	}
 	return 0;
 }
