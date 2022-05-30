@@ -8,55 +8,28 @@
 /**
  * @brief Construct a new Window Pane object
  * @param windowID The ID of the window to place in this pane.
- * @param workspaceID The ID of??? Why do we need this?
+ * @param workspaceID The ID of the workspace to place this pane on.
  */
 WindowPane::WindowPane(int windowID, int workspaceID) : windowID(windowID)
 {
 	addTag(workspaceID);
 }
 
-/**
- * @brief
- * @param tag
- * @return true
- * @return false
- */
 bool WindowPane::hasTag(int tag) { return tags.count(tag); }
 
-/**
- * @brief
- *
- * @param tag
- * @return true
- * @return false
- */
 bool WindowPane::addTag(int tag)
 {
 	tags.insert(tag);
 	return hasTag(tag);
 }
 
-/**
- * @brief
- *
- * @param tag
- * @return true
- * @return false
- */
 bool WindowPane::removeTag(int tag)
 {
 	tags.erase(tag);
 	return !hasTag(tag);
 }
 
-/**
- * @brief Construct a new Window Node:: Window Node object
- *
- * @param partVertically
- * @param windowID
- * @param part1Size
- */
-WindowNode::WindowNode() { WindowNode(0, 0); }
+WindowNode::WindowNode() { WindowNode(false, 0); }
 
 WindowNode::WindowNode(bool partVertically, double part1Size)
     : partVertically(partVertically), part1Size(part1Size), window(nullptr),
