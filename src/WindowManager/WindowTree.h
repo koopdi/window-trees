@@ -1,12 +1,6 @@
 /**
  * @file WindowTree.h
- * @author Andrew Hanson, Christen Spadevechia, Travis McKinney (you@domain.com)
- * @brief
- * @version 0.1
- * @date 2022-05-23
- *
- * @copyright Copyright (c) 2022
- *
+ * @author Andrew Hanson, Christen Spadevechia, Travis McKinney
  */
 #pragma once
 
@@ -18,11 +12,8 @@
 
 class Workspace;
 
-/**
- * @brief
- *
- */
-class WindowTree {
+class WindowTree
+{
 public:
 	// public methods ----------------------------------------
 
@@ -30,7 +21,7 @@ public:
 	 * @brief Construct a new Window Tree object
 	 *
 	 */
-    WindowTree(Workspace* workspace);
+	WindowTree(Workspace* workspace);
 
 	Point getCoordinate(int windowID);
 
@@ -52,7 +43,7 @@ public:
 	 * @return true
 	 * @return false
 	 */
-    bool add(bool partVertically, double part1Size, int windowID);
+	bool add(bool partVertically, double part1Size, int windowID);
 
 	/**
 	 * @brief
@@ -61,7 +52,7 @@ public:
 	 * @return true
 	 * @return false
 	 */
-    bool remove(int windowID);
+	bool remove(int windowID);
 
 	/**
 	 * @brief
@@ -69,7 +60,7 @@ public:
 	 * @return true
 	 * @return false
 	 */
-    bool isEmpty() const;
+	bool isEmpty() const;
 
 	/**
 	 * @brief
@@ -78,7 +69,7 @@ public:
 	 * @return true
 	 * @return false
 	 */
-    bool contains(int windowID) const;
+	bool contains(int windowID) const;
 
 	bool contains(WindowNode* node) const;
 
@@ -87,14 +78,14 @@ public:
 	 *
 	 * @return int
 	 */
-    int getSize() const;
+	int getSize() const;
 
 	/**
 	 * @brief Get the Num Windows object
 	 *
 	 * @return int
 	 */
-    int getNumWindows() const;
+	int getNumWindows() const;
 
 	void clear();
 
@@ -110,10 +101,10 @@ private:
 	int workspaceID;
 
 	// the size of the tree
-    int size;
+	int size;
 
 	// a pointer to the root node of the tree
-    WindowNode* root;
+	WindowNode* root;
 
 	// a pointer to the most recently added node
 	WindowNode* last;
@@ -126,7 +117,8 @@ private:
 	 * @param node
 	 * @param func
 	 */
-    void preOrderTraverse(WindowNode* node, const std::function<bool(WindowNode*)>& func) const;
+	void preOrderTraverse(WindowNode* node,
+	                      const std::function<bool(WindowNode*)>& func) const;
 
 	/**
 	 * @brief
@@ -142,7 +134,8 @@ private:
 	 * @param node
 	 * @param func
 	 */
-    void inOrderTraverse(WindowNode* node, std::function<bool(WindowNode*)> func) const;
+	void inOrderTraverse(WindowNode* node,
+	                     std::function<bool(WindowNode*)> func) const;
 
 	/**
 	 * @brief
@@ -150,10 +143,11 @@ private:
 	 * @param node
 	 * @param func
 	 */
-    void postOrderTraverse(WindowNode* node, std::function<void(WindowNode*)> func) const;
+	void postOrderTraverse(WindowNode* node,
+	                       std::function<void(WindowNode*)> func) const;
 
-	void breadthFirstSearch(WindowNode* node, std::function<bool(WindowNode*)> func);
-
+	void breadthFirstSearch(WindowNode* node,
+	                        std::function<bool(WindowNode*)> func);
 
 	int calculateHeight(WindowNode* node, int windowID, double height);
 
@@ -171,7 +165,8 @@ private:
 
 	void QueueTree(WindowNode* root, std::queue<WindowNode*>& levelOrder);
 
-	void queueLevel(WindowNode* node, int level, std::queue<WindowNode*>& levelOrder);
+	void
+	queueLevel(WindowNode* node, int level, std::queue<WindowNode*>& levelOrder);
 
 	int getIndex(WindowNode* target);
 };
