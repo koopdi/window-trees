@@ -27,6 +27,6 @@ std::vector<long> SGLServer::getWindows(long screenID)
 	return foo;
 }
 
-void SGLServer::setInitCallback(InitHandlerFn fn) {}
+void SGLServer::setInitCallback(InitHandlerFn fn) { inFun = fn; }
 void SGLServer::setEventCallback(EventHandlerFn fn) { evFun = fn; }
 void SGLServer::run() {}
