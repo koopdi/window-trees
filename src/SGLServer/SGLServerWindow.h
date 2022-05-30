@@ -1,6 +1,14 @@
 #pragma once
 
+/**
+ * @file SGLServerWindow.h
+ * @author Andrew Hanson, Christen Spadevechia, Travis McKinney
+ * @brief A class to store the underlying GObject.
+ * @date 05-30-2022
+ */
+
 #include "types.h"
+ #include "gobjects.h"
 
 class SGLServerWindow
 {
@@ -19,7 +27,7 @@ public:
 
 private:
 	static int idTicker;
-	// sgl::GObject* gobj;
+	sgl::GObject* gobj;
 	int height;
 	int width;
 	int windowID;
