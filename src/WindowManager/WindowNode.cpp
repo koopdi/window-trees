@@ -4,6 +4,7 @@
  */
 
 #include "WindowNode.h"
+#include <iostream>
 
 /**
  * @brief Construct a new Window Pane object
@@ -29,13 +30,13 @@ bool WindowPane::removeTag(int tag)
 	return !hasTag(tag);
 }
 
-WindowNode::WindowNode() { WindowNode(false, 0); }
+// WindowNode::WindowNode() { WindowNode(false, 0); }
 
-WindowNode::WindowNode(bool partVertically, double part1Size)
-    : partVertically(partVertically), part1Size(part1Size), window(nullptr),
-      part1(nullptr), part2(nullptr)
-{
-}
+// WindowNode::WindowNode(bool partVertically, double part1Size)
+//     : partVertically(partVertically), part1Size(part1Size), window(nullptr),
+//       part1(nullptr), part2(nullptr)
+// {
+// }
 
 WindowNode::WindowNode(bool partVertically,
                        double part1Size,
@@ -44,6 +45,7 @@ WindowNode::WindowNode(bool partVertically,
     : partVertically(partVertically), part1Size(part1Size), part1(nullptr),
       part2(nullptr)
 {
+	std::cout << "WindowNode Constructor" << std::endl;
 	window = new WindowPane(WindowID, WorkspaceID);
 }
 

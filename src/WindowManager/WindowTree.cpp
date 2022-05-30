@@ -13,6 +13,7 @@
 #include "Workspace.h"
 
 #include <queue>
+#include <iostream>
 #include <string>
 
 using namespace std;
@@ -176,7 +177,7 @@ bool WindowTree::contains(WindowNode* target) const
 bool WindowTree::add(bool partVertically, double part1Size, int windowID)
 {
 	// TODO: need to set partVertically
-
+	std::cout << "WindowTree::add" << endl;
 	bool success = false;
 	if (root == nullptr)
 	{
