@@ -8,11 +8,12 @@
  * @brief
  *
  */
-class SGLServer : public ServerInterface{
+class SGLServer : public ServerInterface
+{
 public:
 	std::vector<SGLServerScreen> screens;
 
-	// SGLServer();
+	SGLServer();
 	/**
 	 * @brief Set the Init Callback object
 	 * Provides a concrete server interface.
@@ -33,5 +34,6 @@ public:
 	int getHeight(int screen, int windowID) const;
 	int getWidth(int screen, int windowID) const;
 	int getPosition(int screen, int windowID) const;
+
 private:
 };
