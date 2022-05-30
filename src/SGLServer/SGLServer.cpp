@@ -79,11 +79,14 @@ void SGLServer::menuEv(sgl::GEvent ev)
 		string action = ev.getActionCommand();
 		cout << action << endl;
 
-		if(action == "add")
+		if(action == "toolbar/Add")
 		{
+			cout << "add was pressed, creating event..." << endl;
 			ev::Event* ev = new ev::Event;
 			ev->type = ev::EventType::ADD;
 			ev->add.atributeA = 13;
+
+			evFun(ev);
 		}
 	}
 }
