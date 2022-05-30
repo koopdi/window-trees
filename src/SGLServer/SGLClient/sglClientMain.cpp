@@ -10,6 +10,7 @@
 
 #include <iostream>
 #include "gwindow.h"
+#include "gbutton.h"
 
 using namespace std;
 using namespace sgl;
@@ -25,6 +26,9 @@ void keyEv(GEvent ev, GWindow& win)
 	}
 }
 
+// Add buttons to the window for sending events.
+void addButtons(GWindow &win);
+
 int main()
 {
 	// create a window
@@ -39,8 +43,21 @@ int main()
 	win.setWindowTitle("WindowTrees");
 	win.setKeyListener([window](GEvent ev) { keyEv(ev, *window); });
 
+	addButtons(win);
+
 
 	// Don't delete the window, that memory is managed elsewhere.
 	// delete window;
 	return 0;
+}
+
+void addButtons(GWindow &win)
+{
+	win.addToolbar("toolbar"s);
+	win.addToolbarItem("Distance"s);
+	win.addToolbarItem("Speed");
+	win.addToolbarItem("Acceleration");
+	win.addToolbarItem("Jerk");
+	// win.repaint();
+	// GButton* distance = new GButton();
 }
