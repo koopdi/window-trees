@@ -2,23 +2,26 @@
 
 #include "types.h"
 
-class SGLServerWindow {
+class SGLServerWindow
+{
 public:
-    SGLServerWindow(int height = 0, int width = 0,
-    Point position = Point{0, 0}, bool partVertically = true);
-    int getHeight() const;
-    int getWidth() const;
-    int getPosition() const;
-    int getID() const;
-    void setHeight(int height);
-    void setWidth(int width);
-    void setPosition(Point position);
+	SGLServerWindow(int height          = 0,
+	                int width           = 0,
+	                Point position      = Point{0, 0},
+	                bool partVertically = true);
+	int getHeight() const;
+	int getWidth() const;
+	int getPosition() const;
+	int getID() const;
+	void setHeight(int height);
+	void setWidth(int width);
+	void setPosition(Point position);
 
 private:
-    static int idTicker;
-    //sgl::GObject* gobj;
-    int height;
-    int width;
-    int windowID;
-    Point position;
+	static int idTicker;
+	// sgl::GObject* gobj;
+	int height;
+	int width;
+	int windowID;
+	Point position;
 };
