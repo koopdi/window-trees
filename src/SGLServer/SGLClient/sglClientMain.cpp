@@ -26,12 +26,10 @@ int main()
 	WindowManager winMan(server);
 
 	// Tell the server where to send events.
-	EventHandlerFn evFun = [&winMan](XEvent* event)
+	EventHandlerFn evFun = [&winMan](ev::Event* event)
 	{ winMan.update(*event); };
 
 	server->setEventCallback(evFun);
 
-	// Don't delete the GWindow, that memory is managed elsewhere.
-	// delete window;
 	return 0;
 }
