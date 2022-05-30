@@ -36,5 +36,5 @@ WindowManager::WindowManager(ServerInterface* server)
  */
 void WindowManager::update(XEvent& ev)
 {
-	cout << "event got" << endl;
+	cout << "Window Manager: event got" << endl;
 }
