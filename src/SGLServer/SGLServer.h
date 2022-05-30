@@ -9,9 +9,12 @@
 #include "types.h"
 
 /**
- * @brief The SGL Server acts as a system layer that forwards
- * mouse and keeb inputs to the WindowManager.
- * Buttons are provided to simulate window creation, etc.
+ * @brief The SGL Server acts as a system layer.
+ * Mouse and keeb inputs are forwarded to the WindowManager.
+ * Buttons are provided to simulate window creation/destruction
+ * and those events are passed to the WindowManager.
+ * The graphics are updated to reflect the layout of windows
+ * on the active workspace.
  */
 class SGLServer : public ServerInterface
 {
