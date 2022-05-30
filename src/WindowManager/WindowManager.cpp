@@ -38,6 +38,6 @@ void WindowManager::update(ev::Event& ev)
 	cout << "Window Manager: event got" << endl;
 	if (ev.type == ev::EventType::ADD)
 	{
-		(*workspaces.begin()).get()->addWindow(true, ev.add.atributeA, 50.0);
+		(workspaces.begin())->get()->addWindow(true, ev.add.atributeA, 50.0);
 	}
 }
