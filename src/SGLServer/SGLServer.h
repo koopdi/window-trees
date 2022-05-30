@@ -3,7 +3,7 @@
 // #include "xtypes.h"
 #include "gbutton.h"
 #include "gwindow.h"
-#include "SGLServerScreen.h"
+#include "SGLScreen.h"
 #include "ServerInterface.h"
 
 #include "types.h"
@@ -19,7 +19,7 @@
 class SGLServer : public ServerInterface
 {
 public:
-	std::vector<SGLServerScreen> screens;
+	std::vector<SGLScreen> screens;
 
 	SGLServer();
 	/**
