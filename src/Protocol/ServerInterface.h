@@ -1,8 +1,9 @@
 #ifndef SERVERINTERFACE_H
 #define SERVERINTERFACE_H
 
+#include "Events.h"
 #include "types.h"
-#include "xtypes.h"
+// #include "xtypes.h"
 #include <functional>
 #include <vector>
 
@@ -10,7 +11,6 @@
  * @brief An abstract class that provides an interface for window
  * managmenet on any display server.
  */
-
 class ServerInterface;
 
 /// The display server calls this function,
@@ -18,7 +18,7 @@ class ServerInterface;
 typedef std::function<void(ServerInterface* server)> InitHandlerFn;
 
 /// The server calls this function when events are produced.
-typedef std::function<void(XEvent* event)> EventHandlerFn;
+typedef std::function<void(ev::Event* event)> EventHandlerFn;
 
 class ServerInterface
 {
