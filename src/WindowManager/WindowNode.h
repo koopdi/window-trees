@@ -17,30 +17,35 @@
  * @brief
  *
  */
-struct WindowPane{
-    std::unordered_set<int> tags;
+struct WindowPane
+{
+	std::unordered_set<int> tags;
 	int windowID;
 
 	WindowPane(int windowID, int workspaceID);
-    bool hasTag(int tag);
-    bool addTag(int tag);
-    bool removeTag(int tag);
+	bool hasTag(int tag);
+	bool addTag(int tag);
+	bool removeTag(int tag);
 };
 
 /**
  * @brief
  *
  */
-struct WindowNode{
+struct WindowNode
+{
 	bool partVertically;
-    double part1Size;
-    WindowPane* window;
-    WindowNode* part1;
-    WindowNode* part2;
+	double part1Size;
+	WindowPane* window;
+	WindowNode* part1;
+	WindowNode* part2;
 
 	WindowNode();
 	WindowNode(bool partVertically, double part1Size);
-	WindowNode(bool partVertically, double part1Size, int windowID, int workspaceID);
+	WindowNode(bool partVertically,
+	           double part1Size,
+	           int windowID,
+	           int workspaceID);
 
 	~WindowNode();
 
