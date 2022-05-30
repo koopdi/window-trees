@@ -19,72 +19,25 @@ public:
 
 	/**
 	 * @brief Construct a new Window Tree object
-	 *
 	 */
 	WindowTree(Workspace* workspace);
 
 	Point getCoordinate(int windowID);
 
-	/**
-	 * @brief
-	 *
-	 * @param windowID
-	 * @return WindowNode*
-	 */
 	WindowNode* get(int windowID);
 
-	/**
-	 * @brief
-	 *
-	 * @param partVertically
-	 * @param part1Size
-	 * @param WindowID
-	 * @param WorkspaceID
-	 * @return true
-	 * @return false
-	 */
 	bool add(bool partVertically, double part1Size, int windowID);
 
-	/**
-	 * @brief
-	 *
-	 * @param windowID
-	 * @return true
-	 * @return false
-	 */
 	bool remove(int windowID);
 
-	/**
-	 * @brief
-	 *
-	 * @return true
-	 * @return false
-	 */
 	bool isEmpty() const;
 
-	/**
-	 * @brief
-	 *
-	 * @param windowID
-	 * @return true
-	 * @return false
-	 */
 	bool contains(int windowID) const;
 
 	bool contains(WindowNode* node) const;
 
-	/**
-	 * @brief Get the Size object
-	 *
-	 * @return int
-	 */
 	int getSize() const;
 
-	/**
-	 * @brief Get the Num Windows object
-	 *
-	 * @return int
-	 */
 	int getNumWindows() const;
 
 	void clear();
@@ -111,38 +64,14 @@ private:
 
 	// private methods ----------------------------------------
 
-	/**
-	 * @brief
-	 *
-	 * @param node
-	 * @param func
-	 */
 	void preOrderTraverse(WindowNode* node,
 	                      const std::function<bool(WindowNode*)>& func) const;
 
-	/**
-	 * @brief
-	 *
-	 * @param windowID
-	 * @return WindowNode*&
-	 */
 	WindowNode*& getRef(int windowID);
 
-	/**
-	 * @brief
-	 *
-	 * @param node
-	 * @param func
-	 */
 	void inOrderTraverse(WindowNode* node,
 	                     std::function<bool(WindowNode*)> func) const;
 
-	/**
-	 * @brief
-	 *
-	 * @param node
-	 * @param func
-	 */
 	void postOrderTraverse(WindowNode* node,
 	                       std::function<void(WindowNode*)> func) const;
 
@@ -151,12 +80,6 @@ private:
 
 	int calculateHeight(WindowNode* node, int windowID, double height);
 
-	/**
-	 * @brief
-	 *
-	 * @param windowID
-	 * @return WindowNode*
-	 */
 	WindowNode*& getByIndex(int index);
 
 	bool remove(WindowNode*& node);
