@@ -48,12 +48,21 @@ int main()
 	win.setWindowTitle("WindowTrees");
 	win.setKeyListener([window](GEvent ev) { keyEv(ev, *window); });
 
+	// Add some buttons.
 	addButtons(win);
 
-	// Create a SGL Server for the Window Manager to interface with.
+	// Create an SGL Server for the Window Manager to interface with.
 	SGLServer* server = new SGLServer();
+	// Create a Window Manager.
+	WindowManager winMan(server);
 
-	// Don't delete the window, that memory is managed elsewhere.
+	// Tell the server where to send events.
+	EventHandlerFn evFun = [&winMan](XEvent* event)
+	{ winMan.update(*event); };
+
+	server->setEventCallback(evFun);
+
+	// Don't delete the GWindow, that memory is managed elsewhere.
 	// delete window;
 	return 0;
 }
