@@ -15,7 +15,7 @@ Workspace::Workspace() : workspaceID((long long)(this))
 	if (tree == nullptr)
 	{
 		cout << "tree is null" << endl;
-		throw "Workspace: cannot add to null tree"s;
+		throw "Workspace: tree is null"s;
 	}
 }
 
