@@ -241,21 +241,17 @@ bool WindowTree::add(bool partVertically, double part1Size, int windowID)
 		heap[numWindows]->part1 = nullptr;
 		heap[numWindows]->part2 = nullptr;
 
-		cout << "place a parent node in the spot of the current last node" << endl;
-
+		/*
 		cout << endl;
 		printSideways(root);
 		cout << endl;
 		printHeap(heap);
 		cout << endl;
 
-
 		//heap[numWindows]->part1 = temp;
 		// point the parent node to the last node
 		heap[numWindows]->part1 = heap[numWindows];
 		cout << "point the parent node to the last node" << endl;
-
-		/*
 
 		cout << endl;
 		printSideways(root);
