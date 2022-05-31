@@ -33,6 +33,12 @@ add_compile_options(
 	-Wno-sign-conversion
 )
 
+file(CREATE_LINK
+	${CMAKE_SOURCE_DIR}/res
+	${CMAKE_BINARY_DIR}/src/SGLServer/res
+	SYMBOLIC
+)
+
 # set a cmake variable
 # set(WIN32 TRUE)
 
