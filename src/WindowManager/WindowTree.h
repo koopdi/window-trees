@@ -62,21 +62,20 @@ private:
 	// a pointer to the most recently added node
 	WindowNode* last;
 
-	// private methods ----------------------------------------
+	// private methods ---------------------------------------
 
-	void preOrderTraverse(WindowNode* node,
-	                      const std::function<bool(WindowNode*)>& func) const;
+	/// A function that is passed to a xyzTraverse function.
+	using forEachNode = std::function<bool(WindowNode*)>;
+
+	void preOrderTraverse(WindowNode* node, const forEachNode& func) const;
 
 	WindowNode*& getRef(int windowID);
 
-	void inOrderTraverse(WindowNode* node,
-	                     std::function<bool(WindowNode*)> func) const;
+	void inOrderTraverse(WindowNode* node, forEachNode func) const;
 
-	void postOrderTraverse(WindowNode* node,
-	                       std::function<void(WindowNode*)> func) const;
+	void postOrderTraverse(WindowNode* node, forEachNode func) const;
 
-	void breadthFirstSearch(WindowNode* node,
-	                        std::function<bool(WindowNode*)> func);
+	void breadthFirstSearch(WindowNode* node, forEachNode func);
 
 	int calculateHeight(WindowNode* node, int windowID, double height);
 
@@ -86,8 +85,19 @@ private:
 
 	int height(WindowNode* node);
 
+	/**
+	 * @brief Holds pointers to nodes in level order.
+	 * @param root The root of the tree to build queue from.
+	 * @param levelOrder A queue of window nodes inlevel order from top to bottom.
+	 */
 	void QueueTree(WindowNode* root, std::queue<WindowNode*>& levelOrder);
 
+	/**
+	 * @brief A recursive helper for QueueTree
+	 * @param node The current node.
+	 * @param level The target level to enqueue.
+	 * @param levelOrder A queue of window nodes inlevel order from top to bottom.
+	 */
 	void
 	queueLevel(WindowNode* node, int level, std::queue<WindowNode*>& levelOrder);
 
