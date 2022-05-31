@@ -15,7 +15,13 @@ SGLServer::SGLServer()
 	// set window properties
 	win.setExitOnClose(true);
 	win.center();
+
+	#if _WIN32
 	win.drawImage("../../../res/edmonds.png");
+	#else
+	win.drawImage("edmonds.png");
+	#endif
+
 	win.setWindowTitle("WindowTrees");
 
 	win.setKeyListener([this](GEvent ev) { keyEv(ev); });
