@@ -1,31 +1,60 @@
 #include "DisplayServerSDL.h"
 
-int DisplayServerSDL::numScreensToConstruct = 1;
+int DisplayServerSDL::numScreensToConstruct = 3;
+Area DisplayServerSDL::defaultWindowArea = { 0, 0, 400, 300 };
+int DisplayServerSDL::defaultWindowSpace = 50;
 
-Area DisplayServerSDL::defaultWindowArea = {0, 0, 800, 600 };
 void DisplayServerSDL::run() {
-	//call init fn
+    for (int i = 0; i < numScreensToConstruct; i++) {
+        screens.push_back(new ServerScreenSDL("WindowManager Demo Screen" + std::to_string(i),
+            defaultWindowArea));
+        defaultWindowArea.x += defaultWindowArea.width + defaultWindowSpace;
+    }
 
-	//event loop?
-	while(true);
+    //call init function
+    initFunc(this);
+
+    //event loop
+    SDL_Event e;
+    while (running) {
+        while (SDL_WaitEvent(&e)) {
+            std::cout << e.type << std::endl;
+            switch (e.type) {
+
+            case SDL_QUIT:
+                running = false;
+                break;
+
+            case SDL_KEYDOWN: //handle global shortcuts; falls through to windows
+
+            case SDL_WINDOWEVENT:
+                for (int i = 0; i < screens.size(); i++) {
+                    screens[i]->handleEvent(e);
+                }
+                break;
+
+            default:
+                std::cout << "dropped event of type [" << std::to_string(e.type) << "]" << std::endl;
+                break;
+            }
+        }
+    }
 }
 
 
-DisplayServerSDL::DisplayServerSDL() {
-	atexit(SDL_Quit);
+DisplayServerSDL::DisplayServerSDL() : running(true) {
+    atexit(SDL_Quit);
+    SDL_Init(SDL_INIT_VIDEO);
 
-	SDL_DisplayMode displayMode;
-	SDL_GetCurrentDisplayMode(0, &displayMode);
+    SDL_DisplayMode displayMode;
+    SDL_GetCurrentDisplayMode(0, &displayMode);
 
-	defaultWindowArea = { 0, displayMode.h / 2,
-	800, 600 };
+    defaultWindowArea = { 0, displayMode.h / 2,
+    800, 600 };
 
-	for (int i = 0; i < numScreensToConstruct; i++) {
-		screens.push_back(ServerScreenSDL("WindowManager Demo Screen" + std::to_string(i),
-			defaultWindowArea));
-		defaultWindowArea.x += defaultWindowArea.width;
-	}
-
+    initFunc = [](ServerInterface* server){
+        std::cout << "[Warning]: Falling back to default initFunc" << std::endl;
+    };
 }
 
 DisplayServerSDL::DisplayServerSDL(InitHandlerFn initFn, EventHandlerFn eventFn) {

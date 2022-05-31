@@ -9,11 +9,12 @@ class DisplayServerSDL : public ServerInterface{
 private:
 	static int numScreensToConstruct;
 	static Area defaultWindowArea;
+	static int defaultWindowSpace;
+	bool running;
 
-	std::vector<ServerScreenSDL> screens;
+	std::vector<ServerScreenSDL*> screens;
 	EventHandlerFn handlerFunc;
 	InitHandlerFn initFunc;
-	std::mutex mutex;
 
 public:
 	virtual Area getArea(long windowID) override;

@@ -8,14 +8,17 @@
 class ServerScreenSDL {
 private:
 	static int newWinID;
+	bool visible;
+	int windowID;
 	std::set<ServerWindowSDL> windows; //stores windows; NOTE: uses overloaded < to sort by depth
-	std::thread* screenThread; //stores the event loop for this screen
-	bool running;
+
 	SDL_Renderer* ren;
 	SDL_Window* win;
 	SDL_Texture* tex;
 
 public:
+	void handleEvent(SDL_Event& e);
+
 	ServerScreenSDL(std::string name, Area area);
 	~ServerScreenSDL();
 };

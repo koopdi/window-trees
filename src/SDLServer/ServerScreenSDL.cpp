@@ -1,39 +1,46 @@
 #include "ServerScreenSDL.h"
 
 int ServerScreenSDL::newWinID = 0;
-ServerScreenSDL::ServerScreenSDL(std::string name, Area area) : running(true) {
-	auto enterEventLoop = [this, name, area]() {
-		SDL_Init(SDL_INIT_VIDEO);
 
-		win = SDL_CreateWindow(name.c_str(), area.x, area.y, area.width, area.height, 0);
-		ren = SDL_CreateRenderer(win, -1, 0);
-		tex = SDL_CreateTexture(ren, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_STATIC,
-			area.width, area.height);
 
-		SDL_RenderCopy(ren, tex, NULL, NULL);
-		SDL_RenderPresent(ren);
+void ServerScreenSDL::handleEvent(SDL_Event& e) {
+	if(e.window.windowID == windowID){
+		if(e.type == SDL_WINDOWEVENT){
+			switch (e.window.type){
+				case SDL_WINDOWEVENT_CLOSE:
+				SDL_HideWindow(win);
+				break;
 
-		SDL_Event e;
-		while (running) {
-			while (SDL_WaitEvent(&e)) {
-				switch (e.type) {
-				case SDL_QUIT:
-					return 0;
+				case SDL_WINDOWEVENT_HIDDEN:
+				visible = false;
+				break;
 
-				case SDL_KEYDOWN:
-					if (e.key.keysym.sym == SDLK_ESCAPE) return (0);
+				case SDL_WINDOWEVENT_SHOWN:
+				visible = true;
+				break;
 
-				}
-
-				SDL_RenderCopy(ren, tex, NULL, NULL);
+				case SDL_WINDOWEVENT_EXPOSED:
 				SDL_RenderPresent(ren);
+				break;
 			}
+		} else { //must be a key event
+
 		}
-		return 1;
-	};
+	}
+}
 
-	screenThread = new std::thread(enterEventLoop);
+ServerScreenSDL::ServerScreenSDL(std::string name, Area area) : visible(true){
+	win = SDL_CreateWindow(name.c_str(), area.x, area.y, area.width, area.height, SDL_WINDOW_SHOWN);
+	ren = SDL_CreateRenderer(win, -1, 0);
+	tex = SDL_CreateTexture(ren, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_STATIC,
+		area.width, area.height);
 
+	SDL_SetRenderDrawColor(ren, 0x00, 0x00, 0x00, 0xFF);
+	SDL_RenderClear(ren);
+	SDL_RenderCopy(ren, tex, NULL, NULL);
+	SDL_RenderPresent(ren);
+
+	windowID = SDL_GetWindowID(win);
 }
 
 ServerScreenSDL::~ServerScreenSDL() {
@@ -43,7 +50,7 @@ ServerScreenSDL::~ServerScreenSDL() {
 
 	SDL_DestroyRenderer(ren);
 	SDL_DestroyTexture(tex);
-	SDL_DestroyWindow(win);  //                                                                          IDK IF THIS IS A GOOD IDEA
+	SDL_DestroyWindow(win);
 }
 
 
