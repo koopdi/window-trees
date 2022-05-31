@@ -6,6 +6,8 @@
 
 #include <functional>
 #include <queue>
+#include <vector>
+#include <string>
 
 #include "WindowNode.h"
 #include "types.h"
@@ -62,10 +64,16 @@ private:
 	// a pointer to the most recently added node
 	WindowNode* last;
 
+	std::vector<WindowNode*> heap;
+
 	// private methods ---------------------------------------
 
 	/// A function that is passed to a xyzTraverse function.
 	using forEachNode = std::function<bool(WindowNode*)>;
+
+	void printSideways(WindowNode* root);
+
+	void printSidewaysHelper(WindowNode* root, std::string spaces);
 
 	void preOrderTraverse(WindowNode* node, forEachNode func) const;
 
