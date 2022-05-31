@@ -19,7 +19,7 @@ SGLServer::SGLServer()
 	#if _WIN32
 	win.drawImage("../../../res/edmonds.png");
 	#else
-	win.drawImage("edmonds.png");
+	win.drawImage("res/edmonds.png");
 	#endif
 
 	win.setWindowTitle("WindowTrees");
