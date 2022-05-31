@@ -18,7 +18,6 @@ void DisplayServerSDL::run() {
     SDL_Event e;
     while (running) {
         while (SDL_WaitEvent(&e)) {
-            std::cout << e.type << std::endl;
             switch (e.type) {
 
             case SDL_QUIT:
