@@ -1,34 +1,42 @@
+# xClient
+#
 cmake_minimum_required(VERSION 3.2.0)
-project (WindowManager VERSION 2022.05.21 LANGUAGES CXX)
+
+project (xClient VERSION 05.21.2022 LANGUAGES CXX)
 
 # use C++17 language standard
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_VERBOSE_MAKEFILE ON)
 
-# source / header files specific to this project
-FILE(GLOB WindowManager_Headers
-	*.cpp
-)
-
-FILE(GLOB WindowManager_Sources
+FILE(GLOB xClient_Headers
 	*.h
 )
 
-FILE(GLOB WindowManager_Library_Headers
-	../Protocol/*.h
+FILE(GLOB xClient_Sources
+	*.cpp
 )
 
-add_library(WindowManager
-	${WindowManager_Headers}
-	${WindowManager_Sources}
-	${WindowManager_Library_Headers}
+add_executable(xClient
+${xClient_Headers}
+${xClient_Sources}
+${xClient_Library_Headers}
 )
 
-target_include_directories(WindowManager
+FILE(GLOB xClient_Library_Headers
+	../*.h
+)
+
+target_include_directories(xClient
 	PUBLIC
-	"../Protocol/"
 	.
+)
+
+target_link_libraries(xClient
+PUBLIC
+Protocol
+WindowManager
+XServer
 )
 
 # Configure flags for the C++ compiler
@@ -47,3 +55,12 @@ add_compile_options(
 	-Wno-sign-compare
 	-Wno-sign-conversion
 )
+
+# set a cmake variable
+# set(WIN32 TRUE)
+
+# set a preprocessor variable
+# add_compile_definitions(
+# 	VAR1
+# 	VAR2=VALUE
+# )

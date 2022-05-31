@@ -3,6 +3,7 @@
 
 #include these specific directories and files
 #dirs
+!/libSGL
 
 #files
 !/*.h

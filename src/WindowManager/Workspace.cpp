@@ -1,95 +1,58 @@
 /**
  * @file Workspace.cpp
- * @author Andrew Hanson, Christen Spadevechia, Travis McKinney (you@domain.com)
- * @brief
- * @version 0.1
- * @date 2022-05-23
- *
- * @copyright Copyright (c) 2022
- *
+ * @author Andrew Hanson, Christen Spadevechia, Travis McKinney
  */
 
 #include "Workspace.h"
 
+#include <iostream>
+#include <string>
 
-Workspace::Workspace() : workspaceID((long long)(this)){
-
+Workspace::Workspace() : workspaceID((long long)(this))
+{
+	using namespace std;
+	tree = new WindowTree(this);
+	if (tree == nullptr)
+	{
+		cout << "tree is null" << endl;
+		throw "Workspace: cannot add to null tree"s;
+	}
 }
 
-/**
- * @brief
- *
- * @return int
- */
-int Workspace::getHeight() const {
-	return height;
+bool Workspace::operator<(Workspace& other)
+{
+	return workspaceID < other.workspaceID;
 }
 
-/**
- * @brief
- *
- * @return int
- */
-int Workspace::getWidth() const {
-	return width;
+bool operator<(std::shared_ptr<Workspace>& a, std::shared_ptr<Workspace>& b)
+{
+	return (*a) < (*b);
 }
 
-/**
- * @brief
- *
- * @return Point
- */
-Point Workspace::getPosition() const {
-	return position;
-}
+int Workspace::getHeight() const { return height; }
 
-/**
- * @brief
- *
- * @return int
- */
-int Workspace::getNumWindows() const {
-	return numWindows;
-}
+int Workspace::getWidth() const { return width; }
 
-/**
- * @brief
- *
- * @param height
- */
-void Workspace::setHeight(int height) {
-	this->height = height;
-}
+Point Workspace::getPosition() const { return position; }
 
-/**
- * @brief
- *
- * @param width
- */
-void Workspace::setWidth(int width) {
-	this->width = width;
-}
+int Workspace::getNumWindows() const { return numWindows; }
 
-/**
- * @brief
- *
- * @param position
- */
-void Workspace::setPosition(Point position) {
-	this->position = position;
-}
+void Workspace::setHeight(int height) { this->height = height; }
 
-/**
- * @brief
- *
- * @param partVertically
- * @param windowID
- * @param part1Size
- * @return true
- * @return false
- */
-bool Workspace::addWindow(bool partVertically, int windowID, double part1Size) {
-	bool success = tree->add(partVertically, part1Size,  windowID);
+void Workspace::setWidth(int width) { this->width = width; }
+
+void Workspace::setPosition(Point position) { this->position = position; }
+
+bool Workspace::addWindow(bool partVertically, int windowID, double part1Size)
+{
+	using namespace std;
+	cout << "In method workspace::addWindow." << endl;
+	if (tree == nullptr)
+	{
+		cout << "tree is null" << endl;
+		throw "Workspace: cannot add to null tree"s;
+	}
+	bool success = tree->add(partVertically, part1Size, windowID);
 	// if (success) {
 	//		TODO: add to map<windowID:set<workspaceID>>
 	//		map[windowID];
@@ -97,14 +60,8 @@ bool Workspace::addWindow(bool partVertically, int windowID, double part1Size) {
 	return success;
 }
 
-/**
- * @brief
- *
- * @param windowID
- * @return true
- * @return false
- */
-bool Workspace::removeWindow(int windowID) {
+bool Workspace::removeWindow(int windowID)
+{
 	bool success = tree->remove(windowID);
 	// if (success) {
 	//		TODO: add to map<windowID:set<workspaceID>>
