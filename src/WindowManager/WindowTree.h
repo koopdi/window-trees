@@ -67,7 +67,7 @@ private:
 	/// A function that is passed to a xyzTraverse function.
 	using forEachNode = std::function<bool(WindowNode*)>;
 
-	void preOrderTraverse(WindowNode* node, const forEachNode& func) const;
+	void preOrderTraverse(WindowNode* node, forEachNode func) const;
 
 	WindowNode*& getRef(int windowID);
 

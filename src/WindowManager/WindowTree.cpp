@@ -12,8 +12,8 @@
 #include "WindowTree.h"
 #include "Workspace.h"
 
-#include <queue>
 #include <iostream>
+#include <queue>
 #include <string>
 
 using namespace std;
@@ -103,7 +103,9 @@ WindowNode*& WindowTree::getByIndex(int index)
 
 	breadthFirstSearch(root, func);
 
-	if (target == nullptr) throw string("Target not found in getByIndex, can't derefernce nullptr, can't return");
+	if (target == nullptr)
+		throw string(
+		    "Target not found in getByIndex, can't derefernce nullptr, can't return");
 	WindowNode*& mutableWindowNode = *target;
 
 	return mutableWindowNode;
@@ -303,13 +305,13 @@ bool WindowTree::remove(int windowID)
 	WindowNode*& target = getRef(windowID);
 	WindowNode* temp    = target;
 
-	WindowNode*& last = getByIndex(size);
+	WindowNode*& last   = getByIndex(size);
 
 	// swap target with the last node and then remove it.
-	target = last;
-	last = temp;
+	target              = last;
+	last                = temp;
 	delete last;
-	last = nullptr;
+	last    = nullptr;
 
 	success = !contains(windowID);
 	if (success) size--;
@@ -324,8 +326,7 @@ bool WindowTree::remove(int windowID)
  * @param node
  * @param func
  */
-void WindowTree::preOrderTraverse(
-    WindowNode* node, const std::function<bool(WindowNode*)>& func) const
+void WindowTree::preOrderTraverse(WindowNode* node, forEachNode func) const
 {
 	if (node == nullptr) return;
 	// run the function and save result
@@ -363,8 +364,7 @@ void WindowTree::inOrderTraverse(WindowNode* node,
  * @param node
  * @param func
  */
-void WindowTree::postOrderTraverse(WindowNode* node,
-                                   std::function<void(WindowNode*)> func) const
+void WindowTree::postOrderTraverse(WindowNode* node, forEachNode func) const
 {
 	if (node == nullptr) return;
 
@@ -377,7 +377,7 @@ WindowTree::~WindowTree() { clear(); }
 
 void WindowTree::clear()
 {
-	std::function<void(WindowNode*)> func = [](WindowNode* node) { delete node; };
+	forEachNode func = [](WindowNode* node) -> bool { delete node; };
 	postOrderTraverse(root, func);
 }
 
@@ -436,7 +436,8 @@ void WindowTree::queueLevel(WindowNode* node,
 
 // work in progress ******************************
 
-int WindowTree::calculateHeight(WindowNode* node, int windowID, double height) {
+int WindowTree::calculateHeight(WindowNode* node, int windowID, double height)
+{
 	// TODO: fix this
 
 	if (node == nullptr) return 0;
@@ -457,14 +458,16 @@ int WindowTree::calculateHeight(WindowNode* node, int windowID, double height) {
 	return 0;
 }
 
-//Point WindowTree::getCoordinate(WindowNode* node, int windowID, int height, int width)
+// Point WindowTree::getCoordinate(WindowNode* node, int windowID, int height,
+// int width)
 
-Point WindowTree::getCoordinate(int windowID) {
-	Point coordinate ({0,0});
+Point WindowTree::getCoordinate(int windowID)
+{
+	Point coordinate({0, 0});
 	double height = workspace->getHeight();
-	double width = workspace->getWidth();
+	double width  = workspace->getWidth();
 
-	//coordinate = getCoordinate(root, windowID, height, width);
+	// coordinate = getCoordinate(root, windowID, height, width);
 
 	/*
 	  std::function<bool(WindowNode*)> func = [&height, &width,
