@@ -16,29 +16,23 @@
 #include <queue>
 #include <string>
 
+
 using namespace std;
 
-/**
- * @brief Construct a new Window Tree object
- */
-WindowTree::WindowTree(Workspace* workspace)
-    : workspace(workspace), root(nullptr), last(nullptr){};
+WindowTree::WindowTree(Workspace* workspace) {
+		workspaceID = (long long)(workspace);
+		this->workspace = workspace;
+		last = nullptr;
+		heap.push_back(new WindowNode());
+		root = heap[0];
+		size = 1;
+		numWindows = 0;
+	};
 
 int WindowTree::getSize() const { return size; }
 
-/**
- * @brief
- *
- * @return int
- */
 int WindowTree::getNumWindows() const { return numWindows; }
 
-/**
- * @brief
- *
- * @param windowID
- * @return WindowNode*
- */
 WindowNode* WindowTree::get(int windowID)
 {
 	WindowNode* found                     = nullptr;
@@ -79,6 +73,7 @@ WindowNode*& WindowTree::getRef(int windowID)
 	return mutableWindowNode;
 }
 
+
 WindowNode*& WindowTree::getByIndex(int index)
 {
 	index               = index - 1; // convert to zero based index
@@ -110,6 +105,7 @@ WindowNode*& WindowTree::getByIndex(int index)
 
 	return mutableWindowNode;
 }
+
 
 /**
  * @brief
@@ -171,6 +167,35 @@ bool WindowTree::contains(WindowNode* target) const
 	return contains;
 }
 
+// takes a binary tree and a string of spaces and prints the tree's
+// right subtree with four more spaces in front of all its nodes,
+// this node's data and then its left subtree with an additional
+// four spaces before each node.
+void WindowTree::printSidewaysHelper(WindowNode* root, string spaces) {
+    if(root != nullptr) {
+        printSidewaysHelper(root->part2, spaces + "    ");
+        cout << spaces << (root->isWindow() ? root->window->windowID : (long long)root) << endl;
+        printSidewaysHelper(root->part1, spaces + "    ");
+    }
+}
+
+// prints out the tree stored in the passed in root with its root node on the
+// left and each child node indented four spaces further. The right side of
+// the tree is on the top and the left side on the bottom with each node on
+// its own line
+void WindowTree::printSideways(WindowNode* root) {
+    printSidewaysHelper(root, "");
+}
+
+
+void printHeap(vector<WindowNode*> heap) {
+	int num = 0;
+	for (WindowNode* node: heap) {
+		cout << num << ": ";
+		num++;
+		cout << (node->isWindow() ? node->window->windowID : (long long)node) << endl;
+	}
+}
 /**
  * @brief add a window to the window tree!
  *
@@ -180,115 +205,117 @@ bool WindowTree::contains(WindowNode* target) const
  */
 bool WindowTree::add(bool partVertically, double part1Size, int windowID)
 {
-	// TODO: need to set partVertically
 	std::cout << "WindowTree::add" << endl;
+
+	cout << "numWindows: " << numWindows << endl;
 	bool success = false;
-	if (root == nullptr)
+	if (numWindows < 2)
 	{
-		root    = new WindowNode(partVertically, part1Size, windowID, workspaceID);
+		heap.push_back(new WindowNode(0, 0, windowID, workspaceID));
+		if (numWindows == 0)
+		{
+			root->part1Size = 100.;
+			root->part1 = heap.back();
+		}
+		else
+		{
+			root->part1Size = part1Size;
+			root->part2 = heap.back();
+		}
 		success = contains(windowID);
-		if (success) size++;
+
+		if (!success) throw string("failed to add first node");
 	}
 	else
 	{
-		// get a reference to a pointer to the next node to build off of
-		WindowNode*& node = getByIndex(numWindows);
+		// add node to heap
+		heap.push_back(new WindowNode(partVertically, part1Size, windowID, workspaceID));
 
-		// add a new parent node and a leaf node, move the old leaf to be a child of
-		// the new parent
-		WindowNode* temp  = node;
-		node              = new WindowNode();
-		node->part1       = temp;
-		node->part2 =
-		    new WindowNode(partVertically, part1Size, windowID, workspaceID);
+		cout << endl;
+		printSideways(root);
+		cout << endl;
+		printHeap(heap);
+		cout << endl;
+
+		cout << "size: " << size << endl;
+		WindowNode* parentOfTarget = heap[(size - 1) / 2];
+
+		if (parentOfTarget->part1 == nullptr)
+		{
+			parentOfTarget->part1 = heap.back();
+		}
+		else
+		{
+			parentOfTarget->part2 = heap.back();
+		}
+
 		success = contains(windowID);
-		if (success) size += 2;
+
+		/*
+		WindowNode* target = heap[numWindows-1];
+		heap[numWindows]->part1Size = part1Size;
+		// place a parent node in the spot of the current last node
+		cout << "place a parent node in the spot of the current last node" << endl;
+		parentOfTarget->part1 = heap[numWindows - 1];
+
+		// swap
+		WindowNode* temp = heap[numWindows];
+		heap[numWindows] = heap[numWindows+1];
+		heap[numWindows+1] =  temp;
+		//swap(heap[numWindows], heap[numWindows+1]);
+
+		cout << "temp: " << (target->isWindow() ? target->window->windowID : (long long)root) << endl;
+
+		cout << endl;
+		printSideways(root);
+		cout << endl;
+		printHeap(heap);
+		cout << endl;
+
+		// point the parent node to the last node
+		cout << "point the parent node to the last node" << endl;
+		heap[numWindows-1]->part1 = target;
+
+		cout << "temp: " << (target->isWindow() ? target->window->windowID : (long long)root) << endl;
+
+		cout << endl;
+		printSideways(root);
+		cout << endl;
+		printHeap(heap);
+		cout << endl;
+
+
+		// point the parent node at the new node
+		heap.push_back(new WindowNode(partVertically, part1Size, windowID, workspaceID));
+		heap[numWindows]->part2 = heap.back();
+		cout << "point the parent node to the last node" << endl;
+
+		success = contains(windowID);
+		root = heap[0];
+
+		/*
+		*/
+
 	}
-	if (success) numWindows++;
+	cout << endl;
+	printSideways(root);
+	cout << endl;
+	printHeap(heap);
+	cout << endl;
 
-	if (!success) throw string("ERROR: fail to add WindowNode to WindowTree");
-	return success;
-
-	/*
-	} else if (size = 1) {
-	WindowNode* temp = root;
-	root = new WindowNode();
-	size++;
-	if (partVertically) {
-	  root->part1 = temp;
-	  root->part2 = new WindowNode(partVertically, part1Size, windowID,
-workspaceID); } else { root->part2 = temp; root->part1 = new
-WindowNode(partVertically, part1Size, windowID, workspaceID);
-	}
-	size++;
-	numWindows++;
-} else {
-	// get a reference to a nullpointer in the correct spot to add the new node
-	WindowNode*& node = getByIndex(size);
-
-	// add the new node
-	node = new WindowNode(partVertically, part1Size, windowID, workspaceID);
-}
-*/
-
-	/*
-	  // find level to add node
-int level = 0;
-while (size > ((level + 1) * 2 + 1)) {
-	level++;
-}
-// find exact position to add node
-int remainder = size - ((level + 1) * 2 + 1);
-*/
-}
-
-/**
- * @brief reorder tree after removal
- *
- * @param node
- * @return true
- * @return false
-
-*//*
-bool WindowTree::remove(WindowNode*& node){
-
-	//TODO: this is probably broken
-
-	bool success = false;
-	if (node == nullptr) return true;
-
-	int index         = getIndex(node);
-	WindowNode*& next = getByIndex(index + 1);
-	if (next == nullptr) return true;
-
-	node = next;
-	remove(next);
-	success &= remove(node);
-
-	if (!success) throw string("ERROR: fail to reorder WindowTree after removal");
-	return success;
-}
-*/
-
-int WindowTree::getIndex(WindowNode* target)
-{
-	WindowNode* found = nullptr;
-	int index         = 0;
-
-	std::function<bool(WindowNode*)> func =
-	    [&found, target, &index](WindowNode* node) -> bool
+	if (success)
 	{
-		if (node == target) return false;
-		index++;
-		return true;
-	};
+		numWindows++;
+		size++;
+	}
+	else
+	{
+		throw string("ERROR: fail to add WindowNode to WindowTree");
+	}
 
-	breadthFirstSearch(target, func);
+	cout << "size: " << size << endl;
 
-	bool success = contains(target);
-	if (!success)
-		throw string("ERROR: getIndex failed to find target WindowNode");
-	return index;
+	return success;
 }
 
 /**
@@ -377,7 +404,7 @@ WindowTree::~WindowTree() { clear(); }
 
 void WindowTree::clear()
 {
-	forEachNode func = [](WindowNode* node) -> bool { delete node; };
+	forEachNode func = [this](WindowNode* node) -> bool { delete node; return true;};
 	postOrderTraverse(root, func);
 }
 
