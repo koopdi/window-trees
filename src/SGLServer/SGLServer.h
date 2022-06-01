@@ -8,6 +8,9 @@
 
 #include "types.h"
 
+#include <set>
+#include <memory>
+
 /**
  * @brief The SGL Server acts as a system layer.
  * Mouse and keeb inputs are forwarded to the WindowManager.
@@ -50,6 +53,11 @@ private:
 	sgl::GWindow* window;
 	const int WINDOW_WIDTH  = 640;
 	const int WINDOW_HEIGHT = 480;
+
+	/// Give each window a unique ID.
+	int ID_TICKER;
+	using idPair = std::pair<std::shared_ptr<sgl::GObject>, int>;
+	std::set<idPair> winDex;
 
 	// private methods ---------------------------------------
 
