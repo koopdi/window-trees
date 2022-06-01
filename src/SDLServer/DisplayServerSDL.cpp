@@ -1,15 +1,15 @@
 #include "DisplayServerSDL.h"
 
 int DisplayServerSDL::numScreensToConstruct = 3;
-Area DisplayServerSDL::defaultWindowArea = { 0, 0, 400, 300 };
-int DisplayServerSDL::defaultWindowSpace = 50;
+Area DisplayServerSDL::defaultWindowArea    = {0, 0, 400, 300};
+int DisplayServerSDL::defaultWindowSpace    = 50;
 
 void DisplayServerSDL::run()
 {
 	for (int i = 0; i < numScreensToConstruct; i++)
 	{
 		screens.push_back(new ServerScreenSDL(
-		    "WindowManager Demo Screen" + std::to_string(i), defaultWindowArea));
+			"WindowManager Demo Screen" + std::to_string(i), defaultWindowArea));
 		defaultWindowArea.x += defaultWindowArea.width + defaultWindowSpace;
 	}
 
@@ -20,7 +20,6 @@ void DisplayServerSDL::run()
 	SDL_Event e;
 	while (running)
 	{
-
 		while (SDL_PollEvent(&e))
 		{
 			switch (e.type)
@@ -46,64 +45,52 @@ void DisplayServerSDL::run()
 
 			default:
 				std::cout << "DisplayServerSDL::run: dropped event of type ["
-				          << std::to_string(e.type) << "]" << std::endl;
+						<< std::to_string(e.type) << "]" << std::endl;
 				break;
+			}
+
+			running = false;
+			for (int i = 0; i < screens.size(); i++)
+			{
+				if (screens[i]->isVisible())
+				{
+					running = true;
+				}
 			}
 		}
 	}
 }
 
+DisplayServerSDL::DisplayServerSDL() : running(true)
+{
+	atexit(SDL_Quit);
+	SDL_Init(SDL_INIT_VIDEO);
 
-DisplayServerSDL::DisplayServerSDL() : running(true) {
-    atexit(SDL_Quit);
-    SDL_Init(SDL_INIT_VIDEO);
+	SDL_DisplayMode displayMode;
+	SDL_GetCurrentDisplayMode(0, &displayMode);
 
-    SDL_DisplayMode displayMode;
-    SDL_GetCurrentDisplayMode(0, &displayMode);
+	defaultWindowArea = {0, displayMode.h / 2, 800, 600};
 
-    defaultWindowArea = { 0, displayMode.h / 2,
-    800, 600 };
-
-    initFunc = [](ServerInterface* server){
-        std::cout << "[Warning]: Falling back to default initFunc" << std::endl;
-    };
+	initFunc          = [](ServerInterface* server)
+	{ std::cout << "[Warning]: Falling back to default initFunc" << std::endl; };
 }
 
-DisplayServerSDL::DisplayServerSDL(InitHandlerFn initFn, EventHandlerFn eventFn) {
-
+DisplayServerSDL::DisplayServerSDL(InitHandlerFn initFn, EventHandlerFn eventFn)
+{
 }
 
+DisplayServerSDL::~DisplayServerSDL() {}
 
-DisplayServerSDL::~DisplayServerSDL() {
+Area DisplayServerSDL::getArea(long windowID) {}
 
-}
+void DisplayServerSDL::setArea(long windowID, Area area) {}
 
-Area DisplayServerSDL::getArea(long windowID) {
+std::vector<long> DisplayServerSDL::getScreens() {}
 
-}
+std::vector<long> DisplayServerSDL::getWindows(long screenID) {}
 
-void DisplayServerSDL::setArea(long windowID, Area area) {
+Area DisplayServerSDL::getScreenSize(long screenID) {}
 
-}
+void DisplayServerSDL::setInitCallback(InitHandlerFn fn) {}
 
-std::vector<long> DisplayServerSDL::getScreens() {
-
-}
-
-std::vector<long> DisplayServerSDL::getWindows(long screenID) {
-
-}
-
-Area DisplayServerSDL::getScreenSize(long screenID) {
-
-}
-
-
-void DisplayServerSDL::setInitCallback(InitHandlerFn fn) {
-
-}
-
-
-void DisplayServerSDL::setEventCallback(EventHandlerFn fn) {
-
-}
+void DisplayServerSDL::setEventCallback(EventHandlerFn fn) {}

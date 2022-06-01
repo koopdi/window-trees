@@ -70,7 +70,9 @@ void ServerScreenSDL::render(){
 	SDL_RenderPresent(ren);
 }
 
-
+bool ServerScreenSDL::isVisible(){
+	return visible;
+}
 
 ServerScreenSDL::~ServerScreenSDL() {
 	for (ServerWindowSDL win : windows){

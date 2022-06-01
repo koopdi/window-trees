@@ -19,7 +19,7 @@ private:
 public:
 	void handleEvent(SDL_Event& e);
 	void render();
-
+	bool isVisible();
 	void populateRandom(int num);
 
 
