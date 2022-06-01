@@ -14,6 +14,7 @@ add_subdirectory("src/Protocol/")
 add_subdirectory("src/WindowManager/")
 add_subdirectory("src/XServer/")
 add_subdirectory("src/SGLServer/")
+add_subdirectory("src/SDLServer/")
 add_subdirectory("src/Tiles")
 
 # Configure flags for the C++ compiler
