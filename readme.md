@@ -13,3 +13,11 @@
 - select [WindowTrees] build target
 - select [SGL_Client] launch target
 - build and run with cmake
+
+<br>
+<br>
+<br>
+
+# Demo
+- Click "Add" in the toolbar of the SGL window that appears
+>A tree of windows will be built incrementally, adding one each time you click the button!
