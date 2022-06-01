@@ -8,7 +8,6 @@
 
 class ServerScreenSDL {
 private:
-	static int newWinID;
 	bool visible;
 	int windowID;
 	std::set<ServerWindowSDL> windows; //stores windows; NOTE: uses overloaded < to sort by depth
@@ -20,6 +19,9 @@ private:
 public:
 	void handleEvent(SDL_Event& e);
 	void render();
+
+	void populateRandom(int num);
+
 
 	ServerScreenSDL(std::string name, Area area);
 	~ServerScreenSDL();

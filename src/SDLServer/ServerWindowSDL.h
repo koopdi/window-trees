@@ -11,5 +11,9 @@ struct ServerWindowSDL
 	bool operator==(ServerWindowSDL& win2);
 	bool operator<(ServerWindowSDL& win2);
 
-	ServerWindowSDL(long windowID, int depth, SDL_Rect rect, SDL_Color color);
+	ServerWindowSDL(SDL_Rect rect = {0,0,100,100}, SDL_Color color = {0xFF, 0x00, 0xFF, 0xFF});
+	ServerWindowSDL();
+
+private:
+	static long nextID;
 };

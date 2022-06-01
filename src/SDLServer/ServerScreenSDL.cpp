@@ -1,7 +1,16 @@
 #include "ServerScreenSDL.h"
+void ServerScreenSDL::populateRandom(int num){
+	int width;
+	int height;
+	SDL_GetWindowSize(win, &width, &height);
+	for (int i = 0; i < num; i++){
+		windows.insert(ServerWindowSDL(
+			SDL_Rect {rand() % width, rand() % height, 200, 300},
+			SDL_Color {(Uint8) rand(), (Uint8) rand(), (Uint8) rand(), 0xFF}
+		));
+	}
 
-int ServerScreenSDL::newWinID = 0;
-
+}
 ServerScreenSDL::ServerScreenSDL(std::string name, Area area) : visible(true){
 	win = SDL_CreateWindow(name.c_str(), area.x, area.y, area.width, area.height, SDL_WINDOW_SHOWN);
 	ren = SDL_CreateRenderer(win, -1, 0);
@@ -61,9 +70,10 @@ void ServerScreenSDL::render(){
 
 
 ServerScreenSDL::~ServerScreenSDL() {
-	for (int i = 0; i < windows.size(); i++) {
-		/* send close events for all windows */
+	for (ServerWindowSDL win : windows){
+
 	}
+
 
 	SDL_DestroyRenderer(ren);
 	SDL_DestroyTexture(tex);

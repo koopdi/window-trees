@@ -1,17 +1,22 @@
 #include "ServerWindowSDL.h"
 
-ServerWindowSDL::ServerWindowSDL(long windowID, int depth, SDL_Rect rect, SDL_Color color) :
-	windowID(windowID), depth(depth), rect(rect), color(color){}
+long ServerWindowSDL::nextID = 0;
 
-void ServerWindowSDL::render(SDL_Renderer* ren) const{
+ServerWindowSDL::ServerWindowSDL(SDL_Rect rect, SDL_Color color) : rect(rect), color(color) {
+	depth = -nextID;
+	windowID = nextID++;
+}
+
+
+void ServerWindowSDL::render(SDL_Renderer* ren) const {
 	SDL_SetRenderDrawColor(ren, color.r, color.g, color.b, color.a);
 	SDL_RenderDrawRect(ren, &rect);
 }
 
-bool ServerWindowSDL::operator==(ServerWindowSDL& win2){
-	return depth == win2.depth;
+bool ServerWindowSDL::operator==(ServerWindowSDL& win2) {
+	return windowID == win2.windowID;
 }
 
-bool ServerWindowSDL::operator<(ServerWindowSDL& win2){
+bool ServerWindowSDL::operator<(ServerWindowSDL& win2) {
 	return depth < win2.depth;
 }
