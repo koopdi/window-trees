@@ -12,9 +12,18 @@
 #include "gobjects.h"
 #include "types.h"
 
-class SGLWindow
-{
+#include <memory>
 
+struct SGLWindow {
+	// This window's ID.
+	const long ID;
+
+private:
+	/// A counter to hold the
+	static long nextID;
+
+	/// The underlying graphics object.
+	std::shared_ptr<sgl::GObject> sprite;
 };
 
 // class SGLServerWindow
