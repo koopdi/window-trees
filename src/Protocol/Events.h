@@ -27,7 +27,6 @@
  */
 
 #include "types.h"
-
 namespace ev
 {
 // The type of event.
