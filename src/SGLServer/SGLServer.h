@@ -55,7 +55,7 @@ private:
 	const int WINDOW_HEIGHT = 480;
 
 	/// Give each window a unique ID.
-	int ID_TICKER;
+	int idTicker;
 	using idPair = std::pair<std::shared_ptr<sgl::GObject>, int>;
 	std::set<idPair> winDex;
 

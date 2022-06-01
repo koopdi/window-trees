@@ -4,7 +4,7 @@ using namespace std;
 
 SGLServer::SGLServer()
 {
-	ID_TICKER = 0;
+	idTicker = 0;
 
 	using sgl::GWindow;
 	using sgl::GEvent;
@@ -44,11 +44,14 @@ void SGLServer::setArea(long windowID, Area area)
 Area SGLServer::getArea(long windowID)
 {
 	Area foo;
+	foo.x = 0;
 	return foo;
 }
 Area SGLServer::getScreenSize(long screenID)
 {
 	Area foo;
+	foo.x = 0;
+
 	return foo;
 }
 
@@ -96,7 +99,7 @@ void SGLServer::menuEv(sgl::GEvent ev)
 			cout << "add was pressed, creating event..." << endl;
 			ev::Event* ev = new ev::Event;
 			ev->type = ev::EventType::ADD;
-			ev->add.atributeA = ++ID_TICKER;
+			ev->add.winID = ++idTicker;
 
 			idPair newWindow;
 			// newWindow.first = make_shared<sgl::GObject>;
@@ -109,7 +112,7 @@ void SGLServer::menuEv(sgl::GEvent ev)
 			cout << "remove was pressed, creating event..." << endl;
 			ev::Event* ev = new ev::Event;
 			ev->type = ev::EventType::REMOVE;
-			ev->remove.atributeB = 13;
+			ev->remove.winID = 13;
 
 			evFun(ev);
 		}
