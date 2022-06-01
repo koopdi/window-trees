@@ -82,7 +82,14 @@ DisplayServerSDL::DisplayServerSDL(InitHandlerFn initFn, EventHandlerFn eventFn)
 
 DisplayServerSDL::~DisplayServerSDL() {}
 
-Area DisplayServerSDL::getArea(long windowID) {}
+Area DisplayServerSDL::getArea(long windowID) {
+	for (int i = 0; i < screens.size(); i++){
+		if(screens[i]->hasWindow(windowID)){
+
+		}
+	}
+
+}
 
 void DisplayServerSDL::setArea(long windowID, Area area) {}
 

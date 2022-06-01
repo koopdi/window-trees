@@ -1,5 +1,6 @@
 #include "SDL2/SDL.h"
 #include <set>
+#include <unordered_map>
 #include <string>
 #include <thread>
 #include <functional>
@@ -10,18 +11,23 @@ class ServerScreenSDL {
 private:
 	bool visible;
 	int windowID;
-	std::set<ServerWindowSDL> windows; //stores windows; NOTE: uses overloaded < to sort by depth
-
+	std::set<ServerWindowSDL*, ServerWindowSDL> windows; //stores windows; NOTE: uses overloaded < to sort by depth
+	std::unordered_map<long, ServerWindowSDL*> idWindowMap;
 	SDL_Renderer* ren;
 	SDL_Window* win;
 	SDL_Texture* tex;
 
 public:
+	bool hasWindow(long windowID);
+	bool isVisible();
 	void handleEvent(SDL_Event& e);
 	void render();
-	bool isVisible();
 	void populateRandom(int num);
 
+	Area getArea(long windowID);
+	void setArea(long windowID, Area area);
+	std::vector<long> getWindows();
+	Area getScreenSize();
 
 	ServerScreenSDL(std::string name, Area area);
 	~ServerScreenSDL();

@@ -12,6 +12,7 @@ void ServerWindowSDL::render(SDL_Renderer* ren) const {
 	SDL_RenderFillRect(ren, &rect);
 }
 
-bool operator<(const ServerWindowSDL& win1, const ServerWindowSDL& win2){
-	return win1.depth < win2.depth;
-}
+bool ServerWindowSDL::operator()(const ServerWindowSDL* l, const ServerWindowSDL* r) const{
+	return l->depth < r->depth;
+};
+

@@ -4,11 +4,11 @@ void ServerScreenSDL::populateRandom(int num){
 	int height;
 	SDL_GetWindowSize(win, &width, &height);
 	for (int i = 0; i < num; i++){
-		SDL_Rect rect ={rand() % width, rand() % height, 200, 300};
-		SDL_Color color = {(Uint8) rand(), (Uint8) rand(), (Uint8) rand(), 0xFF};
-		windows.insert(ServerWindowSDL(
-			rect, color
-		));
+		ServerWindowSDL* newWin = new ServerWindowSDL(
+			{rand() % width, rand() % height, 200, 300},
+			{(Uint8) rand(), (Uint8) rand(), (Uint8) rand(), 0xFF});
+		windows.insert(newWin);
+		idWindowMap[newWin->windowID] = newWin;
 	}
 
 }
@@ -24,6 +24,9 @@ ServerScreenSDL::ServerScreenSDL(std::string name, Area area) : visible(true){
 	SDL_RenderPresent(ren);
 
 	windowID = SDL_GetWindowID(win);
+
+
+	windows = std::set<ServerWindowSDL*, ServerWindowSDL>(ServerWindowSDL());
 
 	populateRandom(10);
 }
@@ -62,7 +65,7 @@ void ServerScreenSDL::render(){
 
 
 	for (auto& w : windows){
-		w.render(ren);
+		w->render(ren);
 	}
 
 	SDL_RenderPresent(ren);
@@ -72,15 +75,18 @@ bool ServerScreenSDL::isVisible(){
 	return visible;
 }
 
-ServerScreenSDL::~ServerScreenSDL() {
-	for (ServerWindowSDL win : windows){
+bool ServerScreenSDL::hasWindow(long windowID){
+	return idWindowMap.count(windowID);
+}
 
-	}
+ServerScreenSDL::~ServerScreenSDL() {
+
 
 
 	SDL_DestroyRenderer(ren);
 	SDL_DestroyTexture(tex);
 	SDL_DestroyWindow(win);
 }
+
 
 
