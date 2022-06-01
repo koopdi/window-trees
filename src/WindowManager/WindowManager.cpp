@@ -17,8 +17,7 @@ using namespace std;
  */
 WindowManager::WindowManager(ServerInterface* server) : server(server)
 {
-	if (server == nullptr)
-	{
+	if (server == nullptr) {
 		throw "Failed to initialize Workspace Manager: "
 		      "Provided server is null.";
 	}
@@ -35,20 +34,14 @@ WindowManager::WindowManager(ServerInterface* server) : server(server)
  */
 void WindowManager::update(ev::Event& ev)
 {
-	try
-	{
+	try {
 		cout << "Window Manager: event got" << endl;
-		if (ev.type == ev::EventType::ADD)
-		{
+		if (ev.type == ev::EventType::ADD) {
 			(workspaces.begin())->get()->addWindow(true, ev.add.atributeA, 50.0);
-		}
-		else if(ev.type == ev::EventType::REMOVE)
-		{
+		} else if (ev.type == ev::EventType::REMOVE) {
 			(workspaces.begin())->get()->removeWindow(13);
 		}
-	}
-	catch (string error)
-	{
+	} catch (string error) {
 		cout << error << endl;
 	}
 }
