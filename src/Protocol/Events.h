@@ -30,46 +30,38 @@
 namespace ev
 {
 // The type of event.
-enum class EventType
-{
-	ADD,
-	REMOVE,
-	KEY,
-	MOUSE,
-	OTHER,
-	GARBAGE
+enum class EventType {
+	ADD,    /*Add a window.*/
+	REMOVE, /*Remove a window*/
+	KEY,    /*A key was pressed*/
+	MOUSE,  /*A mouse was moved */
+	OTHER,  /*Backend specific*/
+	GARBAGE /*Unhandled*/
 };
 
-struct Add
-{
+struct Add {
 	long winID;
 	Area winArea;
 };
 
-struct Remove
-{
+struct Remove {
 	long winID;
 };
 
-struct Key
-{
+struct Key {
 	long winID;
 	long screen;
 	bool isUpEv;
 	bool isRepeat;
-
 };
 
-struct Mouse
-{
+struct Mouse {
 	int atributeD;
 };
 
-struct Event
-{
+struct Event {
 	EventType type;
-	union
-	{
+	union {
 		Add add;
 		Remove remove;
 		Key key;
