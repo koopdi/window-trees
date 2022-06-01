@@ -9,7 +9,7 @@ void DisplayServerSDL::run()
 	for (int i = 0; i < numScreensToConstruct; i++)
 	{
 		screens.push_back(new ServerScreenSDL(
-			"WindowManager Demo Screen" + std::to_string(i), defaultWindowArea));
+		    "WindowManager Demo Screen" + std::to_string(i), defaultWindowArea));
 		defaultWindowArea.x += defaultWindowArea.width + defaultWindowSpace;
 	}
 
@@ -18,37 +18,38 @@ void DisplayServerSDL::run()
 
 	// event loop
 	SDL_Event e;
-	while (running)
+
+	while (running && SDL_WaitEvent(&e))
 	{
-		while (SDL_WaitEvent(&e))
+		switch (e.type)
 		{
-			switch (e.type)
+		case SDL_QUIT:
+			running = false;
+			break;
+
+		case SDL_KEYDOWN: // handle global shortcuts; falls through to windows
+			if (e.key.keysym.sym == SDLK_ESCAPE)
 			{
-			case SDL_QUIT:
+				using namespace std;
+				cout << "esc pressed" << endl;
 				running = false;
-				break;
-
-			case SDL_KEYDOWN: // handle global shortcuts; falls through to windows
-				if (e.key.keysym.sym == SDLK_ESCAPE)
-				{
-					using namespace std;
-					cout << "esc pressed" << endl;
-					running = false;
-				}
-
-			case SDL_WINDOWEVENT:
-				for (int i = 0; i < screens.size(); i++)
-				{
-					screens[i]->handleEvent(e);
-				}
-				break;
-
-			default:
-				std::cout << "DisplayServerSDL::run: dropped event of type ["
-						<< std::to_string(e.type) << "]" << std::endl;
-				break;
 			}
 
+		case SDL_WINDOWEVENT:
+			for (int i = 0; i < screens.size(); i++)
+			{
+				screens[i]->handleEvent(e);
+			}
+			break;
+
+		default:
+			std::cout << "DisplayServerSDL::run: dropped event of type ["
+			          << std::to_string(e.type) << "]" << std::endl;
+			break;
+		}
+
+		if (running != false)
+		{
 			running = false;
 			for (int i = 0; i < screens.size(); i++)
 			{
