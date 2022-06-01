@@ -4,9 +4,10 @@ void ServerScreenSDL::populateRandom(int num){
 	int height;
 	SDL_GetWindowSize(win, &width, &height);
 	for (int i = 0; i < num; i++){
+		SDL_Rect rect ={rand() % width, rand() % height, 200, 300};
+		SDL_Color color = {(Uint8) rand(), (Uint8) rand(), (Uint8) rand(), 0xFF};
 		windows.insert(ServerWindowSDL(
-			SDL_Rect {rand() % width, rand() % height, 200, 300},
-			SDL_Color {(Uint8) rand(), (Uint8) rand(), (Uint8) rand(), 0xFF}
+			rect, color
 		));
 	}
 
@@ -23,6 +24,8 @@ ServerScreenSDL::ServerScreenSDL(std::string name, Area area) : visible(true){
 	SDL_RenderPresent(ren);
 
 	windowID = SDL_GetWindowID(win);
+
+	populateRandom(10);
 }
 
 void ServerScreenSDL::handleEvent(SDL_Event& e) {
