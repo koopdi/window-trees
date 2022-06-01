@@ -4,6 +4,6 @@
 int main(){
 
 	WindowManager wm();
-	ServerInterface* server = new TermServer();
+	//ServerInterface* server = new TermServer();
 
 }
