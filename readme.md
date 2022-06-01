@@ -20,4 +20,6 @@
 
 # Demo
 - Click "Add" in the toolbar of the SGL window that appears
->A tree of windows will be built incrementally, adding one each time you click the button!
+- A tree of windows will be built incrementally, adding one each time you click the button!
+
+> Reach out via the group discord channel if there are build issues!
