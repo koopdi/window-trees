@@ -1,5 +1,5 @@
 {
-	"C_Cpp.clang_format_fallbackStyle": "{ BasedOnStyle: LLVM, UseTab: ForIndentation, IndentWidth: 2, TabWidth: 2, BreakBeforeBraces: Allman, AllowShortIfStatementsOnASingleLine: Always, ColumnLimit: 80,  AlignConsecutiveAssignments: AcrossEmptyLinesAndComments, AlignAfterOpenBracket: Align, AlignOperands: 'true', AlignOperands: 'true', AlignTrailingComments: 'true', AllowAllArgumentsOnNextLine: 'true', BinPackArguments: 'false', BinPackParameters: 'false', AlignConsecutiveBitFields: 'AcrossEmptyLinesAndComments', BreakStringLiterals: 'false', PointerAlignment: 'Left'}",
+	"C_Cpp.clang_format_fallbackStyle": "{ BasedOnStyle: LLVM, UseTab: ForIndentation, IndentWidth: 2, TabWidth: 2, BreakBeforeBraces: Linux, AllowShortIfStatementsOnASingleLine: Always, ColumnLimit: 80,  AlignConsecutiveAssignments: AcrossEmptyLinesAndComments, AlignAfterOpenBracket: Align, AlignOperands: 'true', AlignOperands: 'true', AlignTrailingComments: 'true', AllowAllArgumentsOnNextLine: 'true', BinPackArguments: 'false', BinPackParameters: 'false', AlignConsecutiveBitFields: 'AcrossEmptyLinesAndComments', BreakStringLiterals: 'false', PointerAlignment: 'Left'}",
 	"files.trimTrailingWhitespace": true,
 	"editor.renderWhitespace": "all",
 	"editor.guides.bracketPairs": true,
