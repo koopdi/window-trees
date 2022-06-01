@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.2.0)
 project (SDLServer VERSION 05.23.2022 LANGUAGES CXX)
 
-if not(WIN32)
+if (NOT WIN32)
 add_subdirectory("SDLClient")
 endif()
 
