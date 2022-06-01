@@ -4,6 +4,8 @@ using namespace std;
 
 SGLServer::SGLServer()
 {
+	ID_TICKER = 0;
+
 	using sgl::GWindow;
 	using sgl::GEvent;
 
@@ -32,7 +34,12 @@ SGLServer::SGLServer()
 	win.setMenuListener([this](GEvent ev) { menuEv(ev); });
 }
 
-void SGLServer::setArea(long windowID, Area area) {}
+void SGLServer::setArea(long windowID, Area area)
+{
+	sgl::GWindow& win = *window;
+
+	// win.add();
+}
 
 Area SGLServer::getArea(long windowID)
 {
@@ -86,25 +93,23 @@ void SGLServer::menuEv(sgl::GEvent ev)
 
 		if(action == "toolbar/Add")
 		{
-			static int num = 13;
-
 			cout << "add was pressed, creating event..." << endl;
 			ev::Event* ev = new ev::Event;
 			ev->type = ev::EventType::ADD;
-			ev->add.atributeA = num;
-			num++;
+			ev->add.atributeA = ++ID_TICKER;
+
+			idPair newWindow;
+			// newWindow.first = make_shared<sgl::GObject>;
+			// newWindow.second = ev->add.atributeA;
 
 			evFun(ev);
 		}
 		else if (action == "toolbar/Remove")
 		{
-			static int num = 31;
-
 			cout << "remove was pressed, creating event..." << endl;
 			ev::Event* ev = new ev::Event;
 			ev->type = ev::EventType::REMOVE;
-			ev->remove.atributeB = num;
-			num++;
+			ev->remove.atributeB = 13;
 
 			evFun(ev);
 		}
