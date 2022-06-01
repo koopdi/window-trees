@@ -19,8 +19,8 @@ ServerScreenSDL::ServerScreenSDL(std::string name, Area area) : visible(true){
 void ServerScreenSDL::handleEvent(SDL_Event& e) {
 	if(e.window.windowID == windowID){
 		if(e.type == SDL_WINDOWEVENT){
-			std::cout << e.window.type << std::endl;
-			switch (e.window.type){
+			std::cout << "ServerScreenSDL::handleEvent: " << e.window.event << std::endl;
+			switch (e.window.event){
 				case SDL_WINDOWEVENT_CLOSE:
 				SDL_HideWindow(win);
 				break;
