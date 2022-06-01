@@ -20,7 +20,7 @@ void DisplayServerSDL::run()
 	SDL_Event e;
 	while (running)
 	{
-		while (SDL_PollEvent(&e))
+		while (SDL_WaitEvent(&e))
 		{
 			switch (e.type)
 			{

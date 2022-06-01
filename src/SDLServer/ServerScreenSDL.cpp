@@ -65,8 +65,6 @@ void ServerScreenSDL::render(){
 		w.render(ren);
 	}
 
-
-	SDL_RenderCopy(ren, tex, NULL, NULL);
 	SDL_RenderPresent(ren);
 }
 
