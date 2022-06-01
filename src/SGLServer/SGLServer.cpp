@@ -96,6 +96,18 @@ void SGLServer::menuEv(sgl::GEvent ev)
 
 			evFun(ev);
 		}
+		else if (action == "toolbar/Remove")
+		{
+			static int num = 31;
+
+			cout << "remove was pressed, creating event..." << endl;
+			ev::Event* ev = new ev::Event;
+			ev->type = ev::EventType::REMOVE;
+			ev->remove.atributeB = num;
+			num++;
+
+			evFun(ev);
+		}
 	}
 }
 
