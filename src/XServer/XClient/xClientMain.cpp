@@ -18,7 +18,7 @@ int main()
 	std::cout << "run" << std::endl;
 #endif
 
-	EventHandlerFn handlerFunc = [&winMan](XEvent* event)
+	EventHandlerFn handlerFunc = [&winMan](ev::Event* event)
 	{ winMan.update(*event); };
 
 	server->setEventCallback(handlerFunc);

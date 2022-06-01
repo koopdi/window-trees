@@ -519,3 +519,7 @@ Point WindowTree::getCoordinate(int windowID)
 }
 
 // work in progress ******************************
+
+WindowNode* WindowTree::getRoot(){
+	return root;
+}

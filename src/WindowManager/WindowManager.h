@@ -28,6 +28,8 @@ public:
 
 	void update(ev::Event& ev);
 
+	void renderAll();
+
 private:
 	// private attributes ------------------------------------
 

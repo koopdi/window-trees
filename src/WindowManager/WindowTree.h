@@ -44,6 +44,8 @@ public:
 
 	void clear();
 
+	WindowNode* getRoot();
+
 	~WindowTree();
 
 private:
