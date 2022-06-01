@@ -1,7 +1,7 @@
 {
 	"C_Cpp.clang_format_fallbackStyle": "{ BasedOnStyle: LLVM, UseTab: ForIndentation, IndentWidth: 2, TabWidth: 2, BreakBeforeBraces: Linux, AllowShortIfStatementsOnASingleLine: Always, ColumnLimit: 80,  AlignConsecutiveAssignments: AcrossEmptyLinesAndComments, AlignAfterOpenBracket: Align, AlignOperands: 'true', AlignOperands: 'true', AlignTrailingComments: 'true', AllowAllArgumentsOnNextLine: 'true', BinPackArguments: 'false', BinPackParameters: 'false', AlignConsecutiveBitFields: 'AcrossEmptyLinesAndComments', BreakStringLiterals: 'false', PointerAlignment: 'Left'}",
 	"files.trimTrailingWhitespace": true,
-	"editor.renderWhitespace": "all",
+	// "editor.renderWhitespace": "all",
 	"editor.guides.bracketPairs": true,
 	"editor.bracketPairColorization.enabled": true,
 	"editor.rulers": [
@@ -16,6 +16,9 @@
 	// settings to keep editor in synch with formatter (ctrl+shift+i)
 	"editor.detectIndentation": false,
 	"editor.insertSpaces": false,
+	// use clang format
+	"C_Cpp.formatting": "clangFormat",
+
 
 	// how many spaces wide to display tab indents
 	//"editor.tabSize": 2,
@@ -128,5 +131,4 @@
 		"**/.DS_Store": true,
 		"**/Thumbs.db": true
 	},
-	"C_Cpp.formatting": "clangFormat",
 }
