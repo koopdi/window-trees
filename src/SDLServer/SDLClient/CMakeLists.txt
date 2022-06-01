@@ -4,7 +4,7 @@
 cmake_minimum_required(VERSION 3.7)
 project(sdlClient VERSION 0.0.1)
 
-find_package(SDL2 REQUIRED)
+find_package(SDL2)
 include_directories(sdlClient ${SDL2_INCLUDE_DIRS})
 
 add_executable(sdlClient SDLClient.cpp)
