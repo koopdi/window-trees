@@ -8,6 +8,7 @@
 #include "WindowNode.h"
 #include "WindowTree.h"
 #include "types.h"
+#include "ServerInterface.h"
 
 #include <memory>
 
@@ -21,7 +22,7 @@ public:
 	/**
 	 * @brief Construct a new Workspace object
 	 */
-	Workspace();
+	Workspace(ServerInterface* server);
 
 	void setHeight(int height);
 
@@ -44,6 +45,7 @@ public:
 
 	int getNumWindows() const;
 
+	void render();
 private:
 	// private attributes ------------------------------------
 
@@ -64,7 +66,10 @@ private:
 	/// a point representing the position of the top left corner of the workspace
 	Point position;
 
+	ServerInterface* server;
+
 	// private methods ---------------------------------------
+	void renderTree(WindowNode* node, Area bounds);
 };
 
 bool operator<(std::shared_ptr<Workspace>& a, std::shared_ptr<Workspace>& b);

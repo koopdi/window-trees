@@ -23,8 +23,15 @@ WindowManager::WindowManager(ServerInterface* server) : server(server)
 	}
 
 	// add a workspace
-	shared_ptr<Workspace> spw = make_shared<Workspace>();
+	shared_ptr<Workspace> spw = make_shared<Workspace>(server);
 	workspaces.insert(spw);
+}
+
+
+void WindowManager::renderAll(){
+	for (auto& workspace : workspaces){
+		workspace->render();
+	}
 }
 
 /**
@@ -41,6 +48,9 @@ void WindowManager::update(ev::Event& ev)
 		} else if (ev.type == ev::EventType::REMOVE) {
 			(workspaces.begin())->get()->removeWindow(13);
 		}
+
+		renderAll();
+
 	} catch (string error) {
 		cout << error << endl;
 	}
