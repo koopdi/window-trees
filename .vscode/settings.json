@@ -128,4 +128,5 @@
 		"**/.DS_Store": true,
 		"**/Thumbs.db": true
 	},
+	"C_Cpp.formatting": "clangFormat",
 }
