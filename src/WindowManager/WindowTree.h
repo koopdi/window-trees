@@ -44,17 +44,9 @@ public:
 
 	void clear();
 
-<<<<<<< HEAD
-	void printHeap(std::vector<WindowNode*> heap);
-=======
 	WindowNode* getRoot();
->>>>>>> 28ccc21189fc24db920e85713ad1a7837b3d98ca
 
 	~WindowTree();
-
-	void printSideways(WindowNode* root);
-
-	void printSidewaysHelper(WindowNode* root, std::string spaces);
 
 private:
 	// private attributes ------------------------------------
@@ -80,6 +72,10 @@ private:
 
 	/// A function that is passed to a xyzTraverse function.
 	using forEachNode = std::function<bool(WindowNode*)>;
+
+	void printSideways(WindowNode* root);
+
+	void printSidewaysHelper(WindowNode* root, std::string spaces);
 
 	void preOrderTraverse(WindowNode* node, forEachNode func) const;
 
