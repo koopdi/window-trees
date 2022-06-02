@@ -133,7 +133,7 @@ void WindowTree::printSideways(WindowNode* root) {
 }
 
 
-void WindowTree::printHeap(vector<WindowNode*> heap) {
+void printHeap(vector<WindowNode*> heap) {
 	int num = 0;
 	for (WindowNode* node: heap) {
 		cout << num << ": ";
@@ -198,6 +198,51 @@ bool WindowTree::add(bool partVertically, double part1Size, int windowID)
 
 		success = contains(windowID);
 
+		/*
+		WindowNode* target = heap[numWindows-1];
+		heap[numWindows]->part1Size = part1Size;
+		// place a parent node in the spot of the current last node
+		cout << "place a parent node in the spot of the current last node" << endl;
+		parentOfTarget->part1 = heap[numWindows - 1];
+
+		// swap
+		WindowNode* temp = heap[numWindows];
+		heap[numWindows] = heap[numWindows+1];
+		heap[numWindows+1] =  temp;
+		//swap(heap[numWindows], heap[numWindows+1]);
+
+		cout << "temp: " << (target->isWindow() ? target->window->windowID : (long long)root) << endl;
+
+		cout << endl;
+		printSideways(root);
+		cout << endl;
+		printHeap(heap);
+		cout << endl;
+
+		// point the parent node to the last node
+		cout << "point the parent node to the last node" << endl;
+		heap[numWindows-1]->part1 = target;
+
+		cout << "temp: " << (target->isWindow() ? target->window->windowID : (long long)root) << endl;
+
+		cout << endl;
+		printSideways(root);
+		cout << endl;
+		printHeap(heap);
+		cout << endl;
+
+
+		// point the parent node at the new node
+		heap.push_back(new WindowNode(partVertically, part1Size, windowID, workspaceID));
+		heap[numWindows]->part2 = heap.back();
+		cout << "point the parent node to the last node" << endl;
+
+		success = contains(windowID);
+		root = heap[0];
+
+		/*
+		*/
+
 	}
 	cout << endl;
 	printSideways(root);
@@ -220,7 +265,6 @@ bool WindowTree::add(bool partVertically, double part1Size, int windowID)
 	return success;
 }
 
-
 /**
  * @brief
  *
@@ -229,68 +273,21 @@ bool WindowTree::add(bool partVertically, double part1Size, int windowID)
  * @return false
  */
 bool WindowTree::remove(int windowID)
+
 // this function still has some bugs
 {
-	bool success;
-	WindowNode* found = get(windowID);
-	if (found == nullptr) return false;
+	bool success        = false;
 
-	int index = 0;
-	for (WindowNode* node: heap) {
-		if (node == found) break;
-		index++;
-	}
+	WindowNode*& target = getRef(windowID);
+	WindowNode* temp    = target;
 
-	WindowNode* tempLeft;
-	WindowNode* tempRight;
+	WindowNode*& last   = getByIndex(size);
 
-	tempLeft = heap[index]->part1;
-	tempRight = heap[index]->part2;
-	WindowNode* parentOfTarget = heap[(index - 1) / 2];
-
-	if (parentOfTarget->part1 == heap[index]) {
-		//parentOfTarget->part1 = heap.back();
-	} else {
-		parentOfTarget->part2 = heap.back();
-	}
-
-	heap[index] = heap.back();
-	if (heap[index]->part1 != nullptr) // 1 left child case
-		heap[index]->part1 = tempLeft;
-	if (heap[index]->part2 != nullptr)
-		heap[index]->part2 = tempRight; // 1 right child case
-
-	cout << endl;
-	printSideways(root);
-	cout << endl;
-	printHeap(heap);
-	cout << endl;
-
-	WindowNode* parentOfLast = heap[(size - 2) / 2];
-
-
-	if (parentOfLast->part2 == heap.back())
-	// zero child case: check part two first
-	{
-		parentOfLast->part2 = nullptr;
-	}
-	else
-	{
-		parentOfLast->part1 = nullptr;
-	}
-
-	success = !contains(windowID);
-	if (success)
-	{
-		size--;
-		heap.pop_back();
-	}
-
-	cout << endl;
-	printSideways(root);
-	cout << endl;
-	printHeap(heap);
-	cout << endl;
+	// swap target with the last node and then remove it.
+	target              = last;
+	last                = temp;
+	delete last;
+	last    = nullptr;
 
 	success = !contains(windowID);
 	if (success) size--;
