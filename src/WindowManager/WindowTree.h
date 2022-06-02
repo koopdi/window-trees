@@ -46,6 +46,8 @@ public:
 
 	WindowNode* getRoot();
 
+	void printHeap(std::vector<WindowNode*> heap);
+
 	~WindowTree();
 
 private:
