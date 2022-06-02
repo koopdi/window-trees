@@ -18,11 +18,11 @@ SGLServer::SGLServer()
 	win.setExitOnClose(true);
 	win.center();
 
-	// #if _WIN32
-	// win.drawImage("../../../res/edmonds.png");
-	// #else
-	// win.drawImage("res/edmonds.png");
-	// #endif
+	#if _WIN32
+	win.drawImage("../../../res/edmonds.png");
+	#else
+	win.drawImage("res/edmonds.png");
+	#endif
 
 	win.setWindowTitle("WindowTrees");
 
@@ -33,8 +33,6 @@ SGLServer::SGLServer()
 
 	win.setMenuListener([this](GEvent ev) { menuEv(ev); });
 
-	sgl::GRect* rect = new sgl::GRect(0, 0, 100, 200);
-	win.add(rect);
 }
 
 void SGLServer::setArea(long windowID, Area area)
