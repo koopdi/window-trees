@@ -72,7 +72,7 @@ bool Workspace::removeWindow(int windowID)
 
 void Workspace::renderTree(WindowNode* node, Area bounds){
 	if(node != nullptr){
-		if(node->isWindow()){
+		if(node->window->windowID != -1){										//node->isWindow() appears to be non functional
 			server->setArea(node->window->windowID, bounds);
 		} else {
 			if(node->partVertically){
@@ -97,6 +97,6 @@ void Workspace::renderTree(WindowNode* node, Area bounds){
 }
 
 void Workspace::render(){
-	Area area = {0,0, width, height};
+	Area area = {0,0, 600, 450}; //{0, 0, width, height};						// WARNINGL WIDTH AND HEIGHT ARE NOT SET PROPERLY
 	renderTree(tree->getRoot(), area);
 }

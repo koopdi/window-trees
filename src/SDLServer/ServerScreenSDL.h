@@ -11,7 +11,9 @@ class ServerScreenSDL {
 private:
 	bool visible;
 	int windowID;
-	std::set<ServerWindowSDL*, ServerWindowSDL> windows; //stores windows; NOTE: uses overloaded < to sort by depth
+	//stores windows sorted by depth
+	std::set<ServerWindowSDL*, ServerWindowSDL> windows;
+	//stores windows
 	std::unordered_map<long, ServerWindowSDL*> idWindowMap;
 	SDL_Renderer* ren;
 	SDL_Window* win;

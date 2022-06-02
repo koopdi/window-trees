@@ -96,7 +96,7 @@ void XServer::eventLoop()
 		switch (event.type)
 		{
 		case ConfigureRequest:
-		case DestroyNotify:
+		//case DestroyNotify:						//CRITICAL CASE DISABLED FOR TESTING
 		case ButtonPress:
 		case ButtonRelease:
 		case KeyPress:
