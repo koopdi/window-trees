@@ -1,11 +1,11 @@
 #include "SGLServer.h"
+#include "ginteractor.h"
+#include "gobjects.h"
 #include <string>
 using namespace std;
 
 SGLServer::SGLServer()
 {
-	idTicker = 0;
-
 	using sgl::GWindow;
 	using sgl::GEvent;
 
@@ -18,11 +18,11 @@ SGLServer::SGLServer()
 	win.setExitOnClose(true);
 	win.center();
 
-	#if _WIN32
-	win.drawImage("../../../res/edmonds.png");
-	#else
-	win.drawImage("res/edmonds.png");
-	#endif
+	// #if _WIN32
+	// win.drawImage("../../../res/edmonds.png");
+	// #else
+	// win.drawImage("res/edmonds.png");
+	// #endif
 
 	win.setWindowTitle("WindowTrees");
 
@@ -32,6 +32,9 @@ SGLServer::SGLServer()
 	addButtons();
 
 	win.setMenuListener([this](GEvent ev) { menuEv(ev); });
+
+	sgl::GRect* rect = new sgl::GRect(0,0,100,200);
+	win.add(rect);
 }
 
 void SGLServer::setArea(long windowID, Area area)
@@ -73,8 +76,9 @@ void SGLServer::setEventCallback(EventHandlerFn fn) { evFun = fn; }
 
 void SGLServer::run()
 {
-	// forward events to window manager?
-	// event forwarding can happen asynchronously.
+	// render looooop?
+	// window->repaint();
+	// std::sleep(200);
 }
 
 void SGLServer::keyEv(sgl::GEvent ev)
@@ -87,34 +91,36 @@ void SGLServer::keyEv(sgl::GEvent ev)
 	}
 }
 
-void SGLServer::menuEv(sgl::GEvent ev)
+void SGLServer::menuEv(sgl::GEvent e)
 {
-	if (ev.getClass() == sgl::EventClass::ACTION_EVENT)
+	if (e.getClass() == sgl::EventClass::ACTION_EVENT)
 	{
-		string action = ev.getActionCommand();
+		string action = e.getActionCommand();
 		cout << action << endl;
 
 		if(action == "toolbar/Add")
 		{
 			cout << "add was pressed, creating event..." << endl;
-			ev::Event* ev = new ev::Event;
-			ev->type = ev::EventType::ADD;
-			ev->add.winID = ++idTicker;
+			ev::Event* evAdd = new ev::Event;
+			evAdd->type = ev::EventType::ADD;
 
-			idPair newWindow;
+			sglWin gwin = make_shared<SGLWindow>(*window);
+			// ev->add.winID = ++idTicker;
+
+			// idPair newWindow;
 			// newWindow.first = make_shared<sgl::GObject>;
 			// newWindow.second = ev->add.atributeA;
 
-			evFun(ev);
+			evFun(evAdd);
 		}
 		else if (action == "toolbar/Remove")
 		{
 			cout << "remove was pressed, creating event..." << endl;
-			ev::Event* ev = new ev::Event;
-			ev->type = ev::EventType::REMOVE;
-			ev->remove.winID = 13;
+			ev::Event* evRem = new ev::Event;
+			evRem->type = ev::EventType::REMOVE;
+			evRem->remove.winID = 13;
 
-			evFun(ev);
+			evFun(evRem);
 		}
 	}
 }
@@ -126,7 +132,8 @@ void SGLServer::addButtons()
 		throw "cannot add buttons"s;
 	}
 	sgl::GWindow& win = *window;
-
+	// sgl::GInteractor* = new sgl::GInteractor::
+	// win.addToRegion()
 	win.addToolbar("toolbar");
 	win.addToolbarItem("Add");
 	win.addToolbarItem("Remove");

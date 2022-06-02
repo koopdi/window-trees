@@ -9,6 +9,7 @@
  * @date 05-30-2022
  */
 
+#include "gwindow.h"
 #include "gobjects.h"
 #include "types.h"
 
@@ -18,7 +19,12 @@ struct SGLWindow {
 	// This window's ID.
 	const long ID;
 
+	SGLWindow(sgl::GWindow& win);
+	~SGLWindow();
+
 private:
+	sgl::GWindow& win;
+
 	/// A counter to hold the
 	static long nextID;
 

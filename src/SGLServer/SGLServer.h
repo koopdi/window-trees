@@ -54,10 +54,13 @@ private:
 	const int WINDOW_WIDTH  = 640;
 	const int WINDOW_HEIGHT = 480;
 
-	/// Give each window a unique ID.
-	int idTicker;
-	using idPair = std::pair<std::shared_ptr<sgl::GObject>, int>;
-	std::set<idPair> winDex;
+	using sglWin = std::shared_ptr<SGLWindow>;
+	std::set<sglWin> winDex;
+
+	// /// Give each window a unique ID.
+	// int idTicker;
+	// using idPair = std::pair<std::shared_ptr<sgl::GObject>, int>;
+	// std::set<idPair> winDex;
 
 	// private methods ---------------------------------------
 
