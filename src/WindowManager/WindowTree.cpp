@@ -52,61 +52,6 @@ WindowNode* WindowTree::get(int windowID)
 	return found;
 }
 
-WindowNode*& WindowTree::getRef(int windowID)
-{
-	WindowNode** target                   = nullptr;
-
-	std::function<bool(WindowNode*)> func = [&target,
-	                                         windowID](WindowNode* node) -> bool
-	{
-		if (node->isWindow() && node->window->windowID == windowID)
-		{ // check
-			target = &node;
-			return false; // stop looking
-		}
-		return true; //  keep looking
-	};
-
-	preOrderTraverse(root, func);
-
-	WindowNode*& mutableWindowNode = *target;
-	return mutableWindowNode;
-}
-
-
-WindowNode*& WindowTree::getByIndex(int index)
-{
-	index               = index - 1; // convert to zero based index
-	WindowNode** target = nullptr;
-	int num             = 0;
-
-	if (index != 0)
-	{
-	}
-
-	std::function<bool(WindowNode*)> func =
-	    [&target, index, &num](WindowNode* node) -> bool
-	{
-		if (num == index)
-		{ // check
-			target = &node;
-			return false; // stop looking
-		}
-		num++;
-		return true; //  keep looking
-	};
-
-	breadthFirstSearch(root, func);
-
-	if (target == nullptr)
-		throw string(
-		    "Target not found in getByIndex, can't derefernce nullptr, can't return");
-	WindowNode*& mutableWindowNode = *target;
-
-	return mutableWindowNode;
-}
-
-
 /**
  * @brief
  *
@@ -196,6 +141,8 @@ void WindowTree::printHeap(vector<WindowNode*> heap) {
 		cout << (node->isWindow() ? node->window->windowID : (long long)node) << endl;
 	}
 }
+
+
 /**
  * @brief add a window to the window tree!
  *
@@ -282,9 +229,7 @@ bool WindowTree::add(bool partVertically, double part1Size, int windowID)
  * @return false
  */
 bool WindowTree::remove(int windowID)
-// this fucntion is bugged if the node trying to be removed has 1 child
-// it works if the node has no children or two children.
-// it does not crash if there is no such node
+// this function still has some bugs
 {
 	bool success;
 	WindowNode* found = get(windowID);
@@ -355,10 +300,11 @@ bool WindowTree::remove(int windowID)
 }
 
 /**
- * @brief
+ * @brief call a function on each node in pre-order
+ * 	quit early if func returns false
  *
- * @param node
- * @param func
+ * @param node the current node
+ * @param func the function to call on each node
  */
 void WindowTree::preOrderTraverse(WindowNode* node, forEachNode func) const
 {
@@ -374,13 +320,13 @@ void WindowTree::preOrderTraverse(WindowNode* node, forEachNode func) const
 }
 
 /**
- * @brief
+ * @brief call a function on each node in post-order
+ * 	quit early if func returns false
  *
- * @param node
- * @param func
+ * @param node the current node
+ * @param func the function to call on each node
  */
-void WindowTree::inOrderTraverse(WindowNode* node,
-                                 std::function<bool(WindowNode*)> func) const
+void WindowTree::inOrderTraverse(WindowNode* node, forEachNode func) const
 {
 	if (node == nullptr) return;
 
@@ -393,10 +339,10 @@ void WindowTree::inOrderTraverse(WindowNode* node,
 }
 
 /**
- * @brief
+ * @brief call a function on each node in post order
  *
- * @param node
- * @param func
+ * @param node the current node
+ * @param func the function to call on each node
  */
 void WindowTree::postOrderTraverse(WindowNode* node, forEachNode func) const
 {
@@ -407,14 +353,24 @@ void WindowTree::postOrderTraverse(WindowNode* node, forEachNode func) const
 	func(node);
 }
 
+/**
+ * @brief Destroy the Window Tree:: Window Tree object
+ *
+ */
 WindowTree::~WindowTree() { clear(); }
 
+
+/**
+ * @brief deletes all the nodes in the window tree
+ *
+ */
 void WindowTree::clear()
 {
 	forEachNode func = [this](WindowNode* node) -> bool { delete node; return true;};
 	postOrderTraverse(root, func);
 }
 
+/*
 void WindowTree::breadthFirstSearch(WindowNode* node,
                                     std::function<bool(WindowNode*)> func)
 {
@@ -521,10 +477,11 @@ Point WindowTree::getCoordinate(int windowID)
 
 
 	  preOrderTraverse(root, func);
-	*/
+	*//*
 	return coordinate;
 }
 
+*/
 // work in progress ******************************
 
 WindowNode* WindowTree::getRoot(){
