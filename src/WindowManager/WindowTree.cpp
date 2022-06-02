@@ -214,15 +214,21 @@ bool WindowTree::add(bool partVertically, double part1Size, int windowID)
 
 	cout << "numWindows: " << numWindows << endl;
 	bool success = false;
-	if (numWindows < 2)
+	if (numWindows == 0)
 	{
-		heap.push_back(new WindowNode(0, 0, windowID, workspaceID));
+		heap.push_back(new WindowNode(0, windowID, workspaceID));
 		if (numWindows == 0)
 		{
-			root->part1Size = 100.;
+			root->part1Size = 1.;
 			root->part1 = heap.back();
 		}
-		else
+		success = contains(windowID);
+
+		if (!success) throw string("failed to add first node");
+	}
+	else if (numWindows = 1)
+	{
+		heap.push_back(new WindowNode(0, windowID, workspaceID));
 		{
 			root->part1Size = part1Size;
 			root->part2 = heap.back();
@@ -234,7 +240,7 @@ bool WindowTree::add(bool partVertically, double part1Size, int windowID)
 	else
 	{
 		// add node to heap
-		heap.push_back(new WindowNode(partVertically, part1Size, windowID, workspaceID));
+		heap.push_back(new WindowNode(partVertically, windowID, workspaceID));
 
 		cout << endl;
 		printSideways(root);
