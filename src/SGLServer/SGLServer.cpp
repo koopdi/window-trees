@@ -6,8 +6,8 @@ using namespace std;
 
 SGLServer::SGLServer()
 {
-	using sgl::GWindow;
 	using sgl::GEvent;
+	using sgl::GWindow;
 
 	// create a window
 	window       = new GWindow(WINDOW_WIDTH, WINDOW_HEIGHT);
@@ -33,7 +33,7 @@ SGLServer::SGLServer()
 
 	win.setMenuListener([this](GEvent ev) { menuEv(ev); });
 
-	sgl::GRect* rect = new sgl::GRect(0,0,100,200);
+	sgl::GRect* rect = new sgl::GRect(0, 0, 100, 200);
 	win.add(rect);
 }
 
@@ -85,47 +85,46 @@ void SGLServer::keyEv(sgl::GEvent ev)
 {
 	sgl::GWindow& win = *window;
 
-	if (ev.getKeyCode() == sgl::GEvent::KeyCode::ESCAPE_KEY)
-	{
+	if (ev.getKeyCode() == sgl::GEvent::KeyCode::ESCAPE_KEY) {
 		win.close();
 	}
 }
 
 void SGLServer::menuEv(sgl::GEvent e)
 {
-	if (e.getClass() == sgl::EventClass::ACTION_EVENT)
-	{
+	if (e.getClass() == sgl::EventClass::ACTION_EVENT) {
 		string action = e.getActionCommand();
 		cout << action << endl;
 
-		if(action == "toolbar/Add")
-		{
+		if (action == "toolbar/Add") {
 			cout << "add was pressed, creating event..." << endl;
 			ev::Event* evAdd = new ev::Event;
-			evAdd->type = ev::EventType::ADD;
+			evAdd->type      = ev::EventType::ADD;
 
-			sglWin gwin = make_shared<SGLWindow>(*window);
+			sglWin gwin      = make_shared<SGLWindow>(*window);
 
 			winDex.insert(gwin);
 
 			evFun(evAdd);
-		}
-		else if (action == "toolbar/Remove")
-		{
+		} else if (action == "toolbar/Remove") {
 			cout << "remove was pressed, creating event..." << endl;
-			ev::Event* evRem = new ev::Event;
-			evRem->type = ev::EventType::REMOVE;
-			evRem->remove.winID = 13;
 
-			evFun(evRem);
+			if (!winDex.empty()) {
+				sglWin gwin = *winDex.begin();
+				winDex.erase(winDex.begin());
+				ev::Event* evRem    = new ev::Event;
+				evRem->type         = ev::EventType::REMOVE;
+				evRem->remove.winID = (*gwin).ID;
+
+				evFun(evRem);
+			}
 		}
 	}
 }
 
 void SGLServer::addButtons()
 {
-	if (window == nullptr)
-	{
+	if (window == nullptr) {
 		throw "cannot add buttons"s;
 	}
 	sgl::GWindow& win = *window;
