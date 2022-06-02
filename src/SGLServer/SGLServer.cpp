@@ -39,7 +39,7 @@ void SGLServer::setArea(long windowID, Area area)
 {
 	sgl::GWindow& win = *window;
 
-	// win.add();
+
 }
 
 Area SGLServer::getArea(long windowID)
@@ -101,20 +101,27 @@ void SGLServer::menuEv(sgl::GEvent e)
 
 			sglWin gwin      = make_shared<SGLWindow>(*window);
 			evAdd->add.winID = (*gwin).ID;
-			winDex.insert(gwin);
+			winDex[(*gwin).ID] = gwin;
 
 			evFun(evAdd);
 		} else if (action == "toolbar/Remove") {
 			cout << "remove was pressed, creating event..." << endl;
 
 			if (!winDex.empty()) {
-				sglWin gwin = *winDex.begin();
+				// get the first window
+				sglWin gwin = (*winDex.begin()).second;
+				// remove the window
 				winDex.erase(winDex.begin());
+
+				// create remove event
 				ev::Event* evRem    = new ev::Event;
 				evRem->type         = ev::EventType::REMOVE;
 				evRem->remove.winID = (*gwin).ID;
-
+				// send remove event to event handler
 				evFun(evRem);
+				// free event memory
+				delete evRem;
+				// The window will be automatically removed and freed.
 			}
 		}
 	}

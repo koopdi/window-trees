@@ -8,7 +8,7 @@
 
 #include "types.h"
 
-#include <set>
+#include <map>
 #include <memory>
 
 /**
@@ -55,7 +55,7 @@ private:
 	const int WINDOW_HEIGHT = 480;
 
 	using sglWin = std::shared_ptr<SGLWindow>;
-	std::set<sglWin> winDex;
+	std::map<long, sglWin> winDex;
 
 	// /// Give each window a unique ID.
 	// int idTicker;
