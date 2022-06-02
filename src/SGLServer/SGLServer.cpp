@@ -105,11 +105,8 @@ void SGLServer::menuEv(sgl::GEvent e)
 			evAdd->type = ev::EventType::ADD;
 
 			sglWin gwin = make_shared<SGLWindow>(*window);
-			// ev->add.winID = ++idTicker;
 
-			// idPair newWindow;
-			// newWindow.first = make_shared<sgl::GObject>;
-			// newWindow.second = ev->add.atributeA;
+			winDex.insert(gwin);
 
 			evFun(evAdd);
 		}
