@@ -36,6 +36,8 @@ private:
 
 	void setXAttribute(unsigned int bitmask);
 
+	ev::Event convertXEvent(XEvent& xEv);
+
 	void addWindow(Screen* screen, Window w);
 	void removeWindow(Screen* screen, Window w);
 	void eventLoop();

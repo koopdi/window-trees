@@ -9,6 +9,47 @@ struct TreeQueryResult
 	unsigned int nchildren_return;
 };
 
+ev::Event XServer::convertXEvent(XEvent& xEv){
+	ev::Event ev;
+
+	switch(xEv.type){
+		case ConfigureRequest:
+		ev.type = ev::EventType::ADD;
+		ev.add.winID = xEv.xconfigure.window;
+		ev.add.winArea.x = xEv.xconfigure.x;
+		ev.add.winArea.y = xEv.xconfigure.y;
+		ev.add.winArea.width = xEv.xconfigure.width;
+		ev.add.winArea.height = xEv.xconfigure.height;
+		break;
+
+		case DestroyNotify:
+		ev.type = ev::EventType::REMOVE;
+		ev.remove.winID = xEv.xdestroywindow.window;
+		break;
+
+		case ButtonPress:
+		case ButtonRelease:
+		ev.type = ev::EventType::MOUSE;
+		log.warn("Shitty mouse event conversion in convertXEvent");
+		break;
+
+		case KeyPress:
+		case KeyRelease:
+		ev.type = ev::EventType::KEY;
+		ev.key.isUpEv = xEv.xkey.state; //maybe
+		ev.key.screen = xEv.xkey.root; //maybe
+		ev.key.winID = xEv.xkey.window;
+		log.warn("Shitty key event conversion in convertXEvent");
+		break;
+
+		default:
+		log.erro("BAD XEVENT CONVERSION");
+		throw string("Failed to convert XEvent");
+		break;
+	}
+	return ev;
+}
+
 void XServer::run()
 { //														HALF IMPLEMENTED
 	XSelectInput(display,
@@ -48,18 +89,26 @@ void XServer::eventLoop()
 		cout << "getting next event" << endl;
 		XNextEvent(display, &event);
 		cout << "got next event" << endl;
-		handlerFunc(&event);
 
-		// internal event handling
+		// event handling
+		ev::Event genEv;
+
 		switch (event.type)
 		{
-		case CreateNotify:
-		case DestroyNotify:
-		case ReparentNotify:
-		case ConfigureNotify:
 		case ConfigureRequest:
+		case DestroyNotify:
+		case ButtonPress:
+		case ButtonRelease:
+		case KeyPress:
+		case KeyRelease:
+		genEv = convertXEvent(event);
+		handlerFunc(&genEv);
+		break;
+
+		case CreateNotify:
 		case MapNotify:   // returned when MapRequest is awknowledged by X server
 		case UnmapNotify: // when a window disappears
+		case ReparentNotify: //when a window is reparented
 			break;
 
 		case MapRequest:

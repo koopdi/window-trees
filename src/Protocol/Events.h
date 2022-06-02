@@ -25,42 +25,43 @@
  * Who is responsible for that memory?
  * Would passing them by copy work better?
  */
+
+#include "types.h"
 namespace ev
 {
 // The type of event.
-enum class EventType
-{
-	ADD,
-	REMOVE,
-	KEY,
-	MOUSE
+enum class EventType {
+	ADD,    /*Add a window.*/
+	REMOVE, /*Remove a window*/
+	KEY,    /*A key was pressed*/
+	MOUSE,  /*A mouse was moved */
+	OTHER,  /*Backend specific*/
+	GARBAGE /*Unhandled*/
 };
 
-struct Add
-{
-	int atributeA;
+struct Add {
+	long winID;
+	Area winArea;
 };
 
-struct Remove
-{
-	int atributeB;
+struct Remove {
+	long winID;
 };
 
-struct Key
-{
-	int atributeC;
+struct Key {
+	long winID;
+	long screen;
+	bool isUpEv;
+	bool isRepeat;
 };
 
-struct Mouse
-{
+struct Mouse {
 	int atributeD;
 };
 
-struct Event
-{
+struct Event {
 	EventType type;
-	union
-	{
+	union {
 		Add add;
 		Remove remove;
 		Key key;

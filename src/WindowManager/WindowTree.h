@@ -44,7 +44,11 @@ public:
 
 	void clear();
 
+<<<<<<< HEAD
 	void printHeap(std::vector<WindowNode*> heap);
+=======
+	WindowNode* getRoot();
+>>>>>>> 28ccc21189fc24db920e85713ad1a7837b3d98ca
 
 	~WindowTree();
 

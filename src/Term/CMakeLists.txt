@@ -1,42 +1,35 @@
 cmake_minimum_required(VERSION 3.2.0)
-project (SDLServer VERSION 05.23.2022 LANGUAGES CXX)
-
-
-if(NOT WIN32)
-add_subdirectory("SDLClient")
-endif(NOT WIN32)
+project (Term VERSION 05.23.2022 LANGUAGES CXX)
 
 # source / header files specific to this project
-FILE(GLOB SDL_Headers
+FILE(GLOB Term_Headers
 	*.cpp
 )
 
-FILE(GLOB SDL_Sources
+FILE(GLOB Term_Sources
 	*.h
 )
 
-FILE(GLOB SDL_Library_Headers
+FILE(GLOB Term_Library_Headers
 	../Protocol/*.h
 )
 
-add_library(SDLServer
-	${SDL_Headers}
-	${SDL_Sources}
-	${SDL_Library_Headers}
+add_library(Term
+	${Term_Headers}
+	${Term_Sources}
+	${Term_Library_Headers}
 )
 
-target_include_directories(SDLServer
+target_include_directories(Term
 	PUBLIC
 	"../Protocol/"
 	.
 )
 
-target_link_libraries(SDLServer
+target_link_libraries(Term
 	PUBLIC
 	Protocol
 	WindowManager
-	"-lSDL"
-	"-lpthread"
 )
 
 # Configure flags for the C++ compiler
