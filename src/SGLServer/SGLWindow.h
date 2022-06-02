@@ -22,6 +22,8 @@ struct SGLWindow {
 	SGLWindow(sgl::GWindow& win);
 	~SGLWindow();
 
+	void setArea(Area a);
+
 private:
 	sgl::GWindow& win;
 

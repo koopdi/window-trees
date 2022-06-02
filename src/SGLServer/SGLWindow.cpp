@@ -43,3 +43,9 @@ SGLWindow::~SGLWindow()
 	win.remove(*sprite);
 	// the memory will be freed automatically
 }
+
+void SGLWindow::setArea(Area a)
+{
+	sprite.get()->setLocation(a.x, a.y);
+	sprite.get()->setSize(a.width, a.height);
+}

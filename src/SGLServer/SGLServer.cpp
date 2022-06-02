@@ -35,11 +35,12 @@ SGLServer::SGLServer()
 
 }
 
-void SGLServer::setArea(long windowID, Area area)
+void SGLServer::setArea(long windowID, Area a)
 {
 	sgl::GWindow& win = *window;
 
-
+	sglWin gWin = winDex[windowID];
+	gWin.get()->setArea(a);
 }
 
 Area SGLServer::getArea(long windowID)
