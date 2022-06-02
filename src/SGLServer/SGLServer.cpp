@@ -46,13 +46,15 @@ void SGLServer::setArea(long windowID, Area a)
 Area SGLServer::getArea(long windowID)
 {
 	Area foo;
-	foo.x = 0;
+	sglWin gWin = winDex[windowID];
+	foo = gWin.get()->getArea();
 	return foo;
 }
 Area SGLServer::getScreenSize(long screenID)
 {
 	Area foo;
-	foo.x = 0;
+	foo.width = window->getCanvasWidth();
+	foo.height = window->getCanvasHeight();
 
 	return foo;
 }

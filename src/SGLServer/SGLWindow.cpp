@@ -44,6 +44,16 @@ SGLWindow::~SGLWindow()
 	// the memory will be freed automatically
 }
 
+Area SGLWindow::getArea()
+{
+	Area foo;
+	foo.width = sprite.get()->getWidth();
+	foo.height = sprite.get()->getHeight();
+	foo.x = sprite.get()->getX();
+	foo.y = sprite.get()->getY();
+	return foo;
+}
+
 void SGLWindow::setArea(Area a)
 {
 	sprite.get()->setLocation(a.x, a.y);
