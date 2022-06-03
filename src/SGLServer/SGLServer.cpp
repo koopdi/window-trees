@@ -35,19 +35,37 @@ SGLServer::SGLServer()
 
 }
 
+bool SGLServer::contains(long windowID)
+{
+	if(winDex.find(windowID) != winDex.end()){
+		return true;
+	} else {
+		// throw string("Window not found.");
+		cout << "Window ID does not exist." << endl;
+		return false;
+	}
+}
+
 void SGLServer::setArea(long windowID, Area a)
 {
-	sgl::GWindow& win = *window;
-
-	sglWin gWin = winDex[windowID];
-	gWin.get()->setArea(a);
+	if(contains(windowID)){
+		sglWin gWin = winDex[windowID];
+		gWin.get()->setArea(a);
+	} else {
+		cout << "Failed to set area." << endl;
+	}
 }
 
 Area SGLServer::getArea(long windowID)
 {
 	Area foo;
+	if(contains(windowID)){
 	sglWin gWin = winDex[windowID];
 	foo = gWin.get()->getArea();
+	} else {
+		cout << "Failed to get area -- Returning bogus data." << endl;
+		foo = {-1, -1, -1, -1};
+	}
 	return foo;
 }
 Area SGLServer::getScreenSize(long screenID)
