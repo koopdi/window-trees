@@ -271,7 +271,7 @@ bool WindowTree::remove(int targetID)
 	{
 		// **** get target node and index ***************
 		WindowNode* target = nullptr;
-		int index = (size - 1) / 2;  // starting here lets us skip parent nodes
+		int index = (size - 1) / 2 ;  // starting here lets us skip parent nodes
 
 		do
 		{
@@ -279,6 +279,7 @@ bool WindowTree::remove(int targetID)
 			index++;
 		}
 		while (target->window->windowID != targetID && index < heap.size());
+		index--;
 
 		if (target->window->windowID != targetID)
 			return false;  // target not found
@@ -593,4 +594,4 @@ Point WindowTree::getCoordinate(int windowID)
 	return coordinate;
 }
 
-// work in progress ******************************s
+// work in progress ******************************
