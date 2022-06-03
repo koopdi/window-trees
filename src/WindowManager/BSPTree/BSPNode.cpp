@@ -10,5 +10,5 @@ BSPNode::~BSPNode(){
 }
 
 bool BSPNode::isWindow(){
-	return windowID = -1;
+	return windowID == -1;
 }
