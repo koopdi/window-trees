@@ -1,12 +1,12 @@
 
-# SGL_Client
+# SGL_Server
 
 add_subdirectory(libSGL)
 
 cmake_minimum_required(VERSION 3.2.0)
-project (SGL_Client VERSION 05.21.2022 LANGUAGES CXX)
+project (SGL_Server VERSION 05.21.2022 LANGUAGES CXX)
 
-# use C++11 language standard
+# use C++17 language standard
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_VERBOSE_MAKEFILE ON)
@@ -51,33 +51,35 @@ add_compile_options(
 )
 
 # source / header files specific to this project
-FILE(GLOB SGL_Client_Headers
+FILE(GLOB SGL_Server_Headers
 	*.cpp
 )
 
-FILE(GLOB SGL_Client_Sources
+FILE(GLOB SGL_Server_Sources
 	*.h
 )
 
-FILE(GLOB SGL_Client_Library_Headers
+FILE(GLOB SGL_Server_Library_Headers
 	libSGL/
 )
 
-add_executable(SGL_Client
-${SGL_Client_Headers}
-${SGL_Client_Sources}
-${SGL_Client_Library_Headers}
+add_library(SGL_Server
+${SGL_Server_Headers}
+${SGL_Server_Sources}
+${SGL_Server_Library_Headers}
 )
 
-target_include_directories(SGL_Client
+target_include_directories(SGL_Server
 	PUBLIC
-	${SGL_Client_Library_Headers}
+	${SGL_Server_Library_Headers}
 	.
 )
 
-target_link_libraries(SGL_Client
+target_link_libraries(SGL_Server
 	PUBLIC
 	Protocol
 	WindowManager
 	SGL
 )
+
+add_subdirectory(sglClient)
