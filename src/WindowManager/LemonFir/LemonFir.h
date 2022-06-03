@@ -8,7 +8,18 @@
  * @author Andrew Hanson, Christen Spadevechia, Travis McKinney
  */
 
-class LemonFir
-{
+#include "ServerInterface.h"
 
+// #include "WindowManager.h"
+
+class LemonFir //: public WindowManager
+{
+public:
+	LemonFir(ServerInterface* server);
+
+	void update(ev::Event& ev);
+
+private:
+	/// A pointer to the server.
+	ServerInterface* server;
 };

@@ -26,6 +26,8 @@ add_compile_options(
 	-Dmain=studentMain
 )
 
+# SGL_Client -----------------------------------------------
+
 add_executable(SGL_Client
 	sglClientMain.cpp
 )
@@ -42,10 +44,12 @@ target_link_libraries(SGL_Client
 	SGL_Server
 )
 
+# Lemon_Fir_SGL --------------------------------------------
+
 add_executable(Lemon_Fir_SGL
 	lemonFirMain.cpp
 )
-#
+
 target_include_directories(Lemon_Fir_SGL
 	PUBLIC
 	.
