@@ -17,155 +17,74 @@
 #include <string>
 #include <algorithm>
 
-
 using namespace std;
 
+/**
+ * @brief Construct a new Window Tree:: Window Tree object
+ *
+ * @param workspace This is the workspace a WindowTree belongs to
+ */
 WindowTree::WindowTree(Workspace* workspace) {
-		workspaceID = (long long)(workspace);
-		this->workspace = workspace;
-		last = nullptr;
-		heap.push_back(new WindowNode());
-		root = heap[0];
-		size = 1;
-		numWindows = 0;
-	};
+	workspaceID = (long long)(workspace);
+	this->workspace = workspace;
+	last = nullptr;
+	heap.push_back(new WindowNode());
+	root = heap[0];
+	size = 1;
+	numWindows = 0;
+};
 
 int WindowTree::getSize() const { return size; }
 
 int WindowTree::getNumWindows() const { return numWindows; }
 
-WindowNode* WindowTree::get(int windowID)
+WindowNode* WindowTree::get(int targetID)
 {
-	WindowNode* found                     = nullptr;
+	int index = (size - 1) / 2;  // starting here lets us skip parent nodes
 
-	std::function<bool(WindowNode*)> func = [&found,
-	                                         windowID](WindowNode* node) -> bool
+	for (;index < heap.size(); index++)
 	{
-		if (node->isWindow() && node->window->windowID == windowID)
-		{ // check
-			found = node;
-			return false; // stop looking
-		}
-		return true; //  keep looking
-	};
-
-	preOrderTraverse(root, func);
-	return found;
-}
-
-WindowNode*& WindowTree::getRef(int windowID)
-{
-	WindowNode** target                   = nullptr;
-
-	std::function<bool(WindowNode*)> func = [&target,
-	                                         windowID](WindowNode* node) -> bool
-	{
-		if (node->isWindow() && node->window->windowID == windowID)
-		{ // check
-			target = &node;
-			return false; // stop looking
-		}
-		return true; //  keep looking
-	};
-
-	preOrderTraverse(root, func);
-
-	WindowNode*& mutableWindowNode = *target;
-	return mutableWindowNode;
-}
-
-
-WindowNode*& WindowTree::getByIndex(int index)
-{
-	index               = index - 1; // convert to zero based index
-	WindowNode** target = nullptr;
-	int num             = 0;
-
-	if (index != 0)
-	{
+		WindowNode* node = heap[index];
+		if (node->window->windowID == targetID)
+			return node;
 	}
 
-	std::function<bool(WindowNode*)> func =
-	    [&target, index, &num](WindowNode* node) -> bool
-	{
-		if (num == index)
-		{ // check
-			target = &node;
-			return false; // stop looking
-		}
-		num++;
-		return true; //  keep looking
-	};
-
-	breadthFirstSearch(root, func);
-
-	if (target == nullptr)
-		throw string(
-		    "Target not found in getByIndex, can't derefernce nullptr, can't return");
-	WindowNode*& mutableWindowNode = *target;
-
-	return mutableWindowNode;
+	return nullptr;
 }
 
-
 /**
- * @brief
+ * @brief returns if the tree has any windows
  *
  * @return true
  * @return false
  */
-bool WindowTree::isEmpty() const { return root == nullptr; }
+bool WindowTree::isEmpty() const { return numWindows == 0; }
 
 /**
- * @brief
+ * @brief returns if a windowID is held in the tree
  *
- * @param windowID
+ * @param targetID the WindowID we are searching for
  * @return true
  * @return false
  */
-bool WindowTree::contains(int windowID) const
+bool WindowTree::contains(int targetID) const
 {
-	bool contains                         = false;
-	/**
-	 * @brief find the correct node
-	 *
-	 * define what we want to do to our nodes as we traverse them
-	 * our function must return bool and take in a windowNode pointer
-	 * however we can add extra paramaters including return paramaters in the []
-	 * brackets */
-	std::function<bool(WindowNode*)> func = [&contains,
-	                                         windowID](WindowNode* node) -> bool
+	int index = (size - 1) / 2;  // starting here lets us skip parent nodes
+
+	for (;index < heap.size(); index++)
 	{
-		if (node->isWindow() && node->window->windowID == windowID)
-		{                  // check
-			contains = true; // check successful
-			return false;    // stop looking
-		}
-		return true; //  keep looking
-	};
-	WindowNode* node = root;
-	preOrderTraverse(node, func); // find node in preorder
-	return contains;              // return success/failure
+		int foundID = heap[index]->window->windowID;
+		if (foundID == targetID)
+			return true;
+	}
+
+	return false;
 }
 
 bool WindowTree::contains(WindowNode* target) const
 {
-	bool contains                         = false;
-
-	std::function<bool(WindowNode*)> func = [&contains,
-	                                         target](WindowNode* node) -> bool
-	{
-		if (node == target)
-		{
-			contains = true;
-			return false;
-		}
-		return true;
-	};
-
-	WindowNode* node = root;
-	preOrderTraverse(node, func);
-	return contains;
+	auto it = find(heap.begin(), heap.end(), target);
+	return *it == target;
 }
 
 // takes a binary tree and a string of spaces and prints the tree's
@@ -203,26 +122,6 @@ void WindowTree::printHeap(vector<WindowNode*> heap) {
 	}
 }
 
-/*
-int WindowTree::getIndex(WindowNode* node)
-{
-    auto it = find(heap.begin(), heap.end(), node);
-    // If element was found
-    if (it != heap.end())
-    {
-        // calculate the index
-        int index = it - heap.begin();
-        return index;
-    }
-	return -1;
-}
-
-WindowNode* WindowTree::getParent(WindowNode* node) {
-	int index = getIndex(node);
-	return heap.at((index - 1) / 2);
-}
-*/
-
 void WindowTree::addHelper(int& index, WindowNode*& target, WindowNode*& parentOfTarget)
 {
 	index = 1;
@@ -245,15 +144,12 @@ void WindowTree::addHelper(int& index, WindowNode*& target, WindowNode*& parentO
 /**
  * @brief add a window to the window tree!
  *
- * @param part1Size
- * @param windowID
+ * @param part1Size the size multiplier for the part1 child node
+ * @param windowID the ID for the window
  */
 bool WindowTree::add(double part1Size, int windowID) // TODO: change part1Size when moving nodes
 {
 	std::cout << "WindowTree::add" << endl;
-	//cout << "numWindows: " << numWindows << endl;
-	//cout << "size: " << size << endl;
-
 	bool success = false;
 
 	if (size <= 2)
@@ -325,9 +221,6 @@ bool WindowTree::add(double part1Size, int windowID) // TODO: change part1Size w
 		heap[index] = heap[size];  // swap target and newParent
 		heap[size] = &temp;
 
-		//cout << "new target: " << target->window->windowID << endl;
-		//cout << "partVertically: " << partVertically << endl;
-
 		// check for success
 		success = contains(windowID);
 		if (success) {
@@ -351,17 +244,115 @@ bool WindowTree::add(double part1Size, int windowID) // TODO: change part1Size w
 
 
 /**
- * @brief
+ * @brief removes a node with given WindowID
  *
  * @param windowID
- * @return true
- * @return false
+ * @return true if node found and removed
+ * @return false if node not found
+ * throw string if node found but not removed
  */
-bool WindowTree::remove(int windowID)
-// this fucntion is bugged if the node trying to be removed has 1 child
-// it works if the node has no children or two children.
-// it does not crash if there is no such node
+bool WindowTree::remove(int targetID)
 {
+	std::cout << "WindowTree::remove" << endl;
+
+	if (size == 0)
+	{
+		return false;  // basic
+	}
+
+	bool success;
+
+	if (size == 1)
+	{
+		delete root->part1;
+		root->part1 = nullptr; // easy
+	}
+	else
+	{
+		// **** get target node and index ***************
+		WindowNode* target = nullptr;
+		int index = (size - 1) / 2 ;  // starting here lets us skip parent nodes
+
+		do
+		{
+			target = heap[index];
+			index++;
+		}
+		while (target->window->windowID != targetID && index < heap.size());
+		index--;
+
+		if (target->window->windowID != targetID)
+			return false;  // target not found
+
+		WindowNode* parentOfTarget = heap[(index - 1) / 2];
+		bool isLeftChild = target == parentOfTarget->part1;
+		bool isRightChild = target == parentOfTarget->part2;
+
+		if (size == 2 && isRightChild)
+		{
+			delete root->part2;  // simple
+			root->part2 = nullptr;
+			if(contains(targetID))
+				throw string("ERROR: failure to remove WindowNode from WindowTree");
+		}
+		else if (size == 2 && isLeftChild)
+		{
+			delete root->part1;  // simple
+			root->part1 = nullptr;
+			if(contains(targetID))
+				throw string("ERROR: failure to remove WindowNode from WindowTree");
+		}
+		else if (size == 2)
+		{
+			return false;  // target not found
+		}
+
+		// **** get other relevant nodes ***************
+		WindowNode* leftTemp = parentOfTarget->part1;
+		WindowNode* rightTemp = parentOfTarget->part2;
+		WindowNode* grandpa = heap[((index - 1) / 2 - 1) / 2];
+
+		bool isLeftGrandchild = grandpa->part1 == parentOfTarget;
+		bool isRightGrandchild = grandpa->part2 == parentOfTarget;
+
+		// **** remove parent and target node **********
+
+		if (isLeftChild || isRightChild)
+		{
+			delete target;
+			delete parentOfTarget;
+		}
+		else
+		{
+			return false;  // target not found
+		}
+
+		// **** clean up pointers and reorder tree ****
+		if (isLeftChild && isLeftGrandchild)
+		{
+			parentOfTarget->part1 = nullptr;
+			grandpa->part1 = leftTemp;
+		}
+		else if (isLeftChild && isRightGrandchild)
+		{
+			parentOfTarget->part1 = nullptr;
+			grandpa->part2 == leftTemp;
+		}
+		else if (isRightChild && isLeftGrandchild)
+		{
+			parentOfTarget->part2 = nullptr;
+			grandpa->part1 == rightTemp;
+		}
+		else if (isRightChild && isRightGrandchild)
+		{
+			parentOfTarget->part2 = nullptr;
+			grandpa->part2 == rightTemp;
+		}
+	}
+
+	// **** check for success/failure *********
+
+/*
 	bool success;
 	WindowNode* found = get(windowID);
 	if (found == nullptr) return false;
@@ -417,14 +408,20 @@ bool WindowTree::remove(int windowID)
 		heap.pop_back();
 	}
 
+*/
+
 	cout << endl;
 	printSideways(root);
 	cout << endl;
 	printHeap(heap);
 	cout << endl;
 
-	success = !contains(windowID);
-	if (success) size--;
+	success = !contains(targetID);
+	if (success)
+	{
+		size--;
+		numWindows--;
+	}
 	if (!success)
 		throw string("ERROR: fail to remove WindowNode from WindowTree");
 	return success;
@@ -597,4 +594,4 @@ Point WindowTree::getCoordinate(int windowID)
 	return coordinate;
 }
 
-// work in progress ******************************s
+// work in progress ******************************
