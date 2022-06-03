@@ -1,5 +1,6 @@
 #include "ServerInterface.h"
 #include "WindowTreeInteraface.h"
+#include "WindowNode.h"
 
 class BSPTree : public WindowTreeInterface
 {
