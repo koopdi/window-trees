@@ -7,6 +7,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_VERBOSE_MAKEFILE ON)
 
 add_subdirectory(LemonFir)
+add_subdirectory(BSPTree)
 
 # source / header files specific to this project
 FILE(GLOB WindowManager_Headers
