@@ -46,6 +46,8 @@ public:
 	int getWidth(int screen, int windowID) const;
 	int getPosition(int screen, int windowID) const;
 
+	bool contains(long windowID);
+
 private:
 	InitHandlerFn inFun;
 	EventHandlerFn evFun;
