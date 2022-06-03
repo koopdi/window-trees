@@ -43,7 +43,7 @@ void Workspace::setWidth(int width) { this->width = width; }
 
 void Workspace::setPosition(Point position) { this->position = position; }
 
-bool Workspace::addWindow(bool partVertically, int windowID, double part1Size)
+bool Workspace::addWindow(int windowID, double part1Size)
 {
 	using namespace std;
 	cout << "In method workspace::addWindow." << endl;
@@ -52,7 +52,7 @@ bool Workspace::addWindow(bool partVertically, int windowID, double part1Size)
 		cout << "tree is null" << endl;
 		throw "Workspace: cannot add to null tree"s;
 	}
-	bool success = tree->add(partVertically, part1Size, windowID);
+	bool success = tree->add(part1Size, windowID);
 	// if (success) {
 	//		TODO: add to map<windowID:set<workspaceID>>
 	//		map[windowID];

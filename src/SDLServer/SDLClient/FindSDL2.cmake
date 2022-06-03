@@ -68,6 +68,7 @@
 message("<FindSDL2.cmake>")
 
 SET(SDL2_SEARCH_PATHS
+	C:\SDLv2\SDL2-devel-2.0.22-mingw\SDL2-2.0.22\x86_64-w64-mingw32\include
 	~/Library/Frameworks
 	/Library/Frameworks
 	/usr/local
@@ -76,6 +77,7 @@ SET(SDL2_SEARCH_PATHS
 	/opt/local # DarwinPorts
 	/opt/csw # Blastwave
 	/opt
+	/SDLv2
 	${SDL2_PATH}
 )
 

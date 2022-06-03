@@ -44,7 +44,7 @@ void WindowManager::update(ev::Event& ev)
 	try {
 		cout << "Window Manager: event got" << endl;
 		if (ev.type == ev::EventType::ADD) {
-			(workspaces.begin())->get()->addWindow(true, ev.add.winID, 50.0);
+			(workspaces.begin())->get()->addWindow(ev.add.winID, 0.5);
 		} else if (ev.type == ev::EventType::REMOVE) {
 			(workspaces.begin())->get()->removeWindow(13);
 		}

@@ -27,7 +27,6 @@ struct WindowNode
 	WindowNode* part2;
 
 	WindowNode(bool partVertically = false,
-	           double part1Size    = 50,
 	           int windowID        = -1,
 	           int workspaceID     = -1);
 

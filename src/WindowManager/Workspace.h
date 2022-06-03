@@ -30,7 +30,7 @@ public:
 
 	void setPosition(Point position);
 
-	bool addWindow(bool partVertically, int windowID, double part1Size);
+	bool addWindow(int windowID, double part1Size);
 
 	bool removeWindow(int windowID);
 

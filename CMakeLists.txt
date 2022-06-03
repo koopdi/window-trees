@@ -12,9 +12,13 @@ set(CMAKE_VERBOSE_MAKEFILE ON)
 
 add_subdirectory("src/Protocol/")
 add_subdirectory("src/WindowManager/")
+
+if(NOT WIN32)
 add_subdirectory("src/XServer/")
-add_subdirectory("src/SGLServer/")
 add_subdirectory("src/SDLServer/")
+endif(NOT WIN32)
+
+add_subdirectory("src/SGLServer/")
 add_subdirectory("src/Tiles")
 add_subdirectory("src/Term")
 
