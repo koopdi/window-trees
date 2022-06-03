@@ -25,7 +25,7 @@ private:
 };
 
 /**
- * @brief A non-citrous zest.
+ * @brief A tangy non-citrous alpine zest.
  *
 	Each window occupies a leaf node, referred to as a WindowPane.
 
