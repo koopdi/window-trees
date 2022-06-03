@@ -3,7 +3,7 @@
 
 #include these specific directories and files
 #dirs
-
+!/LemonFir
 #files
 !/*.h
 !/*.cpp
