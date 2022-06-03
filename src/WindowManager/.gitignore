@@ -4,6 +4,7 @@
 #include these specific directories and files
 #dirs
 !/LemonFir
+!/BSPTree
 #files
 !/*.h
 !/*.cpp
