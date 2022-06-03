@@ -28,7 +28,7 @@ public:
 
 	WindowNode* get(int windowID);
 
-	bool add(bool partVertically, double part1Size, int windowID);
+	bool add(double part1Size, int windowID);
 
 	bool remove(int windowID);
 
@@ -79,6 +79,10 @@ private:
 
 	void printSidewaysHelper(WindowNode* root, std::string spaces);
 
+	int getIndex(WindowNode* node);
+
+	WindowNode* getParent(WindowNode*);
+
 	void preOrderTraverse(WindowNode* node, forEachNode func) const;
 
 	WindowNode*& getRef(int windowID);
@@ -97,6 +101,8 @@ private:
 
 	int height(WindowNode* node);
 
+	void addHelper(int& index, WindowNode*& target, WindowNode*& parentOfTarget);
+
 	/**
 	 * @brief Holds pointers to nodes in level order.
 	 * @param root The root of the tree to build queue from.
@@ -112,6 +118,4 @@ private:
 	 */
 	void
 	queueLevel(WindowNode* node, int level, std::queue<WindowNode*>& levelOrder);
-
-	int getIndex(WindowNode* target);
 };

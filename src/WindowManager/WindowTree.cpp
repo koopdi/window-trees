@@ -15,6 +15,7 @@
 #include <iostream>
 #include <queue>
 #include <string>
+#include <algorithm>
 
 
 using namespace std;
@@ -201,68 +202,139 @@ void WindowTree::printHeap(vector<WindowNode*> heap) {
 		cout << (node->isWindow() ? node->window->windowID : (long long)node) << endl;
 	}
 }
+
+/*
+int WindowTree::getIndex(WindowNode* node)
+{
+    auto it = find(heap.begin(), heap.end(), node);
+    // If element was found
+    if (it != heap.end())
+    {
+        // calculate the index
+        int index = it - heap.begin();
+        return index;
+    }
+	return -1;
+}
+
+WindowNode* WindowTree::getParent(WindowNode* node) {
+	int index = getIndex(node);
+	return heap.at((index - 1) / 2);
+}
+*/
+
+void WindowTree::addHelper(int& index, WindowNode*& target, WindowNode*& parentOfTarget)
+{
+	index = 1;
+	parentOfTarget = heap[0];
+	target = heap[1];
+	WindowNode* next = heap[1];
+
+	while (next->window->windowID == -1)
+	{
+		parentOfTarget = heap[index - 1];
+		target = heap[index];
+		next = heap[index + 1];
+		index++;
+	}
+
+	cout << "index: " << index << endl;
+}
+
+
 /**
  * @brief add a window to the window tree!
  *
- * @param partVertically
  * @param part1Size
  * @param windowID
  */
-bool WindowTree::add(bool partVertically, double part1Size, int windowID)
+bool WindowTree::add(double part1Size, int windowID) // TODO: change part1Size when moving nodes
 {
 	std::cout << "WindowTree::add" << endl;
+	//cout << "numWindows: " << numWindows << endl;
+	//cout << "size: " << size << endl;
 
-	cout << "numWindows: " << numWindows << endl;
 	bool success = false;
-	if (numWindows == 0)
+
+	if (size <= 2)
 	{
-		heap.push_back(new WindowNode(0, windowID, workspaceID));
-		if (numWindows == 0)
+		heap.push_back(new WindowNode(1, windowID, workspaceID));
+		if (size == 1)
 		{
 			root->part1Size = 1.;
 			root->part1 = heap.back();
 		}
-		success = contains(windowID);
-
-		if (!success) throw string("failed to add first node");
-	}
-	else if (numWindows = 1)
-	{
-		heap.push_back(new WindowNode(0, windowID, workspaceID));
+		else
 		{
 			root->part1Size = part1Size;
 			root->part2 = heap.back();
 		}
 		success = contains(windowID);
 
-		if (!success) throw string("failed to add first node");
+		if (success)
+			size++;
+		if (!success)
+			throw string("failed to add early node");
 	}
 	else
 	{
-		// add node to heap
-		heap.push_back(new WindowNode(partVertically, windowID, workspaceID));
+		int index = (size - 1) /2;
+		// target is the node that will be built off of
+		WindowNode* target = heap[(size - 1) / 2];
+		// having the parent makes reassigning nodes easier
+		WindowNode* parentOfTarget = heap[(index - 1) / 2];
 
-		cout << endl;
-		printSideways(root);
-		cout << endl;
-		printHeap(heap);
-		cout << endl;
+		// one of these will be target
+		WindowNode* leftChild = parentOfTarget->part1;  // child of parentOfTarget
+		WindowNode* rightChild = parentOfTarget->part2; // child of parentOfTarget
 
-		cout << "size: " << size << endl;
-		WindowNode* parentOfTarget = heap[(size - 1) / 2];
+		// nodes always part the opposite of their parents
+		bool partVertically = !(target->partVertically);
 
-		if (parentOfTarget->part1 == nullptr)
+		// each add after node 2 requires 2 nodes, a parent and window
+		WindowNode* newParent = new WindowNode(partVertically);
+		WindowNode* newWindow = new WindowNode(partVertically, windowID, workspaceID);
+
+		newParent->part1Size = part1Size;		// set part1size
+
+		heap.push_back(newParent);		// add new nodes to heap
+		heap.push_back(newWindow);
+
+		// cout << "target: " << target->window->windowID << endl;
+		// cout << "parentOfTarget: " << parentOfTarget->window->windowID << endl;
+		// cout << "tempLeft: " << leftChild->window->windowID << endl;
+		// cout << "tempRight: " << rightChild->window->windowID << endl;
+		// cout << "newParent: " << newParent->window->windowID << endl;
+		// cout << " newWindow: " <<  newWindow->window->windowID << endl;
+
+		// **** modify tree ***************
+		if (leftChild == target)  // check which child is our target for building from
 		{
-			parentOfTarget->part1 = heap.back();
+			newParent->part1 = leftChild;  			// swap target with newParent
+			parentOfTarget->part1 = newParent;
 		}
 		else
 		{
-			parentOfTarget->part2 = heap.back();
+			newParent->part1 = rightChild;			// swap target with newParent
+			parentOfTarget->part2 = newParent;
 		}
+		newParent->part2 = newWindow;			// add newWindow to other side of parent
 
+		// **** modify heap *************
+		WindowNode& temp = *heap[index];
+		heap[index] = heap[size];  // swap target and newParent
+		heap[size] = &temp;
+
+		//cout << "new target: " << target->window->windowID << endl;
+		//cout << "partVertically: " << partVertically << endl;
+
+		// check for success
 		success = contains(windowID);
-
+		if (success) {
+			size += 2; // record size change
+		}
 	}
+
 	cout << endl;
 	printSideways(root);
 	cout << endl;
@@ -270,16 +342,9 @@ bool WindowTree::add(bool partVertically, double part1Size, int windowID)
 	cout << endl;
 
 	if (success)
-	{
 		numWindows++;
-		size++;
-	}
-	else
-	{
+	if (!success)
 		throw string("ERROR: fail to add WindowNode to WindowTree");
-	}
-
-	cout << "size: " << size << endl;
 
 	return success;
 }

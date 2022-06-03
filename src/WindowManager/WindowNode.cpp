@@ -39,10 +39,9 @@ bool WindowPane::removeTag(int tag)
 // }
 
 WindowNode::WindowNode(bool partVertically,
-                       double part1Size,
                        int WindowID,
                        int WorkspaceID)
-    : partVertically(partVertically), part1Size(part1Size), part1(nullptr),
+    : partVertically(partVertically), part1Size(0), part1(nullptr),
       part2(nullptr)
 {
 	std::cout << "WindowNode Constructor" << std::endl;
