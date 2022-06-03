@@ -41,3 +41,20 @@ target_link_libraries(SGL_Client
 	WindowManager
 	SGL_Server
 )
+
+add_executable(Lemon_Fir_SGL
+	lemonFirMain.cpp
+)
+#
+target_include_directories(Lemon_Fir_SGL
+	PUBLIC
+	.
+)
+
+target_link_libraries(Lemon_Fir_SGL
+	PUBLIC
+	Protocol
+	WindowManager
+	LemonFir
+	SGL_Server
+)
