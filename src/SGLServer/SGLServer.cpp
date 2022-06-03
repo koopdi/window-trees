@@ -1,5 +1,5 @@
 #include "SGLServer.h"
-#include "ginteractor.h"
+#include "gchooser.h"
 #include "gobjects.h"
 #include <string>
 using namespace std;
@@ -18,11 +18,11 @@ SGLServer::SGLServer()
 	win.setExitOnClose(true);
 	win.center();
 
-	#if _WIN32
+#if _WIN32
 	win.drawImage("../../../res/edmonds.png");
-	#else
+#else
 	win.drawImage("res/edmonds.png");
-	#endif
+#endif
 
 	win.setWindowTitle("WindowTrees");
 
@@ -32,12 +32,11 @@ SGLServer::SGLServer()
 	addButtons();
 
 	win.setMenuListener([this](GEvent ev) { menuEv(ev); });
-
 }
 
 bool SGLServer::contains(long windowID)
 {
-	if(winDex.find(windowID) != winDex.end()){
+	if (winDex.find(windowID) != winDex.end()) {
 		return true;
 	} else {
 		// throw string("Window not found.");
@@ -48,7 +47,7 @@ bool SGLServer::contains(long windowID)
 
 void SGLServer::setArea(long windowID, Area a)
 {
-	if(contains(windowID)){
+	if (contains(windowID)) {
 		sglWin gWin = winDex[windowID];
 		gWin.get()->setArea(a);
 	} else {
@@ -59,9 +58,9 @@ void SGLServer::setArea(long windowID, Area a)
 Area SGLServer::getArea(long windowID)
 {
 	Area foo;
-	if(contains(windowID)){
-	sglWin gWin = winDex[windowID];
-	foo = gWin.get()->getArea();
+	if (contains(windowID)) {
+		sglWin gWin = winDex[windowID];
+		foo         = gWin.get()->getArea();
 	} else {
 		cout << "Failed to get area -- Returning bogus data." << endl;
 		foo = {-1, -1, -1, -1};
@@ -71,7 +70,7 @@ Area SGLServer::getArea(long windowID)
 Area SGLServer::getScreenSize(long screenID)
 {
 	Area foo;
-	foo.width = window->getCanvasWidth();
+	foo.width  = window->getCanvasWidth();
 	foo.height = window->getCanvasHeight();
 
 	return foo;
@@ -100,6 +99,14 @@ void SGLServer::run()
 	// std::sleep(200);
 }
 
+// this function triggers when it shouldn't
+void SGLServer::dropDownEv(sgl::GEvent ev)
+{
+	// if(ev.getClass() == sgl::EventClass::)
+	// cout << "drop down" << ev.getActionCommand() << " clicked" << endl;
+	// remove(stol(ev.getActionCommand()));
+}
+
 void SGLServer::keyEv(sgl::GEvent ev)
 {
 	sgl::GWindow& win = *window;
@@ -117,35 +124,64 @@ void SGLServer::menuEv(sgl::GEvent e)
 
 		if (action == "toolbar/Add") {
 			cout << "add was pressed, creating event..." << endl;
-			ev::Event* evAdd = new ev::Event;
-			evAdd->type      = ev::EventType::ADD;
+			ev::Event* evAdd   = new ev::Event;
+			evAdd->type        = ev::EventType::ADD;
 
-			sglWin gwin      = make_shared<SGLWindow>(*window);
-			evAdd->add.winID = (*gwin).ID;
+			sglWin gwin        = make_shared<SGLWindow>(*window);
+			evAdd->add.winID   = (*gwin).ID;
 			winDex[(*gwin).ID] = gwin;
+
+			dropDown->addItem(to_string((*gwin).ID));
 
 			evFun(evAdd);
 		} else if (action == "toolbar/Remove") {
 			cout << "remove was pressed, creating event..." << endl;
-
-			if (!winDex.empty()) {
-				// get the first window
-				sglWin gwin = (*winDex.begin()).second;
-				// remove the window
-				winDex.erase(winDex.begin());
-
-				// create remove event
-				ev::Event* evRem    = new ev::Event;
-				evRem->type         = ev::EventType::REMOVE;
-				evRem->remove.winID = (*gwin).ID;
-				// send remove event to event handler
-				evFun(evRem);
-				// free event memory
-				delete evRem;
-				// The window will be automatically removed and freed.
+			if (dropDown->isEmpty()) {
+				remove(-1);
+			} else {
+				remove(stol(dropDown->getSelectedItem()));
 			}
 		}
 	}
+}
+
+void SGLServer::remove(long windowID)
+{
+	if (!winDex.empty()) {
+		sglWin gwin;
+		if (windowID == -1) {
+			// get the first window
+			gwin = (*winDex.begin()).second;
+			// remove the first window
+			evRemove((*gwin).ID);
+			winDex.erase(winDex.begin());
+		} else if (contains(windowID)) {
+			// get the specified window
+			gwin = winDex[windowID];
+			// remove the specified window
+			evRemove((*gwin).ID);
+			winDex.erase(windowID);
+		} // else invalid ID
+	}   // else no windows at all
+
+	// refresh the dropdown chooser
+	dropDown->clearItems();
+	for (auto& [ID, winD] : winDex) {
+		dropDown->addItem(to_string(ID));
+	}
+}
+
+void SGLServer::evRemove(long windowID)
+{
+	// create remove event
+	ev::Event* evRem    = new ev::Event;
+	evRem->type         = ev::EventType::REMOVE;
+	evRem->remove.winID = windowID;
+	// send remove event to event handler
+	evFun(evRem);
+	// free event memory
+	delete evRem;
+	// The window will be automatically removed and freed.
 }
 
 void SGLServer::addButtons()
@@ -154,11 +190,20 @@ void SGLServer::addButtons()
 		throw "cannot add buttons"s;
 	}
 	sgl::GWindow& win = *window;
-	// sgl::GInteractor* = new sgl::GInteractor::
-	// win.addToRegion()
+
+	dropDown          = new sgl::GChooser();
+	win.addToRegion(dropDown, "North");
+
+	// dropDown->setActionListener([this](sgl::GEvent ev) { dropDownEv(ev); });
+	dropDown->setDoubleClickListener([this](sgl::GEvent ev) { dropDownEv(ev); });
+	// win.setMenuListener([this](GEvent ev) { menuEv(ev); });
+
+	// Add a toolbar.
 	win.addToolbar("toolbar");
+	// Add buttons.
 	win.addToolbarItem("Add");
 	win.addToolbarItem("Remove");
+
 	// Add a divider between the novelty placeholders.
 	win.addToolbarSeparator();
 	win.addToolbarItem("Distance");

@@ -1,10 +1,12 @@
 #pragma once
 
 // #include "xtypes.h"
+#include "gchooser.h"
 #include "gbutton.h"
 #include "gwindow.h"
 #include "SGLScreen.h"
 #include "ServerInterface.h"
+
 
 #include "types.h"
 
@@ -59,6 +61,8 @@ private:
 	using sglWin = std::shared_ptr<SGLWindow>;
 	std::map<long, sglWin> winDex;
 
+	sgl::GChooser* dropDown;
+
 	// /// Give each window a unique ID.
 	// int idTicker;
 	// using idPair = std::pair<std::shared_ptr<sgl::GObject>, int>;
@@ -66,6 +70,13 @@ private:
 
 	// private methods ---------------------------------------
 
+	// remove a window
+	void remove(long windowID = -1);
+	// create a remove window event
+	void evRemove(long windowID);
+
+	// A function to remove windows when the drop down is clicked.
+	void dropDownEv(sgl::GEvent ev);
 	// A function to handle key events.
 	void keyEv(sgl::GEvent ev);
 	// A function to handle menu events.
