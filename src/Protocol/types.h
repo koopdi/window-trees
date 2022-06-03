@@ -12,6 +12,9 @@ struct Area
 	int y;
 	int width;
 	int height;
+
+	Area operator*(Area other);
+	Area operator/(Area& other);
 };
 
 
