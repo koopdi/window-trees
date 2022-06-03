@@ -23,7 +23,7 @@
 	// how many spaces wide to display tab indents
 	//"editor.tabSize": 2,
 
-	// "C_Cpp.intelliSenseEngineFallback": "Enabled",
+	"C_Cpp.intelliSenseEngineFallback": "Enabled",
 
 	// doxygen, docgen extension settings
 	"doxdocgen.generic.authorName": "Andrew Hanson, Christen Spadevechia, Travis McKinney",
