@@ -1,8 +1,12 @@
 #include "BSPTree.h"
 
+BSPTree::BSPTree(){
+	root = new BSPNode(true, -1)
+}
+
 void Workspace::render(WindowNode* node, Area bounds){
 	if(node != nullptr){
-		if(node->isWindow()){										//node->isWindow() appears to be non functional
+		if(node->isWindow()){
 			server->setArea(node->window->windowID, bounds);
 		} else {
 			if(node->partVertically){
@@ -26,10 +30,28 @@ void Workspace::render(WindowNode* node, Area bounds){
 	}
 }
 
-void BSPTree::addWindow(long windowID){
+void insertWin(long windowID, WindowNode*& node, bool lastPartWasVert, window){
 
+}
+
+void BSPTree::addWindow(long windowID, WindowNode*& node){
+	if(node->left == nullptr && node){
+		WindowNode* tmp = node;
+
+	} else {
+		addWindow(windowID, node->right);
+	}
+}
+
+void BSPTree::addWindow(long windowID){
+	addWindow(windowID, root);
 }
 
 void BSPTree::remWindow(long windowID){
 
+}
+
+void resize(Area area) {
+	this->area = area;
+	std::cout << "recursively resize workspaces here" << std::endl;
 }
