@@ -94,6 +94,11 @@ void SGLServer::setEventCallback(EventHandlerFn fn) { evFun = fn; }
 
 void SGLServer::run()
 {
+	string block;
+	while (cin >> block) { // loop forever until sgl quits
+		cout << block;
+	}
+
 	// render looooop?
 	// window->repaint();
 	// std::sleep(200);
