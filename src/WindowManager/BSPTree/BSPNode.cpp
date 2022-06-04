@@ -1,7 +1,8 @@
 #include "BSPNode.h"
 
-BSPNode::BSPNode(bool partVertically, int windowID) : partVertically(partVertically),
-	windowID(windowID), part1(nullptr), part2(nullptr), part1Size(200) {}
+BSPNode::BSPNode(bool partVertically, int windowID, short part1PerPrecision) :
+partVertically(partVertically), windowID(windowID), part1(nullptr), part2(nullptr),
+part1PerPrecision(part1PerPrecision) {}
 
 BSPNode::~BSPNode(){
 	delete part1;

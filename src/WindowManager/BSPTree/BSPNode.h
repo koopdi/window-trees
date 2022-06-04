@@ -2,13 +2,14 @@
 
 struct BSPNode
 {
+	static const short precision = 10000;
 	bool partVertically;
-	double part1Size;
+	short part1PerPrecision;
 	long windowID;
 	BSPNode* part1;
 	BSPNode* part2;
 
-	BSPNode(bool partVertically = true, int windowID = -1);
+	BSPNode(bool partVertically = true, int windowID = -1, short part1PerPrecision = 100);
 
 	~BSPNode();
 

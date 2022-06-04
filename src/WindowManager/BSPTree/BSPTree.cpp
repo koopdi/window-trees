@@ -1,13 +1,14 @@
 #include "BSPTree.h"
 
 BSPTree::BSPTree(){
-	root = new BSPNode(true, -1)
+	root = new BSPNode(true, -1, 100);
 }
 
-void Workspace::render(WindowNode* node, Area bounds){
+void Workspace::render(BSPNode* node, Area bounds){
 	if(node != nullptr){
 		if(node->isWindow()){
-			server->setArea(node->window->windowID, bounds);
+			Area precision = {node->precision, node->precision, node->precision, node->precision};
+			server->setArea(node->window->windowID, (float)bounds / precision * area);
 		} else {
 			if(node->partVertically){
 				bounds.height -= node->part1Size; //restrict area to bottom size
@@ -30,8 +31,25 @@ void Workspace::render(WindowNode* node, Area bounds){
 	}
 }
 
-void insertWin(long windowID, WindowNode*& node, bool lastPartWasVert, window){
+void insertWin(BSPNode*& node, BSPNode* newNode){
+	if(node == nullptr){
+		throw string("A new node may not be inserted onto nullptr");
+	} else {
+		if(node->isWindow()){
+			BSPNode* tmp = node;
+			node = new BSPNode(!node->partVertically, -1, node->part1 / 2);
+			node->part1 = tmp;
+			node->part2 = newNode;
+		} else {
+			node
+		}
 
+		if(node->part1 == nullptr + node->part2 == nullptr == 1){
+			if(node->part1 == nullptr){
+
+			}
+		}
+	}
 }
 
 void BSPTree::addWindow(long windowID, WindowNode*& node){
