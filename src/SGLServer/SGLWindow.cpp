@@ -26,7 +26,7 @@ SGLWindow::SGLWindow(GWindow& win) : ID(nextID++), win(win)
 	fillColor << setfill('0') << setw(2) << hex << g;
 	fillColor << setfill('0') << setw(2) << hex << b;
 
-	cout << endl << fillColor.str() << endl;
+	// cout << endl << fillColor.str() << endl;
 
 	sprite = make_shared<GRect>(x, y, 100, 200);
 	win.add(*sprite);

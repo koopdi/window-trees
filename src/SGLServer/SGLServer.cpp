@@ -125,10 +125,10 @@ void SGLServer::menuEv(sgl::GEvent e)
 {
 	if (e.getClass() == sgl::EventClass::ACTION_EVENT) {
 		string action = e.getActionCommand();
-		cout << action << endl;
+		// cout << action << endl;
 
 		if (action == "toolbar/Add") {
-			cout << "add was pressed, creating event..." << endl;
+			// cout << "add was pressed, creating event..." << endl;
 			ev::Event* evAdd   = new ev::Event;
 			evAdd->type        = ev::EventType::ADD;
 
@@ -140,7 +140,7 @@ void SGLServer::menuEv(sgl::GEvent e)
 
 			evFun(evAdd);
 		} else if (action == "toolbar/Remove") {
-			cout << "remove was pressed, creating event..." << endl;
+			// cout << "remove was pressed, creating event..." << endl;
 			if (dropDown->isEmpty()) {
 				remove(-1);
 			} else {
