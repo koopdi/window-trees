@@ -5,12 +5,16 @@ using std::cout;
 using std::endl;
 using std::string;
 
-LemonFir::LemonFir(ServerInterface* server) : server(server) {}
+LemonFir::LemonFir(ServerInterface* server)
+    : server(server), tree(nullptr) ///////
+{
+	tree = new Split();
+	cout << tree->type << endl;
+}
 
 void LemonFir::update(ev::Event& ev)
-{
-	try {
-		// cout << "Lemon Fir WM Update: ";
+{       // handle events sent by the server
+	try { // print string exceptions and break
 		if (ev.type == ev::EventType::ADD) {
 			addWindow(ev.add.winID);
 		} else if (ev.type == ev::EventType::REMOVE) {
@@ -24,7 +28,19 @@ void LemonFir::update(ev::Event& ev)
 	}
 }
 
-void LemonFir::render(ServerInterface* server) { cout << "render" << endl; }
+void LemonFir::render(ServerInterface* server)
+{
+	cout << "render" << endl;
+	// there's no screen ID so passing -1
+	// there's only one screen in sgl server and the ID is ignored.
+	Area size = server->getScreenSize(-1);
+	// cout << size;
+	// cout << "Scree Size:" << endl;
+	// cout << "x " << size.x << ", y " << size.y << endl;
+	// cout << "width " << size.width << ", height " << size.height << endl;
+
+
+}
 
 void LemonFir::addWindow(long windowID) { cout << "addWindow" << endl; }
 

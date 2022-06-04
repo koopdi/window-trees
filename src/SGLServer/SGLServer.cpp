@@ -70,6 +70,8 @@ Area SGLServer::getArea(long windowID)
 Area SGLServer::getScreenSize(long screenID)
 {
 	Area foo;
+	foo.x = 0;
+	foo.y = 0;
 	foo.width  = window->getCanvasWidth();
 	foo.height = window->getCanvasHeight();
 

@@ -30,7 +30,7 @@
 #include "WindowTreeInterface.h"
 
 // #include "WindowManager.h"
-
+#include "LemonFirNode.h"
 class LemonFir : public WindowTreeInterface
 {
 public:
@@ -47,5 +47,5 @@ public:
 private:
 	/// A pointer to the server.
 	ServerInterface* server;
-
+	LemonFirNode* tree;
 };
