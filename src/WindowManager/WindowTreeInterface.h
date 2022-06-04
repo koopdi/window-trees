@@ -22,13 +22,13 @@ public:
 	 */
 	virtual void render(ServerInterface* server) = 0;
 	/**
-	 * @brief Tell the tree to manage this window's layout.
-	 * @param windowID The ID of the window.
+	 * @brief Tell the tree to manage a window's layout.
+	 * @param windowID A window ID.
 	 */
 	virtual void addWindow(long windowID)        = 0;
 	/**
-	 * @brief Tell the tree to stop managing this window's layout.
-	 * @param windowID The ID of the window.
+	 * @brief Tell the tree to stop managing a window's layout.
+	 * @param windowID A window ID.
 	 */
 	virtual void remWindow(long windowID)        = 0;
 	/**
