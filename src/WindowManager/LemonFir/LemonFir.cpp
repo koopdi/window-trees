@@ -1,11 +1,26 @@
 #include "LemonFir.h"
-#include "HauntedSnag.h"
 
 LemonFir::LemonFir(ServerInterface* server) : server(server)
 {
-	HauntedSnag thunderBlast44;
-	// thunderBlast44.
 }
 
-void LemonFir::update(ev::Event& ev) {}
+void LemonFir::render(ServerInterface* server)
+{
+
+}
+
+void LemonFir::addWindow(long windowID)
+{
+
+}
+
+void LemonFir::remWindow(long windowID)
+{
+
+}
+
+void LemonFir::resize(Area area)
+{
+
+}
 
