@@ -1,6 +1,6 @@
 #include "LemonFir.h"
-#include <string>
 #include <iostream>
+#include <string>
 using std::cout;
 using std::endl;
 using std::string;
@@ -10,12 +10,10 @@ LemonFir::LemonFir(ServerInterface* server) : server(server) {}
 void LemonFir::update(ev::Event& ev)
 {
 	try {
-		cout << "Lemon Fir WM Update: ";
+		// cout << "Lemon Fir WM Update: ";
 		if (ev.type == ev::EventType::ADD) {
-			cout << "addWindow" << endl;
 			addWindow(ev.add.winID);
 		} else if (ev.type == ev::EventType::REMOVE) {
-			cout << "remWindow" << endl;
 			remWindow(ev.remove.winID);
 		}
 
@@ -26,10 +24,10 @@ void LemonFir::update(ev::Event& ev)
 	}
 }
 
-void LemonFir::render(ServerInterface* server) {}
+void LemonFir::render(ServerInterface* server) { cout << "render" << endl; }
 
-void LemonFir::addWindow(long windowID) {}
+void LemonFir::addWindow(long windowID) { cout << "addWindow" << endl; }
 
-void LemonFir::remWindow(long windowID) {}
+void LemonFir::remWindow(long windowID) { cout << "remWindow" << endl; }
 
-void LemonFir::resize(Area area) {}
+void LemonFir::resize(Area area) { cout << "resize" << endl; }
