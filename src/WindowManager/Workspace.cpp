@@ -8,14 +8,13 @@
 #include <iostream>
 #include <string>
 
-Workspace::Workspace(ServerInterface* server) : workspaceID((long long)(this)), server(server)
+Workspace::Workspace(ServerInterface* server, WindowTreeInterface* mtree)
+    : workspaceID((long long)(this)), server(server), tree(nullptr),
+      metaTree(mtree)
 {
-	using namespace std;
-	tree = new WindowTree(this);
-	if (tree == nullptr)
+	if(metaTree == nullptr)
 	{
-		cout << "tree is null" << endl;
-		throw "Workspace: tree is null"s;
+		tree = new WindowTree(this);
 	}
 }
 
@@ -47,8 +46,7 @@ bool Workspace::addWindow(int windowID, double part1Size)
 {
 	using namespace std;
 	cout << "In method workspace::addWindow." << endl;
-	if (tree == nullptr)
-	{
+	if (tree == nullptr) {
 		cout << "tree is null" << endl;
 		throw "Workspace: cannot add to null tree"s;
 	}
@@ -70,33 +68,37 @@ bool Workspace::removeWindow(int windowID)
 	return success;
 }
 
-void Workspace::renderTree(WindowNode* node, Area bounds){
-	if(node != nullptr){
-		if(node->window->windowID != -1){										//node->isWindow() appears to be non functional
+void Workspace::renderTree(WindowNode* node, Area bounds)
+{
+	if (node != nullptr) {
+		if (node->window->windowID !=
+		    -1) { // node->isWindow() appears to be non functional
 			server->setArea(node->window->windowID, bounds);
 		} else {
-			if(node->partVertically){
-				bounds.height -= node->part1Size; //restrict area to bottom size
-				bounds.y += node->part1Size; //select bottom area
-				renderTree(node->part2, bounds); //render bottom area
+			if (node->partVertically) {
+				bounds.height -= node->part1Size; // restrict area to bottom size
+				bounds.y += node->part1Size;      // select bottom area
+				renderTree(node->part2, bounds);  // render bottom area
 
 				bounds.height = node->part1Size;
 				bounds.y -= node->part1Size;
-				renderTree(node->part1, bounds); //render top section
+				renderTree(node->part1, bounds); // render top section
 			} else {
-				bounds.width -= node->part1Size; //restrict area to right size
-				bounds.x += node->part1Size; //select right area
-				renderTree(node->part2, bounds); //render right area
+				bounds.width -= node->part1Size; // restrict area to right size
+				bounds.x += node->part1Size;     // select right area
+				renderTree(node->part2, bounds); // render right area
 
 				bounds.width = node->part1Size;
 				bounds.x -= node->part1Size;
-				renderTree(node->part1, bounds); //render left section
+				renderTree(node->part1, bounds); // render left section
 			}
 		}
 	}
 }
 
-void Workspace::render(){
-	Area area = {0,0, 600, 450}; //{0, 0, width, height};						// WARNINGL WIDTH AND HEIGHT ARE NOT SET PROPERLY
+void Workspace::render()
+{
+	Area area = {0, 0, 600, 450}; //{0, 0, width, height};						// WARNINGL
+	                              // WIDTH AND HEIGHT ARE NOT SET PROPERLY
 	renderTree(tree->getRoot(), area);
 }

@@ -9,10 +9,18 @@
 #include "WindowTree.h"
 #include "types.h"
 #include "ServerInterface.h"
+#include "WindowTreeInterface.h"
 
 #include <memory>
 
 class WindowTree;
+
+enum class TreeMode
+{
+	LEMON_FIR,
+	BSP_TREE,
+	CLASSIC
+};
 
 class Workspace
 {
@@ -22,7 +30,7 @@ public:
 	/**
 	 * @brief Construct a new Workspace object
 	 */
-	Workspace(ServerInterface* server);
+	Workspace(ServerInterface* server, WindowTreeInterface* mtree = nullptr);
 
 	void setHeight(int height);
 
@@ -51,6 +59,7 @@ private:
 
 	/// a pointer to the window tree
 	WindowTree* tree;
+	WindowTreeInterface* metaTree;
 
 	/// the height of the workspace
 	int height;
