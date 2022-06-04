@@ -19,7 +19,7 @@ SGLServer::SGLServer()
 	win.center();
 
 #if _WIN32
-	win.drawImage("../../../res/edmonds.png");
+	win.drawImage("../../../../res/edmonds.png");
 #else
 	win.drawImage("res/edmonds.png");
 #endif
