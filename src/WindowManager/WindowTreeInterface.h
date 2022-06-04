@@ -37,5 +37,5 @@ public:
 	 * @brief I have no idea.
 	 * @param area A space, a place, a time...
 	 */
-	virtual void resize(Area area);
+	virtual void resize(Area area) = 0;
 };
