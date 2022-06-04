@@ -73,7 +73,7 @@ bool WindowTree::contains(int targetID) const
 
 	for (;index < heap.size(); index++)
 	{
-		int foundID = heap[index]->window->windowID;
+		int foundID = heap.at(index)->window->windowID;
 		if (foundID == targetID)
 			return true;
 	}
@@ -91,11 +91,11 @@ bool WindowTree::contains(WindowNode* target) const
 // right subtree with four more spaces in front of all its nodes,
 // this node's data and then its left subtree with an additional
 // four spaces before each node.
-void WindowTree::printSidewaysHelper(WindowNode* root, string spaces) {
-    if(root != nullptr) {
-        printSidewaysHelper(root->part2, spaces + "    ");
-        cout << spaces << (root->isWindow() ? root->window->windowID : (long long)root) << endl;
-        printSidewaysHelper(root->part1, spaces + "    ");
+void WindowTree::printSidewaysHelper(WindowNode* node, string spaces) {
+    if(node != nullptr) {
+        printSidewaysHelper(node->part2, spaces + "    ");
+        cout << spaces << (node->isWindow() ? node->window->windowID : (long long)node) << endl;
+        printSidewaysHelper(node->part1, spaces + "    ");
     }
 }
 
@@ -254,6 +254,7 @@ bool WindowTree::add(double part1Size, int windowID) // TODO: change part1Size w
 bool WindowTree::remove(int targetID)
 {
 	std::cout << "WindowTree::remove" << endl;
+	std::cout << "targetID: " << targetID << endl;
 
 	if (size == 0)
 	{
@@ -269,24 +270,32 @@ bool WindowTree::remove(int targetID)
 	}
 	else
 	{
-		// **** get target node and index ***************
 		WindowNode* target = nullptr;
-		int index = (size - 1) / 2 ;  // starting here lets us skip parent nodes
+		int targetIndex = (size - 1) / 2 ;  // starting here lets us skip parent nodes
 
-		do
+		do	// get target node and index
 		{
-			target = heap[index];
-			index++;
+			target = heap[targetIndex];
+			targetIndex++;
 		}
-		while (target->window->windowID != targetID && index < heap.size());
-		index--;
+		while (target->window->windowID != targetID && targetIndex < heap.size());
+		targetIndex--;
+
+		int parentIndex = (targetIndex - 1) / 2;
+		int grandpaIndex = (parentIndex - 1) / 2;
 
 		if (target->window->windowID != targetID)
 			return false;  // target not found
 
-		WindowNode* parentOfTarget = heap[(index - 1) / 2];
+		WindowNode* parentOfTarget = heap[parentIndex];
 		bool isLeftChild = target == parentOfTarget->part1;
 		bool isRightChild = target == parentOfTarget->part2;
+		int survivorIndex; // this is the index of the sibling node that is not removed
+
+		if (isLeftChild)
+			survivorIndex = targetIndex + 1;
+		if (isRightChild)
+			survivorIndex = targetIndex - 1;
 
 		if (size == 2 && isRightChild)
 		{
@@ -310,43 +319,63 @@ bool WindowTree::remove(int targetID)
 		// **** get other relevant nodes ***************
 		WindowNode* leftTemp = parentOfTarget->part1;
 		WindowNode* rightTemp = parentOfTarget->part2;
-		WindowNode* grandpa = heap[((index - 1) / 2 - 1) / 2];
+		WindowNode* grandpa = heap[grandpaIndex];
 
 		bool isLeftGrandchild = grandpa->part1 == parentOfTarget;
 		bool isRightGrandchild = grandpa->part2 == parentOfTarget;
 
 		// **** remove parent and target node **********
-
-		if (isLeftChild || isRightChild)
+		// **** clean up pointers and reorder tree ****
+		if (isLeftChild && isLeftGrandchild)
 		{
+			grandpa->part1 = rightTemp;
+			parentOfTarget->part1 = nullptr;
+			delete target;
+			delete parentOfTarget;
+		}
+		else if (isLeftChild && isRightGrandchild)
+		{
+			grandpa->part2 == rightTemp;
+			parentOfTarget->part1 = nullptr;
+			delete target;
+			delete parentOfTarget;
+		}
+		else if (isRightChild && isLeftGrandchild)
+		{
+			grandpa->part1 == leftTemp;
+			parentOfTarget->part2 = nullptr;
+			delete target;
+			delete parentOfTarget;
+		}
+		else if (isRightChild && isRightGrandchild)
+		{
+			grandpa->part2 == leftTemp;
+			parentOfTarget->part2 = nullptr;
 			delete target;
 			delete parentOfTarget;
 		}
 		else
 		{
-			return false;  // target not found
+			return false;
 		}
 
-		// **** clean up pointers and reorder tree ****
-		if (isLeftChild && isLeftGrandchild)
+		// **** modify heap ****
+		WindowNode& temp = *heap[survivorIndex];  // swap surviving child with parent
+		heap[survivorIndex] = heap[parentIndex];
+		heap[parentIndex] = &temp;
+
+		printHeap(heap);
+		cout << endl;
+
+		if (targetIndex > survivorIndex)
 		{
-			parentOfTarget->part1 = nullptr;
-			grandpa->part1 = leftTemp;
+			heap.erase(heap.begin() + targetIndex);	  // remove nodes from heap
+			heap.erase(heap.begin() + survivorIndex);
 		}
-		else if (isLeftChild && isRightGrandchild)
+		else
 		{
-			parentOfTarget->part1 = nullptr;
-			grandpa->part2 == leftTemp;
-		}
-		else if (isRightChild && isLeftGrandchild)
-		{
-			parentOfTarget->part2 = nullptr;
-			grandpa->part1 == rightTemp;
-		}
-		else if (isRightChild && isRightGrandchild)
-		{
-			parentOfTarget->part2 = nullptr;
-			grandpa->part2 == rightTemp;
+			heap.erase(heap.begin() + survivorIndex);
+			heap.erase(heap.begin() + targetIndex);	  // remove nodes from heap
 		}
 	}
 

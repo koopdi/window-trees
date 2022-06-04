@@ -46,7 +46,7 @@ void WindowManager::update(ev::Event& ev)
 		if (ev.type == ev::EventType::ADD) {
 			(workspaces.begin())->get()->addWindow(ev.add.winID, 0.5);
 		} else if (ev.type == ev::EventType::REMOVE) {
-			(workspaces.begin())->get()->removeWindow(13);
+			(workspaces.begin())->get()->removeWindow(ev.remove.winID);
 		}
 
 		renderAll();
