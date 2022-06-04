@@ -16,4 +16,5 @@ target_include_directories(LemonFir
 target_link_libraries(LemonFir
 	PUBLIC
 	Protocol
+	WindowManager
 )
