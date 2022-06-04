@@ -9,6 +9,7 @@ add_library(LemonFir
 
 target_include_directories(LemonFir
 	PUBLIC
+	../
 	.
 )
 

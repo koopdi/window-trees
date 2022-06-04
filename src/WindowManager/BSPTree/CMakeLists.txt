@@ -9,6 +9,7 @@ add_library(BSPTree
 
 target_include_directories(BSPTree
 	PUBLIC
+	../
 	.
 )
 

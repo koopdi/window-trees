@@ -1,6 +1,9 @@
+#pragma once
+
 #include "ServerInterface.h"
-#include "WindowTreeInteraface.h"
-#include "WindowNode.h"
+#include "WindowTreeInterface.h"
+      // "WindowTreeInterface.h"
+// #include "WindowNode.h"
 
 class BSPTree : public WindowTreeInterface
 {

@@ -18,9 +18,9 @@ FILE(GLOB WindowManager_Sources
 	*.h
 )
 
-FILE(GLOB WindowManager_Library_Headers
-	../Protocol/*.h
-)
+# FILE(GLOB WindowManager_Library_Headers
+# 	../Protocol/*.h
+# )
 
 add_library(WindowManager
 	${WindowManager_Headers}
@@ -30,8 +30,12 @@ add_library(WindowManager
 
 target_include_directories(WindowManager
 	PUBLIC
-	"../Protocol/"
+	# "../Protocol/"
 	.
+)
+target_link_libraries(WindowManager
+	PUBLIC
+	Protocol
 )
 
 # Configure flags for the C++ compiler

@@ -1,9 +1,10 @@
+#pragma once
+
 /**
  * @file WindowNode.h
  * @author Andrew Hanson, Christen Spadevechia, Travis McKinney
  */
 
-#pragma once
 
 #include <unordered_set>
 
