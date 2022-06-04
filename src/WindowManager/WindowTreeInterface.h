@@ -12,7 +12,11 @@
 
 #include "ServerInterface.h"
 
-class WindowTreeInterface {
+class WindowTreeInterface
+{
+public:
+	/// a default constructor to keep the compiler happy
+	WindowTreeInterface();
 	/**
 	 * @brief Update the position of windows in the tree.
 	 * @param server The tree calls methods of this server to
