@@ -38,7 +38,7 @@ void LemonFir::update(ev::Event& ev)
 void LemonFir::addWindow(long windowID)
 {
 	cout << "addWindow" << endl;
-	nodePtr node = nextOpen();
+	NodePtr node = nextOpen();
 	node = std::make_shared<Pane>(windowID);
 }
 
@@ -60,12 +60,12 @@ void LemonFir::resize(Area area) { cout << "resize" << endl; }
 
 // Private Methods ---------------------------------------
 
-nodePtr LemonFir::nextOpen()
+NodePtr LemonFir::nextOpen()
 { // Begin search at the root.
 	return nextOpen(tree);
 }
 
-nodePtr LemonFir::nextOpen(nodePtr& node, int cycles)
+NodePtr LemonFir::nextOpen(NodePtr& node, int cycles)
 { // Recursively search until a null node is found.
 	cout << "nextOpen: " << cycles << endl;
 	if(!node)
@@ -80,7 +80,7 @@ nodePtr LemonFir::nextOpen(nodePtr& node, int cycles)
 	else if(auto n = dynamic_cast<Pane*>(node.get()))
 	{ // split this pane
 		cout << "pane: " << n->type << endl;
-		nodePtr temp = node;
+		NodePtr temp = node;
 		std::shared_ptr<Split> s = std::make_shared<Split>();
 		node = s;
 		s->left = temp;

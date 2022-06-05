@@ -6,6 +6,7 @@
  * *********************************************************
  * @brief This class implements the tree interface.
  *
+ *
   Each window occupies a leaf node, referred to as a WindowPane.
 
   The parent of a WindowPane is a WindowNode and
@@ -54,10 +55,10 @@ public:
 private:
 	/// A pointer to the server.
 	ServerInterface* server;
-	nodePtr tree;
+	NodePtr tree;
 
 	// Private Methods ---------------------------------------
 	/// Get the next open spot in the treee.
-	nodePtr nextOpen();
-	nodePtr nextOpen(nodePtr& node, int cycles = 0);
+	NodePtr nextOpen();
+	NodePtr nextOpen(NodePtr& node, int cycles = 0);
 };

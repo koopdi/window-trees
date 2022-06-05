@@ -6,7 +6,11 @@
 #include "types.h"
 
 struct LemonFirNode;
-using nodePtr = std::shared_ptr<LemonFirNode>;
+struct Split;
+struct Pane;
+using NodePtr = std::shared_ptr<LemonFirNode>;
+using SplitPtr = std::shared_ptr<Split>;
+using PanePtr = std::shared_ptr<Pane>;
 
 struct LemonFirNode {
 	/// A tag to make runtime type inference easy.
@@ -30,10 +34,10 @@ struct Split : public LemonFirNode {
 	bool vSplit;
 
 	/// The top/left child.
-	nodePtr left;
+	NodePtr left;
 
 	/// The bottom/right child.
-	nodePtr right;
+	NodePtr right;
 
 private:
 	/// A tag to make runtime type inference easy.
