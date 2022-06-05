@@ -108,6 +108,7 @@ void LemonFir::render(NodePtr node, Area& space, bool vSplit)
 	if (node) {
 		if (auto n = getSplit(node)) {
 			// Area old = space;
+			// n.vSplit
 			if (vSplit) {
 				space.width = (space.width * 0.5) - margin;
 			} else {

@@ -20,11 +20,11 @@ SGLServer::SGLServer()
 	win.setAutoRepaint(false);
 	win.center();
 
-#if _WIN32
-	win.drawImage("../../../res/edmonds.png");
-#else
-	win.drawImage("res/edmonds.png");
-#endif
+// #if _WIN32
+// 	win.drawImage("../../../res/edmonds.png");
+// #else
+// 	win.drawImage("res/edmonds.png");
+// #endif
 
 	// Add some buttons.
 	addButtons();
