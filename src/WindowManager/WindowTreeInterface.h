@@ -36,4 +36,9 @@ public:
 	 * @param area A space, a place, a time...
 	 */
 	virtual void resize(Area area) = 0;
+	// /**
+	//  * @brief Set the Screen this tree renders to.
+	//  * @param screenID A screen ID.
+	//  */
+	// virtual void setScreen(long screenID) = 0;
 };

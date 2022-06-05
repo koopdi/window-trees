@@ -34,18 +34,30 @@
 class LemonFir : public WindowTreeInterface
 {
 public:
+	// ServerInterFace ---------------------------------------
 	LemonFir(ServerInterface* server = nullptr);
 	// allow the LemonFir to act as a full window manager for now.
 	void update(ev::Event& ev);
 
-	// WindowTreeInterface
-	virtual void render(ServerInterface* server) override;
+	// WindowTreeInterface -----------------------------------
+	/// Add a window to this tree.
+	/// \param windowID The ID of the window to add.
 	virtual void addWindow(long windowID) override;
+
+	/// Remove a window from this tree.
+	/// \param windowID The ID of the window to remove.
 	virtual void remWindow(long windowID) override;
+
+	virtual void render(ServerInterface* server) override;
 	virtual void resize(Area area) override;
 
 private:
 	/// A pointer to the server.
 	ServerInterface* server;
-	LemonFirNode* tree;
+	nodePtr tree;
+
+	// Private Methods ---------------------------------------
+	/// Get the next open spot in the treee.
+	nodePtr nextOpen();
+	nodePtr nextOpen(nodePtr& node, int cycles = 0);
 };
