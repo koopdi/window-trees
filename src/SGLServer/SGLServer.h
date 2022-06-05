@@ -58,15 +58,9 @@ private:
 	const int WINDOW_WIDTH  = 640;
 	const int WINDOW_HEIGHT = 480;
 
-	using winPtr = std::shared_ptr<serverWindow>;
 	std::map<long, winPtr> winDex;
 
 	sgl::GChooser* dropDown;
-
-	// /// Give each window a unique ID.
-	// int idTicker;
-	// using idPair = std::pair<std::shared_ptr<sgl::GObject>, int>;
-	// std::set<idPair> winDex;
 
 	// private methods ---------------------------------------
 

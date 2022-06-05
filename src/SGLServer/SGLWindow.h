@@ -15,6 +15,9 @@
 
 #include <memory>
 
+struct serverWindow;
+using winPtr = std::shared_ptr<serverWindow>;
+
 struct serverWindow {
 	// This window's ID.
 	const long ID;

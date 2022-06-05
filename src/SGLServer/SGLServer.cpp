@@ -108,7 +108,7 @@ void SGLServer::run()
 	// std::sleep(200);
 }
 
-SGLServer::winPtr SGLServer::getWin(sgl::GObject* obj)
+winPtr SGLServer::getWin(sgl::GObject* obj)
 {
 	for (auto [selectID, winP] : winDex) {
 		if (winP.get()->sprite.get() == obj) {
