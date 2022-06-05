@@ -11,20 +11,20 @@ void Workspace::render(BSPNode* node, Area bounds){
 			server->setArea(node->window->windowID, (float)bounds / precision * area);
 		} else {
 			if(node->partVertically){
-				bounds.height -= node->part1Size; //restrict area to bottom size
-				bounds.y += node->part1Size; //select bottom area
+				bounds.height -= node->part1PerPrecision; //restrict area to bottom size
+				bounds.y += node->part1PerPrecision; //select bottom area
 				renderTree(node->part2, bounds); //render bottom area
 
-				bounds.height = node->part1Size;
-				bounds.y -= node->part1Size;
+				bounds.height = node->part1PerPrecision;
+				bounds.y -= node->part1PerPrecision;
 				renderTree(node->part1, bounds); //render top section
 			} else {
-				bounds.width -= node->part1Size; //restrict area to right size
-				bounds.x += node->part1Size; //select right area
+				bounds.width -= node->part1PerPrecision; //restrict area to right size
+				bounds.x += node->part1PerPrecision; //select right area
 				renderTree(node->part2, bounds); //render right area
 
-				bounds.width = node->part1Size;
-				bounds.x -= node->part1Size;
+				bounds.width = node->part1PerPrecision;
+				bounds.x -= node->part1PerPrecision;
 				renderTree(node->part1, bounds); //render left section
 			}
 		}
