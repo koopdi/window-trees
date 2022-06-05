@@ -69,11 +69,6 @@ private:
 	/// Recursively traverse the tree and layout the panes.
 	void render(NodePtr node, Area& space, bool vSplit = true);
 
-	/// A pointer to the stored split object.
-	Split* getSplit(NodePtr);
-	/// Get a pointer to the stored Pane object.
-	Pane* getPane(NodePtr);
-
 	// OMEGA_CONST halfRect = {2,2,2,2};
 	Area halve;
 	Area twice;

@@ -1,16 +1,20 @@
 #pragma once
 
-#include <string>
 #include <memory>
+#include <string>
 
 #include "types.h"
 
 struct LemonFirNode;
 struct Split;
 struct Pane;
-using NodePtr = std::shared_ptr<LemonFirNode>;
+using NodePtr  = std::shared_ptr<LemonFirNode>;
 using SplitPtr = std::shared_ptr<Split>;
-using PanePtr = std::shared_ptr<Pane>;
+using PanePtr  = std::shared_ptr<Pane>;
+/// Get a pointer to the stored split object.
+Split* getSplit(NodePtr);
+/// Get a pointer to the stored Pane object.
+Pane* getPane(NodePtr);
 
 struct LemonFirNode {
 	/// A tag to make runtime type inference easy.

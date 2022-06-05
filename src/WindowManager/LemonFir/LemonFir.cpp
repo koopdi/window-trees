@@ -5,7 +5,8 @@ using std::cout;
 using std::endl;
 using std::string;
 
-// ServerInterFace ---------------------------------------
+// WindowManager -------------------------------------------
+// WorkSpace -----------------------------------------------
 
 LemonFir::LemonFir(ServerInterface* server)
     : server(server) //////////////////////
@@ -35,7 +36,7 @@ void LemonFir::update(ev::Event& ev)
 	}
 }
 
-// WindowTreeInterface -----------------------------------
+// WindowTreeInterface -------------------------------------
 
 void LemonFir::addWindow(long windowID)
 {
@@ -48,7 +49,6 @@ void LemonFir::remWindow(long windowID) { cout << "remWindow" << endl; }
 
 void LemonFir::render(ServerInterface* server)
 {
-	// cout << "render" << endl;
 	// there's no screen ID so passing -1
 	// there's only one screen in sgl server and the ID is ignored.
 	Area size = server->getScreenSize(-1);
@@ -57,12 +57,18 @@ void LemonFir::render(ServerInterface* server)
 	cout << "x " << size.x << ", y " << size.y << endl;
 	cout << "width " << size.width << ", height " << size.height << endl;
 
+	// size.x += size.width / 2;
+	// size.y += size.height;
+
+	size.width  = size.width / 10;
+	size.height = size.height / 10;
+
 	render(tree, size);
 }
 
 void LemonFir::resize(Area area) { cout << "resize" << endl; }
 
-// Private Methods ---------------------------------------
+// Private Methods -----------------------------------------
 
 void LemonFir::print()
 {
@@ -73,10 +79,10 @@ void LemonFir::print(NodePtr node)
 {
 	if (node) {
 		std::cout << node->type << endl;
-		if (auto n = dynamic_cast<Split*>(node.get())) {
+		if (auto n = getSplit(node)) {
 			print(n->left);
 			print(n->right);
-		} else if (auto n = dynamic_cast<Pane*>(node.get())) {
+		} else if (auto n = getPane(node)) {
 			cout << "ID: " << n->windowID << endl;
 		}
 	}
@@ -92,13 +98,11 @@ NodePtr& LemonFir::nextOpen(NodePtr& node, int cycles)
 	// cout << "nextOpen: " << cycles << endl;
 	if (!node) {
 		return node;
-	} else if (auto n = dynamic_cast<Split*>(node.get())) {
+	} else if (auto n = getSplit(node)) {
 		// attatch window here
-		// cout << "split: " << n->type << endl;
 		return nextOpen(n->right, cycles);
-	} else if (auto n = dynamic_cast<Pane*>(node.get())) {
+	} else if (getPane(node)) {
 		// split this pane
-		// cout << "pane: " << n->type << endl;
 		NodePtr temp = node;
 		SplitPtr s   = std::make_shared<Split>();
 		node         = s;
@@ -110,17 +114,17 @@ NodePtr& LemonFir::nextOpen(NodePtr& node, int cycles)
 void LemonFir::render(NodePtr node, Area& space, bool vSplit)
 {
 	if (node) {
-		if (auto n = dynamic_cast<Split*>(node.get())) {
+		if (auto n = getSplit(node)) {
 			render(n->left, space, !vSplit);
 			render(n->right, space, !vSplit);
-		} else if (auto n = dynamic_cast<Pane*>(node.get())) {
+		} else if (auto n = getPane(node)) {
 			server->setArea(n->windowID, space);
 			if (vSplit) {
-				space.x += space.width / 2;
-				space.width = space.width / 2;
+				space.x += space.width;
+				space.width = space.width * (9.0 / 10);
 			} else {
-				space.y += space.height / 2;
-				space.height = space.height / 2;
+				space.y += space.height;
+				space.height = space.height * (9.0 / 10);
 			}
 		}
 	}
