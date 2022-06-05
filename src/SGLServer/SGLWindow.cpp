@@ -41,6 +41,7 @@ serverWindow::~serverWindow()
 {
 	// remove this gobject from the gwindow
 	win.remove(*sprite);
+	win.repaint();
 	// the memory will be freed automatically
 }
 

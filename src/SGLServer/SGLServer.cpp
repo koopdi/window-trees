@@ -118,15 +118,6 @@ SGLServer::winPtr SGLServer::getWin(sgl::GObject* obj)
 	return nullptr;
 }
 
-// // select the window ID of g in the drop down chooser
-// int count = dropDown->getItemCount();
-// for (int idx = 0; idx < count; idx++) {
-// 	if (stol(dropDown->getItem(idx)) == selectID) {
-// 		dropDown->setSelectedIndex(idx);
-// 		break;
-// 	}
-// }
-
 bool SGLServer::dropDownSelect(long windowID)
 {
 	int count = dropDown->getItemCount();
@@ -154,13 +145,16 @@ void SGLServer::clickEv(sgl::GEvent e)
 					g->setLineWidth(5);
 					g->setColor("yellow");
 					window->repaint();
+
+					// Reset the outline.
 					g->setLineWidth(1);
 					g->setColor("black");
 
 					// select g in the drop down chooser
 					dropDownSelect(winP->ID);
+
 				} else if (e.isMiddleClick()) { // remove g
-					cout << "remove g" << endl;
+					remove(winP->ID);
 				} else { // rotate g
 					cout << "rotate g" << endl;
 				}
@@ -211,7 +205,6 @@ void SGLServer::menuEv(sgl::GEvent e)
 			} else {
 				remove(stol(dropDown->getSelectedItem()));
 			}
-			window->repaint();
 		}
 	}
 }
@@ -231,9 +224,8 @@ void SGLServer::remove(long windowID)
 			// get the specified window
 			gwin = winDex[windowID];
 			// remove the specified window
-			evRemove((*gwin).ID);
 			winDex.erase(windowID);
-			// window->repaint();
+			evRemove((*gwin).ID);
 		} // else invalid ID
 	}   // else no windows at all
 
