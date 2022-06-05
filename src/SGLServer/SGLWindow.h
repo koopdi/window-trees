@@ -15,12 +15,14 @@
 
 #include <memory>
 
-struct SGLWindow {
+struct serverWindow {
 	// This window's ID.
 	const long ID;
+	/// The underlying graphics object.
+	std::shared_ptr<sgl::GObject> sprite;
 
-	SGLWindow(sgl::GWindow& win);
-	~SGLWindow();
+	serverWindow(sgl::GWindow& win);
+	~serverWindow();
 
 	Area getArea();
 	void setArea(Area a);
@@ -31,8 +33,6 @@ private:
 	/// A counter to hold the
 	static long nextID;
 
-	/// The underlying graphics object.
-	std::shared_ptr<sgl::GObject> sprite;
 };
 
 // class SGLServerWindow

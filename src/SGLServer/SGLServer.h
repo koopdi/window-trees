@@ -58,8 +58,8 @@ private:
 	const int WINDOW_WIDTH  = 640;
 	const int WINDOW_HEIGHT = 480;
 
-	using sglWin = std::shared_ptr<SGLWindow>;
-	std::map<long, sglWin> winDex;
+	using winPtr = std::shared_ptr<serverWindow>;
+	std::map<long, winPtr> winDex;
 
 	sgl::GChooser* dropDown;
 
@@ -75,8 +75,11 @@ private:
 	// create a remove window event
 	void evRemove(long windowID);
 
+	void clickEv(sgl::GEvent ev);
+
 	// A function to remove windows when the drop down is clicked.
 	void dropDownEv(sgl::GEvent ev);
+
 	// A function to handle key events.
 	void keyEv(sgl::GEvent ev);
 	// A function to handle menu events.

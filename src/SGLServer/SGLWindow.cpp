@@ -5,9 +5,9 @@
 using namespace std;
 using namespace sgl;
 
-long SGLWindow::nextID = 0;
+long serverWindow::nextID = 0;
 
-SGLWindow::SGLWindow(GWindow& win) : ID(nextID++), win(win)
+serverWindow::serverWindow(GWindow& win) : ID(nextID++), win(win)
 {
 	int width  = win.getCanvasWidth();
 	int height = win.getCanvasHeight();
@@ -37,14 +37,14 @@ SGLWindow::SGLWindow(GWindow& win) : ID(nextID++), win(win)
 	// win.repaint();
 }
 
-SGLWindow::~SGLWindow()
+serverWindow::~serverWindow()
 {
 	// remove this gobject from the gwindow
 	win.remove(*sprite);
 	// the memory will be freed automatically
 }
 
-Area SGLWindow::getArea()
+Area serverWindow::getArea()
 {
 	Area foo;
 	foo.width = sprite.get()->getWidth();
@@ -54,7 +54,7 @@ Area SGLWindow::getArea()
 	return foo;
 }
 
-void SGLWindow::setArea(Area a)
+void serverWindow::setArea(Area a)
 {
 	sprite.get()->setLocation(a.x, a.y);
 	sprite.get()->setSize(a.width, a.height);
