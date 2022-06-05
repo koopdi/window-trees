@@ -108,44 +108,65 @@ void SGLServer::run()
 	// std::sleep(200);
 }
 
+SGLServer::winPtr SGLServer::getWin(sgl::GObject* obj)
+{
+	for (auto [selectID, winP] : winDex) {
+		if (winP.get()->sprite.get() == obj) {
+			return winP;
+		}
+	}
+	return nullptr;
+}
+
+// // select the window ID of g in the drop down chooser
+// int count = dropDown->getItemCount();
+// for (int idx = 0; idx < count; idx++) {
+// 	if (stol(dropDown->getItem(idx)) == selectID) {
+// 		dropDown->setSelectedIndex(idx);
+// 		break;
+// 	}
+// }
+
+bool SGLServer::dropDownSelect(long windowID)
+{
+	int count = dropDown->getItemCount();
+	for (int idx = 0; idx < count; idx++) {
+		if (stol(dropDown->getItem(idx)) == windowID) {
+			dropDown->setSelectedIndex(idx);
+			return true;
+		}
+	}
+	return false;
+}
+
 void SGLServer::clickEv(sgl::GEvent e)
 {
 	sgl::EventType eType = e.getType();
 	if (eType == sgl::EventType::MOUSE_CLICKED) {
 		int x = e.getX();
 		int y = e.getY();
-		if (sgl::GObject* g = window->getGObjectAt(x, y)) {
-			if (e.isLeftClick()) {
-				// select g
-				// cout << "select g" << endl;
-				// Find the clicked GObject in the winDex.
-				for (auto [selectID, winP] : winDex) {
-					if (winP.get()->sprite.get() == g) {
-						g->setLineWidth(5);
-						g->setColor("yellow");
-						window->repaint();
-						g->setLineWidth(1);
-						g->setColor("black");
 
-						// select the window ID of g in the drop down chooser
-						int count = dropDown->getItemCount();
-						for(int idx = 0; idx < count; idx++){
-							if(stol(dropDown->getItem(idx)) == selectID){
-								dropDown->setSelectedIndex(idx);
-								break;
-							}
-						}
-					}
+		if (sgl::GObject* g = window->getGObjectAt(x, y)) {
+			// Find g in the winDex.
+			if (winPtr winP = getWin(g)) {
+				if (e.isLeftClick()) { // select g
+					// Highlight g.
+					g->setLineWidth(5);
+					g->setColor("yellow");
+					window->repaint();
+					g->setLineWidth(1);
+					g->setColor("black");
+
+					// select g in the drop down chooser
+					dropDownSelect(winP->ID);
+				} else if (e.isMiddleClick()) { // remove g
+					cout << "remove g" << endl;
+				} else { // rotate g
+					cout << "rotate g" << endl;
 				}
-			} else if (e.isMiddleClick()) {
-				// remove g
-				// cout << "remove g" << endl;
-			} else {
-				// rotate g
-				// cout << "rotate g" << endl;
-			}
-		}
-	}
+			} // g is not a window
+		}   // nothing was clicked
+	}     // not a click event
 }
 
 // this function triggers when it shouldn't

@@ -75,7 +75,14 @@ private:
 	// create a remove window event
 	void evRemove(long windowID);
 
+	// Handle mouse click events.
 	void clickEv(sgl::GEvent ev);
+
+	// Get the serverWindow that holds the provided gobject.
+	winPtr getWin(sgl::GObject* obj);
+
+	// select the window ID in the drop down chooser
+	bool dropDownSelect(long windowID);
 
 	// A function to remove windows when the drop down is clicked.
 	void dropDownEv(sgl::GEvent ev);
