@@ -19,7 +19,13 @@ Pane* getPane(NodePtr);
 struct LemonFirNode {
 	/// A tag to make runtime type inference easy.
 	const std::string_view& type;
+
+	/// Something, anything, needs to be virtual or
+	///  dynamic_cast doesn't work.
 	virtual ~LemonFirNode();
+
+	// Split* getSplit();
+	// Pane* getPane();
 
 protected:
 	/// This constructor must be called from the derived class.

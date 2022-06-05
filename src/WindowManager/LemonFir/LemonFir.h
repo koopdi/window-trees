@@ -69,4 +69,8 @@ private:
 	/// Recursively traverse the tree and layout the panes.
 	/// Area by reference.
 	void render(NodePtr node, Area& space, bool vSplit = true);
+
+	/// Recursively traverse the tree and remove
+	/// panes with a matching ID.
+	void remove(NodePtr& node, long windowID);
 };

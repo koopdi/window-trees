@@ -10,6 +10,15 @@ LemonFirNode::LemonFirNode(const std::string_view& name)
 
 LemonFirNode::~LemonFirNode(){}
 
+// Split* LemonFirNode::getSplit()
+// {
+// 	return std::dynamic_cast<Split*>(this);
+// }
+
+// LemonFirNode::getPane(){
+// 	return std::dynamic_pointer_cast<Pane*>
+// }
+
 Split::Split() : LemonFirNode(name) ////////////////////////
 {
 }

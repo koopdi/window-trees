@@ -5,6 +5,7 @@ using std::cout;
 using std::endl;
 using std::string;
 
+#define margin 1;
 // WindowManager -------------------------------------------
 // WorkSpace -----------------------------------------------
 
@@ -36,10 +37,13 @@ void LemonFir::addWindow(long windowID)
 {
 	// cout << "addWindow" << endl;
 	nextOpen() = std::make_shared<Pane>(windowID);
-	print();
+	// print();
 }
 
-void LemonFir::remWindow(long windowID) { cout << "remWindow" << endl; }
+void LemonFir::remWindow(long windowID)
+{
+	remove(tree, windowID);
+}
 
 void LemonFir::render(ServerInterface* server)
 {
@@ -47,9 +51,9 @@ void LemonFir::render(ServerInterface* server)
 	// there's only one screen in sgl server and the ID is ignored.
 	Area size = server->getScreenSize(-1);
 	// cout << size;
-	cout << "Scree Size:" << endl;
-	cout << "x " << size.x << ", y " << size.y << endl;
-	cout << "width " << size.width << ", height " << size.height << endl;
+	// cout << "Scree Size:" << endl;
+	// cout << "x " << size.x << ", y " << size.y << endl;
+	// cout << "width " << size.width << ", height " << size.height << endl;
 
 	render(tree, size);
 }
@@ -105,19 +109,40 @@ void LemonFir::render(NodePtr node, Area& space, bool vSplit)
 		if (auto n = getSplit(node)) {
 			// Area old = space;
 			if (vSplit) {
-				space.width = space.width * (0.45);
+				space.width = (space.width * 0.5) - margin;
 			} else {
-				space.height = space.height * (0.45);
+				space.height = (space.height * 0.5) - margin;
 			}
 			render(n->left, space, !vSplit);
 			if (vSplit) {
-				space.x += space.width;
+				space.x += space.width + 2 * margin;
 			} else {
-				space.y += space.height;
+				space.y += space.height + 2 * margin;
 			}
 			render(n->right, space, !vSplit);
 		} else if (auto n = getPane(node)) {
 			server->setArea(n->windowID, space);
 		}
+	}
+}
+
+/// \todo rebalance after remove
+void LemonFir::remove(NodePtr& node, long targetID)
+{
+	if (Split* s = getSplit(node)) {
+		// look ahead
+		if (Pane* p = getPane(s->left)) {
+			if (p->windowID == targetID) {
+				// remove left
+				s->left = nullptr;
+			}
+		} else if (Pane* p = getPane(s->right)) {
+			if (p->windowID == targetID) {
+				// remove right
+				s->right = nullptr;
+			}
+		} // recurse
+		remove(s->left, targetID);
+		remove(s->right, targetID);
 	}
 }
