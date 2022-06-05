@@ -1,5 +1,21 @@
 #pragma once
 
+/**
+ * @file LemonFirNode.h
+ * @author Andrew Hanson, Christen Spadevechia, Travis McKinney (movonarvic@gmail.com)
+ * @date 06-05-2022
+ * @brief A polymorphic binary tree node.
+ *
+ * This file provides the abstract base struct, LemonFirnode.
+ *
+ * There are two concrete derived types;
+ * 	Struct Split is a parenting node.
+ * 	Struct Pane is an obligate leaf node.
+ *
+ * \todo Add a pointer back to parent,
+ *  common to both concrete types.
+ */
+
 #include <memory>
 #include <string>
 
