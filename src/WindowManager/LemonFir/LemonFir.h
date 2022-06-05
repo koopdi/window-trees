@@ -67,9 +67,6 @@ private:
 	void print(NodePtr node);
 
 	/// Recursively traverse the tree and layout the panes.
+	/// Area by reference.
 	void render(NodePtr node, Area& space, bool vSplit = true);
-
-	// OMEGA_CONST halfRect = {2,2,2,2};
-	Area halve;
-	Area twice;
 };

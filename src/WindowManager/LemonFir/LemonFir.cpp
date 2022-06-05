@@ -11,12 +11,6 @@ using std::string;
 LemonFir::LemonFir(ServerInterface* server)
     : server(server) //////////////////////
 {
-	// Create a root node.
-	tree = std::make_shared<Split>();
-
-	cout << tree->type << endl;
-
-	halve = {2, 2, 2, 2};
 }
 
 void LemonFir::update(ev::Event& ev)
@@ -56,12 +50,6 @@ void LemonFir::render(ServerInterface* server)
 	cout << "Scree Size:" << endl;
 	cout << "x " << size.x << ", y " << size.y << endl;
 	cout << "width " << size.width << ", height " << size.height << endl;
-
-	// size.x += size.width / 2;
-	// size.y += size.height;
-
-	size.width  = size.width / 10;
-	size.height = size.height / 10;
 
 	render(tree, size);
 }
@@ -115,17 +103,21 @@ void LemonFir::render(NodePtr node, Area& space, bool vSplit)
 {
 	if (node) {
 		if (auto n = getSplit(node)) {
+			// Area old = space;
+			if (vSplit) {
+				space.width = space.width * (0.45);
+			} else {
+				space.height = space.height * (0.45);
+			}
 			render(n->left, space, !vSplit);
+			if (vSplit) {
+				space.x += space.width;
+			} else {
+				space.y += space.height;
+			}
 			render(n->right, space, !vSplit);
 		} else if (auto n = getPane(node)) {
 			server->setArea(n->windowID, space);
-			if (vSplit) {
-				space.x += space.width;
-				space.width = space.width * (9.0 / 10);
-			} else {
-				space.y += space.height;
-				space.height = space.height * (9.0 / 10);
-			}
 		}
 	}
 }
