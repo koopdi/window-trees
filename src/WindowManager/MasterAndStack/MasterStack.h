@@ -1,7 +1,8 @@
 #pragma once
 
-#include "ServerInterface.h"
+// #include "ServerInterface.h"
 #include "WindowTreeInterface.h"
+
 
 class MasterStack : public WindowTreeInterface
 {

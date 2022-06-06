@@ -18,4 +18,5 @@ target_include_directories(MasterAndStack
 target_link_libraries(MasterAndStack
 	PUBLIC
 	Protocol
+	WindowManager
 )

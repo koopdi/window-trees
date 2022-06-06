@@ -1,7 +1,7 @@
-#include "MasterStack"
+#include "MasterStack.h"
 
 MasterStack::MasterStack(ServerInterfaceArea* server, Area workspaceSize) :
-	vertical(true), area(area), numWindws(0), masterSize(width/2), head(nullptr), tail(nullptr){}
+	vertical(true), area(area), numWindows(0), masterSize(width/2), head(nullptr), tail(nullptr){}
 
 void MasterStack::render(ServerInterface* server, MasterStackNode* node, int depth){
 	if(node != nullptr){

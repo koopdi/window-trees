@@ -8,6 +8,7 @@ set(CMAKE_VERBOSE_MAKEFILE ON)
 
 add_subdirectory(LemonFir)
 add_subdirectory(BSPTree)
+add_subdirectory(MasterAndStack)
 
 # source / header files specific to this project
 FILE(GLOB WindowManager_Headers
