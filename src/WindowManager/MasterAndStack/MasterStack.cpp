@@ -52,21 +52,21 @@ void MasterStack::remWindow(long windowID){
 		if(node->windowID == windowID){ //remove head
 			delete head;
 			head = nullptr;
+			tail = nullptr;
 		} else { //remove any other node
 			while(node->next->windowID != windowID && node->next != nullptr){
 				node = node->next;
 			}
 
 			if(node->next == nullptr){
-				throw string("Unable to remove window with id " + to_string(winodwID) + ".");
+				throw string("Unable to remove non-existant window with id " + to_string(winodwID));
 			}
 
-			//if node->next is the window to be removed
-			if(node->next != nullptr && node->next->windowID == windowID){
-				MasterStackNode* tmp = node->next;
-				node->next = node->next->next;
-				delete tmp;
-			}
+			//if node->next is the window to be removed (node->next->windowID == windowID)
+			MasterStackNode* tmp = node->next;
+			node->next = node->next->next;
+			delete tmp;
+			tail = node;
 		}
 	}
 	numWindows--;
