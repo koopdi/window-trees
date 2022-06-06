@@ -19,7 +19,9 @@ struct Area
 	int height;
 
 	Area operator*(Area other);
-	Area operator/(Area& other);
+	Area operator/(Area other);
+	Area operator+(Area other);
+	Area operator-(Area other);
 };
 
 

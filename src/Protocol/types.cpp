@@ -8,11 +8,24 @@ Area Area::operator*(Area other){
 	return other;
 }
 
-Area Area::operator/(Area& other){
-	Area a;
-	a.x = x / other.x;
-	a.y = y / other.y;
-	a.width = width / other.width;
-	a.height = height / other.height;
-	return a;
+Area Area::operator/(Area other){
+	other.x = x / other.x;
+	other.y = y / other.y;
+	other.width = width / other.width;
+	other.height = height / other.height;
+	return other;
+}
+
+Area Area::operator+(Area other){
+	other.x += x;
+	other.y += y;
+	other.width += width;
+	other.height += height;
+}
+
+Area Area::operator-(Area other){
+	other.x = x - other.x;
+	other.y = y - other.y;
+	other.width = width - other.width;
+	other.height = height - other.height;
 }
