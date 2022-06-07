@@ -77,7 +77,13 @@ private:
 	/// panes with a matching ID.
 	void remove(NodePtr& node, long windowID);
 
-	// find the parent of windowID
-	PanePtr getParent(long windowID);
-	PanePtr getParent(NodePtr node, long windowID);
+	/// find the parent of windowID
+	NodePtr getParent(long targetID);
+	/**
+	 * @param node The current node.
+	 * @param windowID The window to get the parent of.
+	 * @return PanePtr The parent of the window or
+	 *  Null Pointer if no parent of that window exists.
+	 */
+	NodePtr getParent(NodePtr node, long targetID);
 };

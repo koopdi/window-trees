@@ -74,18 +74,37 @@ void LemonFir::rotateSplit(long windowID)
 {
 	cout << "Rotating window #" << windowID << endl;
 	getParent(windowID);
-
 }
 
-PanePtr LemonFir::getParent(long windowID)
+NodePtr LemonFir::getParent(long targetID)
 {
 	cout << "Aqcuiring parent Split." << endl;
-	return getParent(tree, windowID);
+	return getParent(tree, targetID);
 }
 
-PanePtr LemonFir::getParent(NodePtr node, long windowID)
+NodePtr LemonFir::getParent(NodePtr node, long targetID)
 {
-
+	if (!node) {
+		return nullptr;
+	} else if (Split* s = getSplit(node)) {
+		// look ahead left
+		if (Pane* p = getPane(s->left)) {
+			if (p->windowID == targetID) {
+				return node;
+			}
+		}
+		// look ahead right
+		if (Pane* p = getPane(s->right)) {
+			if (p->windowID == targetID) {
+				return node;
+			}
+		}
+		// recurse
+		NodePtr left  = getParent(s->left, targetID);
+		NodePtr right = getParent(s->right, targetID);
+		// return the not null branch, if any.
+		return (left) ? left : right;
+	}
 }
 
 void LemonFir::resize(Area area) { cout << "resize" << endl; }
