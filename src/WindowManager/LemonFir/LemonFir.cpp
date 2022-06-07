@@ -49,7 +49,7 @@ void LemonFir::render(ServerInterface* server)
 {
 	// there's no screen ID so passing -1
 	// there's only one screen in sgl server and the ID is ignored.
-	Area size = server->getScreenSize(-1);
+	Area size = {0,0, 800, 600};
 	// cout << size;
 	// cout << "Scree Size:" << endl;
 	// cout << "x " << size.x << ", y " << size.y << endl;
