@@ -22,6 +22,11 @@ LemonFir::LemonFir(ServerInterface* server)
 	}else{
 		screen = -1;
 	}
+	std::vector<long> windows = server->getWindows(screen);
+
+	for(auto ID : windows){
+		addWindow(ID);
+	}
 }
 
 void LemonFir::update(ev::Event& ev)
