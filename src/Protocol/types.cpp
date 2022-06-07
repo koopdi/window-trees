@@ -21,6 +21,7 @@ Area Area::operator+(Area other){
 	other.y += y;
 	other.width += width;
 	other.height += height;
+	return other;
 }
 
 Area Area::operator-(Area other){
@@ -28,4 +29,5 @@ Area Area::operator-(Area other){
 	other.y = y - other.y;
 	other.width = width - other.width;
 	other.height = height - other.height;
+	return other;
 }
