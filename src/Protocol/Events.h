@@ -36,6 +36,7 @@ enum class EventType {
 	KEY,           /*A key was pressed*/
 	MOUSE,         /*A mouse was moved */
 	SWITCH_LAYOUT, /*Layout switch request*/
+	ROTATE_SPLIT,  /*Rotate the split orientation*/
 	OTHER,         /*Backend specific*/
 	GARBAGE        /*Unhandled*/
 };
@@ -67,6 +68,10 @@ struct SwitchLayout {
 	TreeMode mode;
 };
 
+struct RotateSplit{
+	long windowID;
+};
+
 struct Event {
 	EventType type;
 	union {
@@ -75,6 +80,7 @@ struct Event {
 		Key key;
 		Mouse mouse;
 		SwitchLayout layout;
+		RotateSplit rotate;
 	};
 };
 
