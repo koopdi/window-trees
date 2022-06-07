@@ -35,8 +35,8 @@ void LemonFir::update(ev::Event& ev)
 			addWindow(ev.add.winID);
 		} else if (ev.type == ev::EventType::REMOVE) {
 			remWindow(ev.remove.winID);
-		}else if (ev.type == ev::EventType::ROTATE_SPLIT){
-			cout << "Rotating window #" << ev.rotate.windowID << endl;
+		} else if (ev.type == ev::EventType::ROTATE_SPLIT) {
+			rotateSplit(ev.rotate.windowID);
 		}
 
 		render(server);
@@ -68,6 +68,19 @@ void LemonFir::render(ServerInterface* server)
 	// cout << "width " << size.width << ", height " << size.height << endl;
 
 	render(tree, size);
+}
+
+void LemonFir::rotateSplit(long windowID)
+{
+	cout << "Rotating window #" << windowID << endl;
+	parent(windowID);
+
+}
+
+PanePtr LemonFir::parent(long windowID)
+{
+	cout << "Aqcuiring parent Split." << endl;
+	return nullptr;
 }
 
 void LemonFir::resize(Area area) { cout << "resize" << endl; }
@@ -114,6 +127,7 @@ NodePtr& LemonFir::nextOpen(NodePtr& node, int cycles)
 		s->left      = temp;
 		return s->right;
 	}
+	throw string("Next Open: error, unhandled recursive case");
 }
 
 void LemonFir::render(NodePtr node, Area& space, bool vSplit)

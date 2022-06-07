@@ -52,6 +52,8 @@ public:
 	virtual void render(ServerInterface* server) override;
 	virtual void resize(Area area) override;
 
+	virtual void rotateSplit(long windowID) override;
+
 private:
 	/// A pointer to the server.
 	ServerInterface* server;
@@ -74,4 +76,7 @@ private:
 	/// Recursively traverse the tree and remove
 	/// panes with a matching ID.
 	void remove(NodePtr& node, long windowID);
+
+	// find the parent of windowID
+	PanePtr parent(long windowID);
 };
