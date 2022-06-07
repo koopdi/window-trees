@@ -1,6 +1,6 @@
 #include "Workspace.h"
 
-Workspace(ServerInterface* server, long screenID) : server(server), screenID(screenID),
+Workspace::Workspace(ServerInterface* server, long screenID) : server(server)
 	{
 	Area screenSize = server->getScreenSize(screenID);
 
@@ -9,33 +9,33 @@ Workspace(ServerInterface* server, long screenID) : server(server), screenID(scr
 	// windowTrees[ev::TreeMode::HEAP] = new HeapTree(server);
 }
 
-void render(){
+void Workspace::render(){
 	windowTrees[treeLayoutMode]->render(server);
 }
 
-void addWindow(long windowID){
+void Workspace::addWindow(long windowID){
 	for(pair<ev::TreeMode,WindowTreeInterface*> pair : windowTrees){
 		pair.second.addWindow(windowID);
 	}
 }
 
-void remWindow(long windowID){
+void Workspace::remWindow(long windowID){
 	for(pair<ev::TreeMode,WindowTreeInterface*> pair : windowTrees){
 		pair.second.addWindow(windowID);
 	}
 }
 
-void rotateSplit(long windowID){
+void Workspace::rotateSplit(long windowID){
 	windowTrees[treeLayoutMode]->rotateSplit(windowID);
 }
 
-void resize(Area area){
+void Workspace::resize(Area area){
 	for(pair<ev::TreeMode,WindowTreeInterface*> pair : windowTrees){
 		pair.second.addWindow(windowID);
 	}
 }
 
-void setLayoutMode(ev::TreeMode mode){
+void Workspace::setLayoutMode(ev::TreeMode mode){
 	treeLayoutMode = mode;
 	render();
 }

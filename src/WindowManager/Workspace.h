@@ -5,11 +5,12 @@
 
 #pragma once
 
-#include "WindowNode.h"
-#include "WindowTree.h"
 #include "types.h"
 #include "ServerInterface.h"
 #include "WindowTreeInterface.h"
+
+#include "LemonFir.h"
+#include "MasterStack.h"
 
 #include <memory>
 
@@ -24,7 +25,7 @@ public:
 	/**
 	 * @brief Construct a new Workspace object
 	 */
-	Workspace(ServerInterface* server, Area area);
+	Workspace(ServerInterface* server, long screenID);
 
 	void render();
 
