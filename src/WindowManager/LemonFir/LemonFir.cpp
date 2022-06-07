@@ -1,9 +1,11 @@
 #include "LemonFir.h"
 #include <iostream>
 #include <string>
+#include <vector>
 using std::cout;
 using std::endl;
 using std::string;
+
 
 #define margin 1;
 // WindowManager -------------------------------------------
@@ -12,6 +14,14 @@ using std::string;
 LemonFir::LemonFir(ServerInterface* server)
     : server(server) //////////////////////
 {
+	// there's no screen ID so passing -1
+	// there's only one screen in sgl server and the ID is ignored.
+	std::vector<long> screens = server->getScreens();
+	if(screens.size() > 0){
+		screen = screens.at(0);
+	}else{
+		screen = -1;
+	}
 }
 
 void LemonFir::update(ev::Event& ev)
@@ -40,16 +50,12 @@ void LemonFir::addWindow(long windowID)
 	// print();
 }
 
-void LemonFir::remWindow(long windowID)
-{
-	remove(tree, windowID);
-}
+void LemonFir::remWindow(long windowID) { remove(tree, windowID); }
 
 void LemonFir::render(ServerInterface* server)
 {
-	// there's no screen ID so passing -1
-	// there's only one screen in sgl server and the ID is ignored.
-	Area size = server->getScreenSize(-1);
+
+	Area size = server->getScreenSize(screen);
 	// cout << size;
 	// cout << "Scree Size:" << endl;
 	// cout << "x " << size.x << ", y " << size.y << endl;

@@ -55,6 +55,7 @@ public:
 private:
 	/// A pointer to the server.
 	ServerInterface* server;
+	long screen;
 	NodePtr tree;
 
 	// Private Methods ---------------------------------------
