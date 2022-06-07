@@ -1,36 +1,36 @@
 #include "MasterStack.h"
 
-MasterStack::MasterStack(ServerInterfaceArea* server, Area workspaceSize) :
-	vertical(true), area(area), numWindows(0), masterSize(width/2), head(nullptr), tail(nullptr){}
+MasterStack::MasterStack(ServerInterface* server, Area area) : vertical(true), area(area),
+	numWindows(0), masterSize(area.width/2), head(nullptr), tail(nullptr){}
 
-void MasterStack::render(ServerInterface* server, MasterStackNode* node, int depth){
+void MasterStack::render(MasterStackNode* node, int depth){
 	if(node != nullptr){
 		if(vertical){
 			server->setArea(node->windowID,
 			{masterSize,
-			depth * (workspaceSize.height / numWindows),
-			workspaceSize.width - masterSize,
-			(workspaceSize.height / numWindows)});
+			depth * (area.height / numWindows),
+			area.width - masterSize,
+			(area.height / numWindows)});
 		} else {
 			server->setArea(node->windowID,
-			{depth * (workspaceSize.width / numWindows),
+			{depth * (area.width / numWindows),
 			masterSize,
-			(workspaceSize.width / numWindows),
-			workspaceSize.height - masterSize});
+			(area.width / numWindows),
+			area.height - masterSize});
 		}
-		render(node->next);
+		render(node->next, depth + 1);
 	}
 }
 
 void MasterStack::render(ServerInterface* server){
 	if (head != nullptr){
 		if(vertical){
-			server->setArea(head->windowID, {0,0, masterSize, workspaceSize.height});
+			server->setArea(head->windowID, {0,0, masterSize, area.height});
 		} else {
-			server->setArea(head->windowID, {0,0, workspaceSize.width, masterSize});
+			server->setArea(head->windowID, {0,0, area.width, masterSize});
 		}
 
-		render(server, head->next, 0);
+		render(head->next, 0);
 	}
 }
 
@@ -59,7 +59,8 @@ void MasterStack::remWindow(long windowID){
 			}
 
 			if(node->next == nullptr){
-				throw string("Unable to remove non-existant window with id " + to_string(winodwID));
+				throw std::string("Unable to remove non-existant window with id "
+					+ std::to_string(windowID));
 			}
 
 			//if node->next is the window to be removed (node->next->windowID == windowID)
