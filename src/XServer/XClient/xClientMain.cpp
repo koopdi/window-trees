@@ -24,8 +24,8 @@ int main()
 
 		server->run();
 
-	} catch (string error) {
-		cout << error << endl;
+	} catch (std::string error) {
+		std::cout << error << std::endl;
 	}
 
 
