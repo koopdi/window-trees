@@ -31,12 +31,14 @@ namespace ev
 {
 // The type of event.
 enum class EventType {
-	ADD,    /*Add a window.*/
-	REMOVE, /*Remove a window*/
-	KEY,    /*A key was pressed*/
-	MOUSE,  /*A mouse was moved */
-	OTHER,  /*Backend specific*/
-	GARBAGE /*Unhandled*/
+	ADD,           /*Add a window.*/
+	REMOVE,        /*Remove a window*/
+	KEY,           /*A key was pressed*/
+	MOUSE,         /*A mouse was moved */
+	SWITCH_LAYOUT, /*Layout switch request*/
+	ROTATE_SPLIT,  /*Rotate the split orientation*/
+	OTHER,         /*Backend specific*/
+	GARBAGE        /*Unhandled*/
 };
 
 struct Add {
@@ -59,6 +61,23 @@ struct Mouse {
 	int atributeD;
 };
 
+enum class TreeMode {
+	LEMON_FIR,
+	BSP_TREE,
+	MASTER_STACK,
+	HEAP,
+	CLASSIC
+}; ////////////////
+
+struct SwitchLayout {
+	long screenID;
+	TreeMode mode;
+};
+
+struct RotateSplit {
+	long windowID;
+};
+
 struct Event {
 	EventType type;
 	union {
@@ -66,6 +85,8 @@ struct Event {
 		Remove remove;
 		Key key;
 		Mouse mouse;
+		SwitchLayout layout;
+		RotateSplit rotate;
 	};
 };
 

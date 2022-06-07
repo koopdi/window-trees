@@ -96,7 +96,7 @@ void XServer::eventLoop()
 		switch (event.type)
 		{
 		case ConfigureRequest:
-		//case DestroyNotify:						//CRITICAL CASE DISABLED FOR TESTING
+		case DestroyNotify:						//CRITICAL CASE DISABLED FOR TESTING
 		case ButtonPress:
 		case ButtonRelease:
 		case KeyPress:
@@ -181,6 +181,7 @@ void XServer::setArea(long windowID, Area area)
 	changes.y      = area.y;
 	changes.width  = area.width;
 	changes.height = area.height;
+	log.info("conf'd window with id:" + std::to_string(windowID));
 	XConfigureWindow(display, (Window)windowID, areaBitmask, &changes);
 }
 

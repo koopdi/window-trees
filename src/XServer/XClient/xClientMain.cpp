@@ -2,30 +2,52 @@
 #include <iostream>
 #include "ServerInterface.h"
 #include "XServer.h"
+#include "LemonFir.h"
+
 
 #define _DEBUG_PRINT_
 
 int main()
 {
-#ifdef _DEBUG_PRINT_
-	std::cout << "new windowManager()" << std::endl;
-#endif
+	try { // Create an X Server for the Window Manager to interface with.
+		ServerInterface* server     = new XServer();
+		// Create a Window Manager.
+		// WindowManager* winMan = new WindowManager(server);
+		LemonFir* winMan = new LemonFir(server);
 
-	ServerInterface* server = new XServer();
-	WindowManager winMan(server);
+		// Tell the server where to send events.
+		EventHandlerFn evFun  = [&winMan](ev::Event* event) {
+      		winMan->update(*event);
+		};
 
-#ifdef _DEBUG_PRINT_
-	std::cout << "run" << std::endl;
-#endif
+		server->setEventCallback(evFun);
 
-	EventHandlerFn handlerFunc = [&winMan](ev::Event* event)
-	{ winMan.update(*event); };
+		server->run();
 
-	server->setEventCallback(handlerFunc);
+	} catch (std::string error) {
+		std::cout << error << std::endl;
+	}
 
-	server->run();
 
-#ifdef _DEBUG_PRINT_
-	std::cout << "return(0)" << std::endl;
-#endif
+// #ifdef _DEBUG_PRINT_
+// 	std::cout << "new windowManager()" << std::endl;
+// #endif
+
+// 	ServerInterface* server = new XServer();
+// 	WindowManager winMan(server);
+
+// #ifdef _DEBUG_PRINT_
+// 	std::cout << "run" << std::endl;
+// #endif
+
+// 	EventHandlerFn handlerFunc = [&winMan](ev::Event* event)
+// 	{ winMan.update(*event); };
+
+// 	server->setEventCallback(handlerFunc);
+
+// 	server->run();
+
+// #ifdef _DEBUG_PRINT_
+// 	std::cout << "return(0)" << std::endl;
+// #endif
 }

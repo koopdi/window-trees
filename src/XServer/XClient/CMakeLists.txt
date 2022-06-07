@@ -37,6 +37,7 @@ PUBLIC
 Protocol
 WindowManager
 XServer
+LemonFir
 )
 
 # Configure flags for the C++ compiler

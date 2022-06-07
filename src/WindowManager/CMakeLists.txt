@@ -7,6 +7,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_VERBOSE_MAKEFILE ON)
 
 add_subdirectory(LemonFir)
+add_subdirectory(BSPTree)
+add_subdirectory(MasterAndStack)
 
 # source / header files specific to this project
 FILE(GLOB WindowManager_Headers
@@ -17,9 +19,9 @@ FILE(GLOB WindowManager_Sources
 	*.h
 )
 
-FILE(GLOB WindowManager_Library_Headers
-	../Protocol/*.h
-)
+# FILE(GLOB WindowManager_Library_Headers
+# 	../Protocol/*.h
+# )
 
 add_library(WindowManager
 	${WindowManager_Headers}
@@ -29,8 +31,12 @@ add_library(WindowManager
 
 target_include_directories(WindowManager
 	PUBLIC
-	"../Protocol/"
+	# "../Protocol/"
 	.
+)
+target_link_libraries(WindowManager
+	PUBLIC
+	Protocol
 )
 
 # Configure flags for the C++ compiler

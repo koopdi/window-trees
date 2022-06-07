@@ -1,6 +1,33 @@
-// #include "types.h"
+#include "types.h"
 
-// Area::Area(int x, int y, int width, int height)
-//     : x(x), y(y), width(width), height(height)
-// {
-// }
+Area Area::operator*(Area other){
+	other.x *= x;
+	other.y *= y;
+	other.width *= width;
+	other.height *= height;
+	return other;
+}
+
+Area Area::operator/(Area other){
+	other.x = x / other.x;
+	other.y = y / other.y;
+	other.width = width / other.width;
+	other.height = height / other.height;
+	return other;
+}
+
+Area Area::operator+(Area other){
+	other.x += x;
+	other.y += y;
+	other.width += width;
+	other.height += height;
+	return other;
+}
+
+Area Area::operator-(Area other){
+	other.x = x - other.x;
+	other.y = y - other.y;
+	other.width = width - other.width;
+	other.height = height - other.height;
+	return other;
+}

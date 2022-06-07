@@ -1,5 +1,10 @@
 #ifndef TYPES_H
 #define TYPES_H
+
+// Use a return type to define an in-header class constant.
+// E.G. OMEGA_CONST name = string("Travis");
+#define OMEGA_CONST inline static constexpr auto
+
 struct Point
 {
 	int x;
@@ -12,6 +17,11 @@ struct Area
 	int y;
 	int width;
 	int height;
+
+	Area operator*(Area other);
+	Area operator/(Area other);
+	Area operator+(Area other);
+	Area operator-(Area other);
 };
 
 

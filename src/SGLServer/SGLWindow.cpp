@@ -5,9 +5,9 @@
 using namespace std;
 using namespace sgl;
 
-long SGLWindow::nextID = 0;
+long serverWindow::nextID = 0;
 
-SGLWindow::SGLWindow(GWindow& win) : ID(nextID++), win(win)
+serverWindow::serverWindow(GWindow& win) : ID(nextID++), win(win)
 {
 	int width  = win.getCanvasWidth();
 	int height = win.getCanvasHeight();
@@ -26,7 +26,7 @@ SGLWindow::SGLWindow(GWindow& win) : ID(nextID++), win(win)
 	fillColor << setfill('0') << setw(2) << hex << g;
 	fillColor << setfill('0') << setw(2) << hex << b;
 
-	cout << endl << fillColor.str() << endl;
+	// cout << endl << fillColor.str() << endl;
 
 	sprite = make_shared<GRect>(x, y, 100, 200);
 	win.add(*sprite);
@@ -37,14 +37,15 @@ SGLWindow::SGLWindow(GWindow& win) : ID(nextID++), win(win)
 	// win.repaint();
 }
 
-SGLWindow::~SGLWindow()
+serverWindow::~serverWindow()
 {
 	// remove this gobject from the gwindow
 	win.remove(*sprite);
+	win.repaint();
 	// the memory will be freed automatically
 }
 
-Area SGLWindow::getArea()
+Area serverWindow::getArea()
 {
 	Area foo;
 	foo.width = sprite.get()->getWidth();
@@ -54,7 +55,7 @@ Area SGLWindow::getArea()
 	return foo;
 }
 
-void SGLWindow::setArea(Area a)
+void serverWindow::setArea(Area a)
 {
 	sprite.get()->setLocation(a.x, a.y);
 	sprite.get()->setSize(a.width, a.height);

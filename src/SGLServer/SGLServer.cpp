@@ -15,22 +15,23 @@ SGLServer::SGLServer()
 	GWindow& win = *window;
 
 	// set window properties
+	win.setWindowTitle("WindowTrees");
 	win.setExitOnClose(true);
+	win.setAutoRepaint(false);
 	win.center();
 
-#if _WIN32
-	win.drawImage("../../../../res/edmonds.png");
-#else
-	win.drawImage("res/edmonds.png");
-#endif
-
-	win.setWindowTitle("WindowTrees");
-
-	win.setKeyListener([this](GEvent ev) { keyEv(ev); });
+	// #if _WIN32
+	// 	win.drawImage("../../../res/edmonds.png");
+	// #else
+	// 	win.drawImage("res/edmonds.png");
+	// #endif
 
 	// Add some buttons.
 	addButtons();
 
+	// Register event callbacks.
+	win.setKeyListener([this](GEvent ev) { keyEv(ev); });
+	win.setClickListener([this](GEvent ev) { clickEv(ev); });
 	win.setMenuListener([this](GEvent ev) { menuEv(ev); });
 }
 
@@ -39,8 +40,8 @@ bool SGLServer::contains(long windowID)
 	if (winDex.find(windowID) != winDex.end()) {
 		return true;
 	} else {
-		// throw string("Window not found.");
 		cout << "Window ID does not exist." << endl;
+		// throw string("Window ID does not exist.");
 		return false;
 	}
 }
@@ -48,8 +49,9 @@ bool SGLServer::contains(long windowID)
 void SGLServer::setArea(long windowID, Area a)
 {
 	if (contains(windowID)) {
-		sglWin gWin = winDex[windowID];
+		winPtr gWin = winDex[windowID];
 		gWin.get()->setArea(a);
+		window->repaint();
 	} else {
 		cout << "Failed to set area." << endl;
 	}
@@ -59,7 +61,7 @@ Area SGLServer::getArea(long windowID)
 {
 	Area foo;
 	if (contains(windowID)) {
-		sglWin gWin = winDex[windowID];
+		winPtr gWin = winDex[windowID];
 		foo         = gWin.get()->getArea();
 	} else {
 		cout << "Failed to get area -- Returning bogus data." << endl;
@@ -70,6 +72,8 @@ Area SGLServer::getArea(long windowID)
 Area SGLServer::getScreenSize(long screenID)
 {
 	Area foo;
+	foo.x      = 0;
+	foo.y      = 0;
 	foo.width  = window->getCanvasWidth();
 	foo.height = window->getCanvasHeight();
 
@@ -104,6 +108,74 @@ void SGLServer::run()
 	// std::sleep(200);
 }
 
+winPtr SGLServer::getWin(sgl::GObject* obj)
+{
+	for (auto [selectID, winP] : winDex) {
+		if (winP.get()->sprite.get() == obj) {
+			return winP;
+		}
+	}
+	return nullptr;
+}
+
+bool SGLServer::dropDownSelect(long windowID)
+{
+	int count = dropDown->getItemCount();
+	for (int idx = 0; idx < count; idx++) {
+		if (stol(dropDown->getItem(idx)) == windowID) {
+			dropDown->setSelectedIndex(idx);
+			return true;
+		}
+	}
+	return false;
+}
+
+void SGLServer::evRotate(long windowID)
+{
+	// create remove event
+	ev::Event* evRot    = new ev::Event;
+	evRot->type         = ev::EventType::ROTATE_SPLIT;
+	evRot->rotate.windowID = windowID;
+	// send remove event to event handler
+	evFun(evRot);
+	// free event memory
+	delete evRot;
+}
+
+void SGLServer::clickEv(sgl::GEvent e)
+{
+	sgl::EventType eType = e.getType();
+	if (eType == sgl::EventType::MOUSE_CLICKED) {
+		int x = e.getX();
+		int y = e.getY();
+
+		if (sgl::GObject* g = window->getGObjectAt(x, y)) {
+			// Find g in the winDex.
+			if (winPtr winP = getWin(g)) {
+				if (e.isLeftClick()) { // select g
+					// Highlight g.
+					g->setLineWidth(5);
+					g->setColor("yellow");
+					window->repaint();
+
+					// Reset the outline.
+					g->setLineWidth(1);
+					g->setColor("black");
+
+					// select g in the drop down chooser
+					dropDownSelect(winP->ID);
+
+				} else if (e.isMiddleClick()) { // remove g
+					remove(winP->ID);
+				} else { // rotate g
+					// cout << "rotate g" << endl;
+					evRotate(winP->ID);
+				}
+			} // g is not a window
+		}   // nothing was clicked
+	}     // not a click event
+}
+
 // this function triggers when it shouldn't
 void SGLServer::dropDownEv(sgl::GEvent ev)
 {
@@ -125,14 +197,14 @@ void SGLServer::menuEv(sgl::GEvent e)
 {
 	if (e.getClass() == sgl::EventClass::ACTION_EVENT) {
 		string action = e.getActionCommand();
-		cout << action << endl;
+		// cout << action << endl;
 
 		if (action == "toolbar/Add") {
-			cout << "add was pressed, creating event..." << endl;
+			// cout << "add was pressed, creating event..." << endl;
 			ev::Event* evAdd   = new ev::Event;
 			evAdd->type        = ev::EventType::ADD;
 
-			sglWin gwin        = make_shared<SGLWindow>(*window);
+			winPtr gwin        = make_shared<serverWindow>(*window);
 			evAdd->add.winID   = (*gwin).ID;
 			winDex[(*gwin).ID] = gwin;
 
@@ -140,7 +212,7 @@ void SGLServer::menuEv(sgl::GEvent e)
 
 			evFun(evAdd);
 		} else if (action == "toolbar/Remove") {
-			cout << "remove was pressed, creating event..." << endl;
+			// cout << "remove was pressed, creating event..." << endl;
 			if (dropDown->isEmpty()) {
 				remove(-1);
 			} else {
@@ -153,19 +225,20 @@ void SGLServer::menuEv(sgl::GEvent e)
 void SGLServer::remove(long windowID)
 {
 	if (!winDex.empty()) {
-		sglWin gwin;
+		winPtr gwin;
 		if (windowID == -1) {
 			// get the first window
 			gwin = (*winDex.begin()).second;
 			// remove the first window
 			evRemove((*gwin).ID);
 			winDex.erase(winDex.begin());
+			// window->repaint();
 		} else if (contains(windowID)) {
 			// get the specified window
 			gwin = winDex[windowID];
 			// remove the specified window
-			evRemove((*gwin).ID);
 			winDex.erase(windowID);
+			evRemove((*gwin).ID);
 		} // else invalid ID
 	}   // else no windows at all
 

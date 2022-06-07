@@ -36,11 +36,6 @@ int main()
 
 		server->setEventCallback(evFun);
 
-		string block;
-		while (cin >> block)
-		{ // loop forever until sgl quits
-			cout << block;
-		}
 	}
 	catch (string error)
 	{

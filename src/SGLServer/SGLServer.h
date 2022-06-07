@@ -20,6 +20,9 @@
  * and those events are passed to the WindowManager.
  * The graphics are updated to reflect the layout of windows
  * on the active workspace.
+ *
+ * \todo emit window focus event when a window is selected
+ * \todo figure out how to rotate a split on right click
  */
 class SGLServer : public ServerInterface
 {
@@ -58,15 +61,9 @@ private:
 	const int WINDOW_WIDTH  = 640;
 	const int WINDOW_HEIGHT = 480;
 
-	using sglWin = std::shared_ptr<SGLWindow>;
-	std::map<long, sglWin> winDex;
+	std::map<long, winPtr> winDex;
 
 	sgl::GChooser* dropDown;
-
-	// /// Give each window a unique ID.
-	// int idTicker;
-	// using idPair = std::pair<std::shared_ptr<sgl::GObject>, int>;
-	// std::set<idPair> winDex;
 
 	// private methods ---------------------------------------
 
@@ -74,9 +71,21 @@ private:
 	void remove(long windowID = -1);
 	// create a remove window event
 	void evRemove(long windowID);
+	// create a rotate event
+	void evRotate(long windowID);
+
+	// Handle mouse click events.
+	void clickEv(sgl::GEvent ev);
+
+	// Get the serverWindow that holds the provided gobject.
+	winPtr getWin(sgl::GObject* obj);
+
+	// select the window ID in the drop down chooser
+	bool dropDownSelect(long windowID);
 
 	// A function to remove windows when the drop down is clicked.
 	void dropDownEv(sgl::GEvent ev);
+
 	// A function to handle key events.
 	void keyEv(sgl::GEvent ev);
 	// A function to handle menu events.
