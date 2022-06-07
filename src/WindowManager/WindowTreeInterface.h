@@ -32,10 +32,15 @@ public:
 	 */
 	virtual void remWindow(long windowID)        = 0;
 	/**
+	 * @brief Reverse the split angle of this windows parent.
+	 * @param windowID A window ID.
+	 */
+	virtual void rotateSplit(long windowID)      = 0;
+	/**
 	 * @brief I have no idea.
 	 * @param area A space, a place, a time...
 	 */
-	virtual void resize(Area area) = 0;
+	virtual void resize(Area area)               = 0;
 	// /**
 	//  * @brief Set the Screen this tree renders to.
 	//  * @param screenID A screen ID.
