@@ -6,7 +6,6 @@ using std::cout;
 using std::endl;
 using std::string;
 
-
 #define margin 1;
 // WindowManager -------------------------------------------
 // WorkSpace -----------------------------------------------
@@ -17,14 +16,14 @@ LemonFir::LemonFir(ServerInterface* server)
 	// there's no screen ID so passing -1
 	// there's only one screen in sgl server and the ID is ignored.
 	std::vector<long> screens = server->getScreens();
-	if(screens.size() > 0){
+	if (screens.size() > 0) {
 		screen = screens.at(0);
-	}else{
+	} else {
 		screen = -1;
 	}
 	std::vector<long> windows = server->getWindows(screen);
 
-	for(auto ID : windows){
+	for (auto ID : windows) {
 		addWindow(ID);
 	}
 }
@@ -142,13 +141,15 @@ void LemonFir::render(NodePtr node, Area& space, bool vSplit)
 void LemonFir::remove(NodePtr& node, long targetID)
 {
 	if (Split* s = getSplit(node)) {
-		// look ahead
+		// look ahead left
 		if (Pane* p = getPane(s->left)) {
 			if (p->windowID == targetID) {
 				// remove left
 				s->left = nullptr;
 			}
-		} else if (Pane* p = getPane(s->right)) {
+		}
+		// look ahead right
+		if (Pane* p = getPane(s->right)) {
 			if (p->windowID == targetID) {
 				// remove right
 				s->right = nullptr;
