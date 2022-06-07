@@ -80,6 +80,7 @@ struct RotateSplit {
 
 struct Event {
 	EventType type;
+	long screenID;
 	union {
 		Add add;
 		Remove remove;

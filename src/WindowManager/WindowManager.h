@@ -28,16 +28,13 @@ public:
 
 	void update(ev::Event& ev);
 
-	void renderAll();
+	void init();
 
 private:
 	// private attributes ------------------------------------
 
-	/// A collection of window IDs.
-	std::set<int> winDex;
-
 	/// A collection of workspace pointers.
-	std::set<std::shared_ptr<Workspace>> workspaces;
+	std::map<long, std::shared_ptr<Workspace>> workspaces;
 
 	/// A pointer to the server.
 	ServerInterface* server;

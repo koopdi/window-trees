@@ -22,15 +22,11 @@ WindowManager::WindowManager(ServerInterface* server) : server(server)
 		      "Provided server is null.";
 	}
 
-	// add a workspace
-	shared_ptr<Workspace> spw = make_shared<Workspace>(server);
-	workspaces.insert(spw);
-}
-
-
-void WindowManager::renderAll(){
-	for (auto& workspace : workspaces){
-		workspace->render();
+	//create a workspace for each screen
+	vector<long> screens = server->getScreens();
+	for(long screenID : screens){
+		shared_ptr<Workspace> spw = make_shared<Workspace>(server, screenID);
+		workspaces[screenID] = spw;
 	}
 }
 
@@ -43,10 +39,25 @@ void WindowManager::update(ev::Event& ev)
 {
 	try {
 		cout << "Window Manager: event got" << endl;
-		if (ev.type == ev::EventType::ADD) {
-			(workspaces.begin())->get()->addWindow(ev.add.winID, 0.5);
-		} else if (ev.type == ev::EventType::REMOVE) {
-			(workspaces.begin())->get()->removeWindow(ev.remove.winID);
+
+		switch(ev.type){
+			case ev::EventType::ADD:
+			workspaces[ev.screenID]->addWindow(ev.add.windowID);
+			break;
+
+			case ev::EventType::REMOVE:
+			workspaces[ev.screenID]->removeWindow(ev.remove.winID);
+			break;
+
+			case ev::EventType::SWITCH_LAYOUT:
+			workspaces[ev.screenID]->setLayoutMode(ev.switch);
+			break;
+
+			case ev::EventType::ROTATE_SPLIT:
+			workspaces[ev.screenID]->setLayoutMode(ev.switch);
+
+			default:
+			throw string("FATAL: Window manager failed to handle WM level event");
 		}
 
 		renderAll();
@@ -54,4 +65,8 @@ void WindowManager::update(ev::Event& ev)
 	} catch (string error) {
 		cout << error << endl;
 	}
+}
+
+void WindowManager::init(){
+	cout << "[WARNING] (WindowManager.cpp) => Init is not truly defined";
 }
