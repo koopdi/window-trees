@@ -73,14 +73,19 @@ void LemonFir::render(ServerInterface* server)
 void LemonFir::rotateSplit(long windowID)
 {
 	cout << "Rotating window #" << windowID << endl;
-	parent(windowID);
+	getParent(windowID);
 
 }
 
-PanePtr LemonFir::parent(long windowID)
+PanePtr LemonFir::getParent(long windowID)
 {
 	cout << "Aqcuiring parent Split." << endl;
-	return nullptr;
+	return getParent(tree, windowID);
+}
+
+PanePtr LemonFir::getParent(NodePtr node, long windowID)
+{
+
 }
 
 void LemonFir::resize(Area area) { cout << "resize" << endl; }

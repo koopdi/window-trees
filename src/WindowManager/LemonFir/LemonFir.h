@@ -78,5 +78,6 @@ private:
 	void remove(NodePtr& node, long windowID);
 
 	// find the parent of windowID
-	PanePtr parent(long windowID);
+	PanePtr getParent(long windowID);
+	PanePtr getParent(NodePtr node, long windowID);
 };
