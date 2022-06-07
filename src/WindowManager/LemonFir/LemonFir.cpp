@@ -73,7 +73,23 @@ void LemonFir::render(ServerInterface* server)
 void LemonFir::rotateSplit(long windowID)
 {
 	cout << "Rotating window #" << windowID << endl;
-	getParent(windowID);
+	// getParent(windowID);
+	NodePtr parent = getParent(windowID);
+	cout << "Parent split aqcuired." << endl;
+
+	if (Split* s = getSplit(parent)) {
+		cout << "Rotating Split with children: ";
+		cout << s->left->type << ": ";
+		if (Pane* p = getPane(s->left)) {
+			cout << p->windowID;
+		}
+		cout << " and " << s->right->type << ": ";
+		if (Pane* p = getPane(s->right)) {
+			cout << p->windowID;
+		}
+		cout << endl;
+		s->vSplit = !s->vSplit;
+	}
 }
 
 NodePtr LemonFir::getParent(long targetID)
@@ -84,26 +100,30 @@ NodePtr LemonFir::getParent(long targetID)
 
 NodePtr LemonFir::getParent(NodePtr node, long targetID)
 {
-	if (!node) {
-		return nullptr;
-	} else if (Split* s = getSplit(node)) {
+	if (Split* s = getSplit(node)) {
 		// look ahead left
 		if (Pane* p = getPane(s->left)) {
 			if (p->windowID == targetID) {
+				// return std::make_shared<Split>(s);
 				return node;
 			}
 		}
 		// look ahead right
 		if (Pane* p = getPane(s->right)) {
 			if (p->windowID == targetID) {
+				// return std::make_shared<Split>(s);
 				return node;
 			}
 		}
 		// recurse
-		NodePtr left  = getParent(s->left, targetID);
-		NodePtr right = getParent(s->right, targetID);
-		// return the not null branch, if any.
-		return (left) ? left : right;
+		NodePtr left = getParent(s->left, targetID);
+		if (left) {
+			return left;
+		} else {
+			return getParent(s->right, targetID);
+		}
+	} else {
+		return nullptr;
 	}
 }
 
@@ -158,15 +178,15 @@ void LemonFir::render(NodePtr node, Area& space, bool vSplit)
 {
 	if (node) {
 		if (Split* s = getSplit(node)) {
-			// Area old = space;
-			// n.vSplit
-			if (vSplit) {
+			cout << "vSplit: ";
+			cout << std::boolalpha << s->vSplit << endl;
+			if (s->vSplit) {
 				space.width = (space.width * 0.5) - margin;
 			} else {
 				space.height = (space.height * 0.5) - margin;
 			}
 			render(s->left, space, !vSplit);
-			if (vSplit) {
+			if (s->vSplit) {
 				space.x += space.width + 2 * margin;
 			} else {
 				space.y += space.height + 2 * margin;
