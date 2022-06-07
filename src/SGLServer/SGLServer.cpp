@@ -40,8 +40,8 @@ bool SGLServer::contains(long windowID)
 	if (winDex.find(windowID) != winDex.end()) {
 		return true;
 	} else {
-		// throw string("Window not found.");
 		cout << "Window ID does not exist." << endl;
+		// throw string("Window ID does not exist.");
 		return false;
 	}
 }
