@@ -20,11 +20,11 @@ SGLServer::SGLServer()
 	win.setAutoRepaint(false);
 	win.center();
 
-// #if _WIN32
-// 	win.drawImage("../../../res/edmonds.png");
-// #else
-// 	win.drawImage("res/edmonds.png");
-// #endif
+	// #if _WIN32
+	// 	win.drawImage("../../../res/edmonds.png");
+	// #else
+	// 	win.drawImage("res/edmonds.png");
+	// #endif
 
 	// Add some buttons.
 	addButtons();
@@ -130,6 +130,18 @@ bool SGLServer::dropDownSelect(long windowID)
 	return false;
 }
 
+void SGLServer::evRotate(long windowID)
+{
+	// create remove event
+	ev::Event* evRot    = new ev::Event;
+	evRot->type         = ev::EventType::ROTATE_SPLIT;
+	evRot->rotate.windowID = windowID;
+	// send remove event to event handler
+	evFun(evRot);
+	// free event memory
+	delete evRot;
+}
+
 void SGLServer::clickEv(sgl::GEvent e)
 {
 	sgl::EventType eType = e.getType();
@@ -156,7 +168,8 @@ void SGLServer::clickEv(sgl::GEvent e)
 				} else if (e.isMiddleClick()) { // remove g
 					remove(winP->ID);
 				} else { // rotate g
-					cout << "rotate g" << endl;
+					// cout << "rotate g" << endl;
+					evRotate(winP->ID);
 				}
 			} // g is not a window
 		}   // nothing was clicked
