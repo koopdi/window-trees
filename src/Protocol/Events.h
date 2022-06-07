@@ -61,14 +61,20 @@ struct Mouse {
 	int atributeD;
 };
 
-enum class TreeMode { LEMON_FIR, BSP_TREE, MASTER_STACK, HEAP, CLASSIC };
+enum class TreeMode {
+	LEMON_FIR,
+	BSP_TREE,
+	MASTER_STACK,
+	HEAP,
+	CLASSIC
+}; ////////////////
 
 struct SwitchLayout {
 	long screenID;
 	TreeMode mode;
 };
 
-struct RotateSplit{
+struct RotateSplit {
 	long windowID;
 };
 

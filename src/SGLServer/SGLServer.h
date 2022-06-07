@@ -71,6 +71,8 @@ private:
 	void remove(long windowID = -1);
 	// create a remove window event
 	void evRemove(long windowID);
+	// create a rotate event
+	void evRotate(long windowID);
 
 	// Handle mouse click events.
 	void clickEv(sgl::GEvent ev);

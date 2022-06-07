@@ -52,9 +52,12 @@ public:
 	virtual void render(ServerInterface* server) override;
 	virtual void resize(Area area) override;
 
+	virtual void rotateSplit(long windowID) override;
+
 private:
 	/// A pointer to the server.
 	ServerInterface* server;
+	long screen;
 	NodePtr tree;
 
 	// Private Methods ---------------------------------------
@@ -73,4 +76,14 @@ private:
 	/// Recursively traverse the tree and remove
 	/// panes with a matching ID.
 	void remove(NodePtr& node, long windowID);
+
+	/// find the parent of windowID
+	NodePtr getParent(long targetID);
+	/**
+	 * @param node The current node.
+	 * @param windowID The window to get the parent of.
+	 * @return PanePtr The parent of the window or
+	 *  Null Pointer if no parent of that window exists.
+	 */
+	NodePtr getParent(NodePtr node, long targetID);
 };
