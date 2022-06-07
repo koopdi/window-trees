@@ -35,6 +35,8 @@ void LemonFir::update(ev::Event& ev)
 			addWindow(ev.add.winID);
 		} else if (ev.type == ev::EventType::REMOVE) {
 			remWindow(ev.remove.winID);
+		}else if (ev.type == ev::EventType::ROTATE_SPLIT){
+			cout << "Rotating window #" << ev.rotate.windowID << endl;
 		}
 
 		render(server);
