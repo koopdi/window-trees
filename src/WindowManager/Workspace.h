@@ -15,12 +15,6 @@
 
 class WindowTree;
 
-enum class TreeMode
-{
-	LEMON_FIR,
-	BSP_TREE,
-	CLASSIC
-};
 
 class Workspace
 {
