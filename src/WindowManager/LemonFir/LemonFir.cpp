@@ -23,7 +23,7 @@ LemonFir::LemonFir(ServerInterface* server)
 	}
 	std::vector<long> windows = server->getWindows(screen);
 
-	for (auto ID : windows) {
+	for (long ID : windows) {
 		addWindow(ID);
 	}
 }
@@ -77,15 +77,16 @@ void LemonFir::print()
 	cout << "\t\t--------Printing Tree ---------" << endl;
 	print(tree);
 }
+
 void LemonFir::print(NodePtr node)
 {
 	if (node) {
 		std::cout << node->type << endl;
-		if (auto n = getSplit(node)) {
-			print(n->left);
-			print(n->right);
-		} else if (auto n = getPane(node)) {
-			cout << "ID: " << n->windowID << endl;
+		if (Split* s = getSplit(node)) {
+			print(s->left);
+			print(s->right);
+		} else if (Pane* p = getPane(node)) {
+			cout << "ID: " << p->windowID << endl;
 		}
 	}
 }
@@ -100,9 +101,9 @@ NodePtr& LemonFir::nextOpen(NodePtr& node, int cycles)
 	// cout << "nextOpen: " << cycles << endl;
 	if (!node) {
 		return node;
-	} else if (auto n = getSplit(node)) {
+	} else if (Split* s = getSplit(node)) {
 		// attatch window here
-		return nextOpen(n->right, cycles);
+		return nextOpen(s->right, cycles);
 	} else if (getPane(node)) {
 		// split this pane
 		NodePtr temp = node;
@@ -116,7 +117,7 @@ NodePtr& LemonFir::nextOpen(NodePtr& node, int cycles)
 void LemonFir::render(NodePtr node, Area& space, bool vSplit)
 {
 	if (node) {
-		if (auto n = getSplit(node)) {
+		if (Split* s = getSplit(node)) {
 			// Area old = space;
 			// n.vSplit
 			if (vSplit) {
@@ -124,15 +125,15 @@ void LemonFir::render(NodePtr node, Area& space, bool vSplit)
 			} else {
 				space.height = (space.height * 0.5) - margin;
 			}
-			render(n->left, space, !vSplit);
+			render(s->left, space, !vSplit);
 			if (vSplit) {
 				space.x += space.width + 2 * margin;
 			} else {
 				space.y += space.height + 2 * margin;
 			}
-			render(n->right, space, !vSplit);
-		} else if (auto n = getPane(node)) {
-			server->setArea(n->windowID, space);
+			render(s->right, space, !vSplit);
+		} else if (Pane* p = getPane(node)) {
+			server->setArea(p->windowID, space);
 		}
 	}
 }
