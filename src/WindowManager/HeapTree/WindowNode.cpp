@@ -16,10 +16,9 @@ Window::Window (WindowNode* node)
 	this->node = node;
 }
 
-WindowNode::WindowNode(int windowID, int workspaceID) : window(WindowPane(windowID, workspaceID))
+WindowNode::WindowNode(int windowID, int workspaceID)
 {
 	std::cout << "WindowNode Constructor" << std::endl;
-
 	this->window = WindowPane(windowID, workspaceID);
 	this->part1 = nullptr;
 	this->part2 = nullptr;

@@ -14,7 +14,7 @@ struct WindowPane
 	std::unordered_set<int> tags;
 	int windowID;
 
-	WindowPane(int windowID, int workspaceID);
+	WindowPane(int windowID = -1, int workspaceID = -1);
 	bool hasTag(int tag);
 	bool addTag(int tag);
 	bool removeTag(int tag);
@@ -28,9 +28,7 @@ struct WindowNode
 	WindowNode* part1;
 	WindowNode* part2;
 
-	//WindowNode(int windowID = -1, int WorkspaceID = -1);
-
-	WindowNode(int WindowID, int WorkspaceID);
+	WindowNode(int windowID = -1, int WorkspaceID = -1);
 
 	bool isWindow();
 };
