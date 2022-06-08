@@ -37,7 +37,6 @@ ev::Event XServer::convertXEvent(XEvent& xEv){
 		case KeyRelease:
 		ev.type = ev::EventType::KEY;
 		ev.key.isUpEv = xEv.xkey.state; //maybe
-		ev.key.screen = xEv.xkey.root; //maybe
 		ev.key.winID = xEv.xkey.window;
 		log.warn("Shitty key event conversion in convertXEvent");
 		break;
@@ -96,8 +95,18 @@ void XServer::eventLoop()
 
 		switch (event.type)
 		{
-		case ConfigureRequest:
 		case DestroyNotify:						//CRITICAL CASE DISABLED FOR TESTING
+		if(!windows.count(event.xdestroywindow.window)){
+			log.info("[XServerBackend]: dropped duplicate destroy event for windowID "
+				+ std::to_string(event.xdestroywindow.window));
+			break;
+		} else {
+			windows.erase(event.xdestroywindow.window);
+		}
+		case ConfigureRequest:
+		if(event.type == ConfigureRequest){
+			windows.insert(event.xconfigurerequest.window);
+		}
 		case ButtonPress:
 		case ButtonRelease:
 		case KeyPress:
@@ -118,7 +127,7 @@ void XServer::eventLoop()
 			break;
 
 		default:
-			log.verb("[Window Manager]: dropped event of type \"" +
+			log.verb("[XServerBackend]: dropped event of type \"" +
 			         std::to_string(event.type) + "\"");
 		}
 	}
