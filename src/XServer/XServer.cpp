@@ -47,6 +47,7 @@ ev::Event XServer::convertXEvent(XEvent& xEv){
 		throw string("Failed to convert XEvent");
 		break;
 	}
+	ev.screenID = defaultScreeen; //supports only one screen
 	return ev;
 }
 

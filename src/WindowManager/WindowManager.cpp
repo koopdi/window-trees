@@ -57,7 +57,7 @@ void WindowManager::update(ev::Event& ev)
 			workspaces[ev.screenID]->rotateSplit(ev.rotate.windowID);
 
 			default:
-			throw string("FATAL: Window manager failed to handle WM level event");
+			throw string("[ERROR] Window manager failed to handle WM level event");
 		}
 
 		workspaces[ev.screenID]->render();
