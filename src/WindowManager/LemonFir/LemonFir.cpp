@@ -48,6 +48,10 @@ void LemonFir::update(ev::Event& ev)
 }
 
 // WindowTreeInterface -------------------------------------
+// todos;
+// \todo swap panes,
+// \todo cycle panes,
+// \todo insert new panes in middle.
 
 void LemonFir::addWindow(long windowID)
 {
@@ -89,41 +93,6 @@ void LemonFir::rotateSplit(long windowID)
 		}
 		cout << endl;
 		s->vSplit = !s->vSplit;
-	}
-}
-
-NodePtr LemonFir::getParent(long targetID)
-{
-	cout << "Aqcuiring parent Split." << endl;
-	return getParent(tree, targetID);
-}
-
-NodePtr LemonFir::getParent(NodePtr node, long targetID)
-{
-	if (Split* s = getSplit(node)) {
-		// look ahead left
-		if (Pane* p = getPane(s->left)) {
-			if (p->windowID == targetID) {
-				// return std::make_shared<Split>(s);
-				return node;
-			}
-		}
-		// look ahead right
-		if (Pane* p = getPane(s->right)) {
-			if (p->windowID == targetID) {
-				// return std::make_shared<Split>(s);
-				return node;
-			}
-		}
-		// recurse
-		NodePtr left = getParent(s->left, targetID);
-		if (left) {
-			return left;
-		} else {
-			return getParent(s->right, targetID);
-		}
-	} else {
-		return nullptr;
 	}
 }
 
@@ -178,8 +147,8 @@ void LemonFir::render(NodePtr node, Area& space, bool vSplit)
 {
 	if (node) {
 		if (Split* s = getSplit(node)) {
-			cout << "vSplit: ";
-			cout << std::boolalpha << s->vSplit << endl;
+			// cout << "vSplit: ";
+			// cout << std::boolalpha << s->vSplit << endl;
 			if (s->vSplit) {
 				space.width = (space.width * 0.5) - margin;
 			} else {
@@ -207,6 +176,8 @@ void LemonFir::remove(NodePtr& node, long targetID)
 			if (p->windowID == targetID) {
 				// remove left
 				s->left = nullptr;
+				// link this node's parent to the right
+				node = s->right;
 			}
 		}
 		// look ahead right
@@ -214,9 +185,59 @@ void LemonFir::remove(NodePtr& node, long targetID)
 			if (p->windowID == targetID) {
 				// remove right
 				s->right = nullptr;
+				// link this node's parent to the left
+				node = s->left;
 			}
 		} // recurse
 		remove(s->left, targetID);
 		remove(s->right, targetID);
+	}
+}
+
+// void LemonFir::remove(NodePtr& node, long targetID)
+// {
+// 	NodePtr parent = getParent(targetID);
+// 	if()
+// }
+
+// NodePtr LemonFir::getParent(NodePtr target) { getParent(tree, target); }
+
+// NodePtr LemonFir::getParent(NodePtr node, NodePtr target)
+// {
+// 	if (Split* s = getSplit(node))
+// }
+
+NodePtr LemonFir::getParent(long targetID)
+{
+	cout << "Aqcuiring parent Split." << endl;
+	return getParent(tree, targetID);
+}
+
+NodePtr LemonFir::getParent(NodePtr node, long targetID)
+{
+	if (Split* s = getSplit(node)) {
+		// look ahead left
+		if (Pane* p = getPane(s->left)) {
+			if (p->windowID == targetID) {
+				// return std::make_shared<Split>(s);
+				return node;
+			}
+		}
+		// look ahead right
+		if (Pane* p = getPane(s->right)) {
+			if (p->windowID == targetID) {
+				// return std::make_shared<Split>(s);
+				return node;
+			}
+		}
+		// recurse
+		NodePtr left = getParent(s->left, targetID);
+		if (left) {
+			return left;
+		} else {
+			return getParent(s->right, targetID);
+		}
+	} else {
+		return nullptr;
 	}
 }
