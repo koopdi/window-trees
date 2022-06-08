@@ -80,7 +80,12 @@ DisplayServerSDL::DisplayServerSDL(InitHandlerFn initFn, EventHandlerFn eventFn)
 {
 }
 
-DisplayServerSDL::~DisplayServerSDL() {}
+DisplayServerSDL::~DisplayServerSDL() {
+	for (ServerScreenSDL* screen : screens){
+		delete screen;
+	}
+
+}
 
 Area DisplayServerSDL::getArea(long windowID) {
 	for (int i = 0; i < screens.size(); i++){
@@ -96,6 +101,8 @@ void DisplayServerSDL::setArea(long windowID, Area area) {
 			return screens[i]->setArea(windowID, area);
 		}
 	}
+	throw std::string("[DisplayServerSDL] No window with ID "
+		+ std::to_string(windowID) + "exists");
 }
 
 std::vector<long> DisplayServerSDL::getScreens() {
@@ -112,6 +119,9 @@ std::vector<long> DisplayServerSDL::getWindows(long screenID) {
 			return screens[i]->getWindows();
 		}
 	}
+
+	throw std::string("[DisplayServerSDL] No screen with ID "
+		+ std::to_string(screenID) + "exists");
 }
 
 Area DisplayServerSDL::getScreenSize(long screenID) {
@@ -120,6 +130,9 @@ Area DisplayServerSDL::getScreenSize(long screenID) {
 			return screens[i]->getScreenSize();
 		}
 	}
+
+	throw std::string("[DisplayServerSDL] No screen with ID "
+		+ std::to_string(screenID) + "exists");
 }
 
 void DisplayServerSDL::setInitCallback(InitHandlerFn fn) {

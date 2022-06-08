@@ -80,6 +80,10 @@ bool ServerScreenSDL::hasWindow(long windowID){
 }
 
 ServerScreenSDL::~ServerScreenSDL() {
+	for (ServerWindowSDL* win: windows){
+		delete win;
+	}
+
 	SDL_DestroyRenderer(ren);
 	SDL_DestroyTexture(tex);
 	SDL_DestroyWindow(win);
@@ -112,6 +116,10 @@ std::vector<long> ServerScreenSDL::getWindows(){
 
 Area ServerScreenSDL::getScreenSize(){
 	return screenArea;
+}
+
+void ServerScreenSDL::addWindow(ServerWindowSDL* newWin){
+	windows.insert(newWin);
 }
 
 
