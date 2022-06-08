@@ -34,7 +34,7 @@ private:
 	// private attributes ------------------------------------
 
 	/// A collection of workspace pointers.
-	std::map<long, std::shared_ptr<Workspace>> workspaces;
+	std::unordered_map<long, std::shared_ptr<Workspace>> workspaces;
 
 	/// A pointer to the server.
 	ServerInterface* server;
