@@ -2,7 +2,6 @@
 #include <iostream>
 #include "ServerInterface.h"
 #include "XServer.h"
-#include "LemonFir.h"
 
 
 #define _DEBUG_PRINT_
@@ -13,13 +12,18 @@ int main()
 		ServerInterface* server     = new XServer();
 		// Create a Window Manager.
 		// WindowManager* winMan = new WindowManager(server);
-		LemonFir* winMan = new LemonFir(server);
+		WindowManager* winMan = new WindowManager(server);
 
 		// Tell the server where to send events.
 		EventHandlerFn evFun  = [&winMan](ev::Event* event) {
       		winMan->update(*event);
 		};
 
+		InitHandlerFn initFun = [&winMan](ServerInterface* server) {
+      		winMan->init();
+		};
+
+		server->setInitCallback(initFun);
 		server->setEventCallback(evFun);
 
 		server->run();
