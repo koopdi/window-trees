@@ -170,6 +170,11 @@ void LemonFir::render(NodePtr node, Area& space, bool vSplit)
 /// \todo rebalance after remove
 void LemonFir::remove(NodePtr& node, long targetID)
 {
+	if (Pane* p = getPane(node)) {
+		if (p->windowID == targetID) {
+			node = nullptr;
+		}
+	}
 	if (Split* s = getSplit(node)) {
 		// look ahead left
 		if (Pane* p = getPane(s->left)) {
@@ -177,7 +182,7 @@ void LemonFir::remove(NodePtr& node, long targetID)
 				// remove left
 				s->left = nullptr;
 				// link this node's parent to the right
-				node = s->right;
+				node    = s->right;
 			}
 		}
 		// look ahead right
@@ -186,7 +191,7 @@ void LemonFir::remove(NodePtr& node, long targetID)
 				// remove right
 				s->right = nullptr;
 				// link this node's parent to the left
-				node = s->left;
+				node     = s->left;
 			}
 		} // recurse
 		remove(s->left, targetID);
