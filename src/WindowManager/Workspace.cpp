@@ -41,30 +41,47 @@ void Workspace::resize(Area area){
 	}
 }
 
-void Workspace::setLayoutMode(ev::TreeMode mode){
-	if(mode == ev::TreeMode::PREV){
+void Workspace::setLayoutMode(ev::TreeMode mode)
+{
+	using std::cout;
+	using std::endl;
+	std::cout << "setLayoutMode, mode = " << std::oct << (int)mode << std::endl;
+	if (mode == ev::TreeMode::PREV) {
+		cout << "mode: PREV	#" << (int)mode << endl;
 		std::vector<ev::TreeMode> modes = getAvailableModes();
-		if(modes.size() > 1){
-			for (int i = 0; i < modes.size() - 1; i++){
-				if(modes[i+1] == treeLayoutMode){
+		cout << "Number of available modes: " << modes.size() << endl;
+		if (modes.size() > 1) {
+			for (int i = 0; i < modes.size() - 1; i++) {
+				if (modes[i + 1] == treeLayoutMode) {
 					treeLayoutMode = modes[i];
 				}
 			}
 		}
 
-	} else if(mode == ev::TreeMode::NEXT) {
+	} else if (mode == ev::TreeMode::NEXT) {
+		cout << "mode: NEXT	#" << (int)mode << endl;
 		auto iter = windowTrees.find(mode);
-		if(iter != windowTrees.end() && ++iter != windowTrees.end()){
-			mode = (*windowTrees.begin()).first;
-		} else {
-			mode = (*windowTrees.begin()).first;
+		int count = windowTrees.size();
+		cout << "Number of available modes: " << count << endl;
+		cout << "Current mode: #" << (int)treeLayoutMode << endl;
+
+		auto currLayout = windowTrees.find(treeLayoutMode);
+		currLayout++;
+		if (currLayout == windowTrees.end()) {
+			currLayout = windowTrees.begin();
 		}
-
-	} else {
-		treeLayoutMode = mode;
+		treeLayoutMode = currLayout->first;
 	}
-}
+	// 	if (iter != windowTrees.end() && ++iter != windowTrees.end()) {
+	// 		mode = (*windowTrees.begin()).first;
+	// 	} else {
+	// 		mode = (*windowTrees.begin()).first;
+	// 	}
 
+	// } else {
+	// 	treeLayoutMode = mode;
+	// }
+}
 
 std::vector<ev::TreeMode> Workspace::getAvailableModes(){
 	std::vector<ev::TreeMode> modes;
