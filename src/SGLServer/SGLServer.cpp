@@ -136,6 +136,7 @@ void SGLServer::evRotate(long windowID)
 	ev::Event* evRot    = new ev::Event;
 	evRot->type         = ev::EventType::ROTATE_SPLIT;
 	evRot->rotate.windowID = windowID;
+	evRot->screenID = 99;
 	// send remove event to event handler
 	evFun(evRot);
 	// free event memory
