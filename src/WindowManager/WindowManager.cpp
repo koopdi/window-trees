@@ -25,6 +25,8 @@ WindowManager::WindowManager(ServerInterface* server) : server(server)
 	// create a workspace for each screen
 	vector<long> screens = server->getScreens();
 	for (long screenID : screens) {
+		cout << "	// create a workspace for each screen" << endl;
+		cout << "screenID: " << screenID << endl;
 		shared_ptr<Workspace> spw = make_shared<Workspace>(server, screenID);
 		workspaces[screenID]      = spw;
 	}
