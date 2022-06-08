@@ -38,6 +38,10 @@ public:
 	void resize(Area area);
 
 	void setLayoutMode(ev::TreeMode mode);
+
+	std::vector<ev::TreeMode> getAvailableModes();
+
+	ev::TreeMode getActiveMode();
 private:
 	// private attributes ------------------------------------
 
