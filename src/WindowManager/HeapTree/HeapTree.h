@@ -43,7 +43,7 @@ private:
 	bool contains(WindowNode* node) const;
 	int getSize() const;
 	int getNumWindows() const;
-	void HeapTree::printHeap(vector<HeapWindow> heap) const;
+	void printHeap(std::vector<HeapWindow> heap) const;
 	WindowNode* get(int windowID) const;
 	WindowNode* getRoot() const;
 	void printSideways(WindowNode* root) const;

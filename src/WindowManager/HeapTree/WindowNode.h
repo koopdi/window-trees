@@ -33,13 +33,13 @@ struct WindowNode
 	bool isWindow();
 };
 
-struct Window {
+struct HeapWindow {
 	Area area;
 	WindowNode* node;
 
-	~Window();
-	Window(int windowID = -1, int workspaceID = -1);
-	Window (WindowNode* node);
+	~HeapWindow();
+	HeapWindow(int windowID = -1, int workspaceID = -1);
+	HeapWindow (WindowNode* node);
 
 
 };

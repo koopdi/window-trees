@@ -6,12 +6,12 @@
 #include "WindowNode.h"
 #include <iostream>
 
-Window::Window (int windowID, int workspaceID)
+HeapWindow::HeapWindow (int windowID, int workspaceID)
 {
 	this->node = new WindowNode(windowID, workspaceID);
 }
 
-Window::Window (WindowNode* node)
+HeapWindow::HeapWindow (WindowNode* node)
 {
 	this->node = node;
 }
@@ -54,7 +54,7 @@ bool WindowPane::removeTag(int tag)
 	return !hasTag(tag);
 }
 
-Window::~Window()
+HeapWindow::~HeapWindow()
 {
 	if (node != nullptr)
 	{
