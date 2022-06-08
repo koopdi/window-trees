@@ -14,14 +14,14 @@ void Workspace::render(){
 }
 
 void Workspace::addWindow(long windowID){
-	for(pair<ev::TreeMode,WindowTreeInterface*> pair : windowTrees){
-		pair.second.addWindow(windowID);
+	for(std::pair<ev::TreeMode,WindowTreeInterface*> pair : windowTrees){
+		pair.second->addWindow(windowID);
 	}
 }
 
 void Workspace::remWindow(long windowID){
-	for(pair<ev::TreeMode,WindowTreeInterface*> pair : windowTrees){
-		pair.second.addWindow(windowID);
+	for(std::pair<ev::TreeMode,WindowTreeInterface*> pair : windowTrees){
+		pair.second->addWindow(windowID);
 	}
 }
 
@@ -30,8 +30,8 @@ void Workspace::rotateSplit(long windowID){
 }
 
 void Workspace::resize(Area area){
-	for(pair<ev::TreeMode,WindowTreeInterface*> pair : windowTrees){
-		pair.second.addWindow(windowID);
+	for(std::pair<ev::TreeMode,WindowTreeInterface*> pair : windowTrees){
+		pair.second->resize(area);
 	}
 }
 

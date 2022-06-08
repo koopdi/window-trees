@@ -42,25 +42,25 @@ void WindowManager::update(ev::Event& ev)
 
 		switch(ev.type){
 			case ev::EventType::ADD:
-			workspaces[ev.screenID]->addWindow(ev.add.windowID);
+			workspaces[ev.screenID]->addWindow(ev.add.winID);
 			break;
 
 			case ev::EventType::REMOVE:
-			workspaces[ev.screenID]->removeWindow(ev.remove.winID);
+			workspaces[ev.screenID]->remWindow(ev.remove.winID);
 			break;
 
 			case ev::EventType::SWITCH_LAYOUT:
-			workspaces[ev.screenID]->setLayoutMode(ev.switch);
+			workspaces[ev.screenID]->setLayoutMode(ev.layout.mode);
 			break;
 
 			case ev::EventType::ROTATE_SPLIT:
-			workspaces[ev.screenID]->setLayoutMode(ev.switch);
+			workspaces[ev.screenID]->rotateSplit(ev.rotate.windowID);
 
 			default:
 			throw string("FATAL: Window manager failed to handle WM level event");
 		}
 
-		renderAll();
+		workspaces[ev.screenID]->render();
 
 	} catch (string error) {
 		cout << error << endl;

@@ -23,4 +23,5 @@ public:
 	virtual void addWindow(long windowID) override;
 	virtual void remWindow(long windowID) override;
 	virtual void resize(Area area) override;
+	virtual void rotateSplit(long windowID) override;
 };
