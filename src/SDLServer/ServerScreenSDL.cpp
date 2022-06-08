@@ -7,8 +7,8 @@ void ServerScreenSDL::populateRandom(int num){
 		ServerWindowSDL* newWin = new ServerWindowSDL(
 			{rand() % width, rand() % height, 200, 300},
 			{(Uint8) rand(), (Uint8) rand(), (Uint8) rand(), 0xFF});
-		windows.insert(newWin);
-		idWindowMap[newWin->windowID] = newWin;
+
+		addWindow(newWin);
 	}
 
 }
@@ -120,6 +120,13 @@ Area ServerScreenSDL::getScreenSize(){
 
 void ServerScreenSDL::addWindow(ServerWindowSDL* newWin){
 	windows.insert(newWin);
+	idWindowMap[newWin->windowID] = newWin;
+}
+
+void ServerScreenSDL::remWindow(ServerWindowSDL* dedWin){
+	windows.erase(dedWin);
+	idWindowMap.erase(dedWin->windowID);
+	delete dedWin;
 }
 
 

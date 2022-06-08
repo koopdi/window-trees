@@ -26,6 +26,8 @@ public:
 	void handleEvent(SDL_Event& e);
 	void render();
 	void populateRandom(int num);
+	void addWindow(ServerWindowSDL* newWin);
+	void remWindow(ServerWindowSDL* dedWin);
 
 	long getScreenID();
 

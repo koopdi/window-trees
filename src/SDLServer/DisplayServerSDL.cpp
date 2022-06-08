@@ -42,6 +42,10 @@ void DisplayServerSDL::run()
 			}
 			break;
 
+		case SDL_MOUSEBUTTONDOWN:
+		clickHandler(e);
+			break;
+
 		default:
 			std::cout << "DisplayServerSDL::run: dropped event of type ["
 			          << std::to_string(e.type) << "]" << std::endl;
