@@ -226,6 +226,12 @@ void SGLServer::menuEv(sgl::GEvent e)
 			}
 		} else if (action == "toolbar/Switch Layout") {
 			cout << "switch layout" << endl;
+			ev::Event* evSwitch = new ev::Event;
+			evSwitch->type = ev::EventType::SWITCH_LAYOUT;
+			evSwitch->screenID = 99;
+			evSwitch->layout.mode = ev::TreeMode::NEXT;
+			evFun(evSwitch);
+			delete evSwitch;
 		}
 	}
 }

@@ -66,7 +66,8 @@ enum class TreeMode {
 	BSP_TREE,
 	MASTER_STACK,
 	HEAP,
-	CLASSIC
+	PREV,
+	NEXT
 }; ////////////////
 
 struct SwitchLayout {

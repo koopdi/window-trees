@@ -65,6 +65,8 @@ private:
 
 	sgl::GChooser* dropDown;
 
+
+
 	// private methods ---------------------------------------
 
 	// remove a window
