@@ -35,7 +35,7 @@ private:
 	int size;  					// the size of the tree
 	WindowNode* root;   		// a pointer to the root node of the tree
 	WindowNode* last; 			// a pointer to the most recently added node
-	std::vector<Window> heap;	// a heap of Windows with WindowNodes that is in sync with the tree
+	std::vector<HeapWindow> heap;	// a heap of Windows with WindowNodes that is in sync with the tree
 	ServerInterface* server;
 
 	bool isEmpty() const;
@@ -43,7 +43,7 @@ private:
 	bool contains(WindowNode* node) const;
 	int getSize() const;
 	int getNumWindows() const;
-	void printHeap(std::vector<Window> heap) const;
+	void HeapTree::printHeap(vector<HeapWindow> heap) const;
 	WindowNode* get(int windowID) const;
 	WindowNode* getRoot() const;
 	void printSideways(WindowNode* root) const;
@@ -61,7 +61,7 @@ private:
 	bool remove(int windowID);
 	bool remove(WindowNode*& node);
 	void QueueTree(WindowNode* root, std::queue<WindowNode*>& levelOrder);
-	queueLevel(WindowNode* node, int level, std::queue<WindowNode*>& levelOrder);
+	//queueLevel(WindowNode* node, int level, std::queue<WindowNode*>& levelOrder);
 	//void breadthFirstSearch(WindowNode* node, forEachNode func);
 	int calculateHeight(WindowNode* node, int windowID, double height);
 	int height(WindowNode* node);
