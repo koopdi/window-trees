@@ -62,3 +62,22 @@ target_link_libraries(Lemon_Fir_SGL
 	LemonFir
 	SGL_Server
 )
+
+# WinterFace_SGL_Client ----------------------------------------
+
+add_executable(WinterFace_SGL_Client
+winterFaceClientMain.cpp
+)
+
+target_include_directories(WinterFace_SGL_Client
+PUBLIC
+.
+)
+
+target_link_libraries(WinterFace_SGL_Client
+PUBLIC
+Protocol
+WindowManager
+LemonFir
+SGL_Server
+)

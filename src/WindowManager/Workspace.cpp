@@ -14,8 +14,8 @@ void Workspace::render(){
 }
 
 void Workspace::addWindow(long windowID){
-	for(std::pair<ev::TreeMode,WindowTreeInterface*> pair : windowTrees){
-		pair.second->addWindow(windowID);
+	for(auto [LAYOUT_MODE, layoutPtr] : windowTrees){
+		layoutPtr->addWindow(windowID);
 	}
 }
 
