@@ -60,6 +60,8 @@ private:
 	long screen;
 	NodePtr tree;
 
+	bool splitDir;
+
 	// Private Methods ---------------------------------------
 	/// Get the next open spot in the treee.
 	NodePtr& nextOpen();

@@ -11,7 +11,7 @@ using std::string;
 // WorkSpace -----------------------------------------------
 
 LemonFir::LemonFir(ServerInterface* server)
-    : server(server) //////////////////////
+    : server(server), splitDir(true) //////////////////////
 {
 	// there's no screen ID so passing -1
 	// there's only one screen in sgl server and the ID is ignored.
@@ -57,7 +57,10 @@ void LemonFir::addWindow(long windowID)
 {
 	// cout << "addWindow" << endl;
 	nextOpen() = std::make_shared<Pane>(windowID);
-	// print();
+	if(splitDir){
+		rotateSplit(windowID);
+	}
+	splitDir = !splitDir;
 }
 
 void LemonFir::remWindow(long windowID) { remove(tree, windowID); }
