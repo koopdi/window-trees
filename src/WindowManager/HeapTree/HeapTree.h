@@ -22,8 +22,11 @@ public:
 	void addWindow(long windowID) override;
 	void remWindow(long windowID) override;
 	void resize(Area area) override;
+	void rotateSplit(long windowID);
 
 	void update();
+
+	HeapTree(ServerInterface* server);
 
 private:
 	Area area;					// the area of the workspace the tree's windows are on
@@ -46,23 +49,23 @@ private:
 	void printSidewaysHelper(WindowNode* root, std::string spaces) const;
 	int getIndex(WindowNode* node) const;
 	WindowNode* getParent(WindowNode*) const;
-	void preOrderTraverse(WindowNode* node, forEachNode func) const;
+	//void preOrderTraverse(WindowNode* node, forEachNode func) const;
 	WindowNode*& getRef(int windowID) const;
-	void inOrderTraverse(WindowNode* node, forEachNode func) const;
-	void postOrderTraverse(WindowNode* node, forEachNode func) const;
+	//void inOrderTraverse(WindowNode* node, forEachNode func) const;
+	//void postOrderTraverse(WindowNode* node, forEachNode func) const;
 	WindowNode*& getByIndex(int index) const;
 	bool add(int windowID);
-	add(int windowID, windowNode* node);
+	//add(int windowID, windowNode* node);
 	void addHelper(int& index, WindowNode*& target, WindowNode*& parentOfTarget);
 	bool remove(int windowID);
 	bool remove(WindowNode*& node);
 	void QueueTree(WindowNode* root, std::queue<WindowNode*>& levelOrder);
 	queueLevel(WindowNode* node, int level, std::queue<WindowNode*>& levelOrder);
-	void breadthFirstSearch(WindowNode* node, forEachNode func);
+	//void breadthFirstSearch(WindowNode* node, forEachNode func);
 	int calculateHeight(WindowNode* node, int windowID, double height);
 	int height(WindowNode* node);
 	void clear();
-	~WindowTree();
+	//~HeapTree();
 
 	/// A function that is passed to a xyzTraverse function.
 	using forEachNode = std::function<bool(WindowNode*)>;

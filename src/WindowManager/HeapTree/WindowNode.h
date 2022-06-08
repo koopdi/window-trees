@@ -28,7 +28,9 @@ struct WindowNode
 	WindowNode* part1;
 	WindowNode* part2;
 
-	WindowNode(int windowID = -1, int WorkspaceID = -1);
+	//WindowNode(int windowID = -1, int WorkspaceID = -1);
+
+	WindowNode(int WindowID, int WorkspaceID);
 
 	bool isWindow();
 };
@@ -39,7 +41,7 @@ struct Window {
 
 	~Window();
 	Window(int windowID = -1, int workspaceID = -1);
-	Window::Window (WindowNode* node);
+	Window (WindowNode* node);
 
 
 };

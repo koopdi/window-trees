@@ -7,6 +7,7 @@
 
 using namespace std;
 
+void HeapTree::rotateSplit(long windowID) { /*do nothing*/ }
 
 HeapTree::HeapTree() {
 	last = nullptr;
@@ -15,6 +16,11 @@ HeapTree::HeapTree() {
 	size = 1;
 	numWindows = 0;
 }
+
+HeapTree::HeapTree(ServerInterface* server) {
+	HeapTree();
+}
+
 
 void HeapTree::addWindow(long windowID) { add(windowID);}
 void HeapTree::remWindow(long windowID) { remove(windowID); }
@@ -129,29 +135,29 @@ int HeapTree::getNumWindows() const { return numWindows; }
 
 //WindowNode* HeapTree::getRoot() { return root; }
 
-void HeapTree::printSideways(WindowNode* root) { printSidewaysHelper(root, ""); }
+void HeapTree::printSideways(WindowNode* root) const { printSidewaysHelper(root, ""); }
 
-void HeapTree::printSidewaysHelper(WindowNode* root, string spaces) {
+void HeapTree::printSidewaysHelper(WindowNode* root, string spaces)  const{
     if(root != nullptr) {
         printSidewaysHelper(root->part2, spaces + "    ");
-        cout << spaces << (root->isWindow() ? root->window->windowID : (size_t)root) << endl;
+        cout << spaces << (root->isWindow() ? root->window.windowID : (size_t)root) << endl;
         printSidewaysHelper(root->part1, spaces + "    ");
     }
 }
 
-WindowNode* HeapTree::get(int targetID)
-{
-	int index = (size - 1) / 2;  // starting here lets us skip parent nodes
+// WindowNode* HeapTree::get(int targetID)
+// {
+// 	int index = (size - 1) / 2;  // starting here lets us skip parent nodes
 
-	for (;index < heap.size(); index++)
-	{
-		WindowNode* node = heap[index];
-		if (node->window->windowID == targetID)
-			return node;
-	}
+// 	for (;index < heap.size(); index++)
+// 	{
+// 		WindowNode* node = heap[index];
+// 		if (node->window->windowID == targetID)
+// 			return node;
+// 	}
 
-	return nullptr;
-}
+// 	return nullptr;
+// }
 
 bool HeapTree::contains(int targetID) const
 {
@@ -159,7 +165,7 @@ bool HeapTree::contains(int targetID) const
 
 	for (;index < heap.size(); index++)
 	{
-		int foundID = heap[index]->window->windowID;
+		int foundID = heap[index].node->window.windowID;
 		if (foundID == targetID)
 			return true;
 	}
@@ -188,118 +194,118 @@ void HeapTree::printHeap(vector<Window> heap) const {
 	}
 }
 
-void HeapTree::addHelper(int& index, WindowNode*& target, WindowNode*& parentOfTarget)
-{
-	index = 1;
-	parentOfTarget = heap[0];
-	target = heap[1];
-	WindowNode* next = heap[1];
+// void HeapTree::addHelper(int& index, WindowNode*& target, WindowNode*& parentOfTarget)
+// {
+// 	index = 1;
+// 	parentOfTarget = heap[0];
+// 	target = heap[1];
+// 	WindowNode* next = heap[1];
 
-	while (next->window->windowID == -1)
-	{
-		parentOfTarget = heap[index - 1];
-		target = heap[index];
-		next = heap[index + 1];
-		index++;
-	}
+// 	while (next->window->windowID == -1)
+// 	{
+// 		parentOfTarget = heap[index - 1];
+// 		target = heap[index];
+// 		next = heap[index + 1];
+// 		index++;
+// 	}
 
-	cout << "index: " << index << endl;
-}
+// 	cout << "index: " << index << endl;
+// }
 
-bool HeapTree::add(double part1Size, int windowID) // TODO: change part1Size when moving nodes
-{
-	std::cout << "WindowTree::add" << endl;
-	bool success = false;
+// bool HeapTree::add(double part1Size, int windowID) // TODO: change part1Size when moving nodes
+// {
+// 	std::cout << "WindowTree::add" << endl;
+// 	bool success = false;
 
-	if (size <= 2)
-	{
-		heap.push_back(new WindowNode(1, windowID, workspaceID));
-		if (size == 1)
-		{
-			root->part1Size = 1.;
-			root->part1 = heap.back();
-		}
-		else
-		{
-			root->part1Size = part1Size;
-			root->part2 = heap.back();
-		}
-		success = contains(windowID);
+// 	if (size <= 2)
+// 	{
+// 		heap.push_back(new WindowNode(1, windowID, workspaceID));
+// 		if (size == 1)
+// 		{
+// 			root->part1Size = 1.;
+// 			root->part1 = heap.back();
+// 		}
+// 		else
+// 		{
+// 			root->part1Size = part1Size;
+// 			root->part2 = heap.back();
+// 		}
+// 		success = contains(windowID);
 
-		if (success)
-			size++;
-		if (!success)
-			throw string("failed to add early node");
-	}
-	else
-	{
-		int index = (size - 1) /2;
-		// target is the node that will be built off of
-		WindowNode* target = heap[(size - 1) / 2];
-		// having the parent makes reassigning nodes easier
-		WindowNode* parentOfTarget = heap[(index - 1) / 2];
+// 		if (success)
+// 			size++;
+// 		if (!success)
+// 			throw string("failed to add early node");
+// 	}
+// 	else
+// 	{
+// 		int index = (size - 1) /2;
+// 		// target is the node that will be built off of
+// 		WindowNode* target = heap[(size - 1) / 2];
+// 		// having the parent makes reassigning nodes easier
+// 		WindowNode* parentOfTarget = heap[(index - 1) / 2];
 
-		// one of these will be target
-		WindowNode* leftChild = parentOfTarget->part1;  // child of parentOfTarget
-		WindowNode* rightChild = parentOfTarget->part2; // child of parentOfTarget
+// 		// one of these will be target
+// 		WindowNode* leftChild = parentOfTarget->part1;  // child of parentOfTarget
+// 		WindowNode* rightChild = parentOfTarget->part2; // child of parentOfTarget
 
-		// nodes always part the opposite of their parents
-		bool partVertically = !(target->partVertically);
+// 		// nodes always part the opposite of their parents
+// 		bool partVertically = !(target->partVertically);
 
-		// each add after node 2 requires 2 nodes, a parent and window
-		WindowNode* newParent = new WindowNode(partVertically);
-		WindowNode* newWindow = new WindowNode(partVertically, windowID, workspaceID);
+// 		// each add after node 2 requires 2 nodes, a parent and window
+// 		WindowNode* newParent = new WindowNode(partVertically);
+// 		WindowNode* newWindow = new WindowNode(partVertically, windowID, workspaceID);
 
-		newParent->part1Size = part1Size;		// set part1size
+// 		newParent->part1Size = part1Size;		// set part1size
 
-		heap.push_back(newParent);		// add new nodes to heap
-		heap.push_back(newWindow);
+// 		heap.push_back(newParent);		// add new nodes to heap
+// 		heap.push_back(newWindow);
 
-		// cout << "target: " << target->window->windowID << endl;
-		// cout << "parentOfTarget: " << parentOfTarget->window->windowID << endl;
-		// cout << "tempLeft: " << leftChild->window->windowID << endl;
-		// cout << "tempRight: " << rightChild->window->windowID << endl;
-		// cout << "newParent: " << newParent->window->windowID << endl;
-		// cout << " newWindow: " <<  newWindow->window->windowID << endl;
+// 		// cout << "target: " << target->window->windowID << endl;
+// 		// cout << "parentOfTarget: " << parentOfTarget->window->windowID << endl;
+// 		// cout << "tempLeft: " << leftChild->window->windowID << endl;
+// 		// cout << "tempRight: " << rightChild->window->windowID << endl;
+// 		// cout << "newParent: " << newParent->window->windowID << endl;
+// 		// cout << " newWindow: " <<  newWindow->window->windowID << endl;
 
-		// **** modify tree ***************
-		if (leftChild == target)  // check which child is our target for building from
-		{
-			newParent->part1 = leftChild;  			// swap target with newParent
-			parentOfTarget->part1 = newParent;
-		}
-		else
-		{
-			newParent->part1 = rightChild;			// swap target with newParent
-			parentOfTarget->part2 = newParent;
-		}
-		newParent->part2 = newWindow;			// add newWindow to other side of parent
+// 		// **** modify tree ***************
+// 		if (leftChild == target)  // check which child is our target for building from
+// 		{
+// 			newParent->part1 = leftChild;  			// swap target with newParent
+// 			parentOfTarget->part1 = newParent;
+// 		}
+// 		else
+// 		{
+// 			newParent->part1 = rightChild;			// swap target with newParent
+// 			parentOfTarget->part2 = newParent;
+// 		}
+// 		newParent->part2 = newWindow;			// add newWindow to other side of parent
 
-		// **** modify heap *************
-		WindowNode& temp = *heap[index];
-		heap[index] = heap[size];  // swap target and newParent
-		heap[size] = &temp;
+// 		// **** modify heap *************
+// 		WindowNode& temp = *heap[index];
+// 		heap[index] = heap[size];  // swap target and newParent
+// 		heap[size] = &temp;
 
-		// check for success
-		success = contains(windowID);
-		if (success) {
-			size += 2; // record size change
-		}
-	}
+// 		// check for success
+// 		success = contains(windowID);
+// 		if (success) {
+// 			size += 2; // record size change
+// 		}
+// 	}
 
-	cout << endl;
-	printSideways(root);
-	cout << endl;
-	printHeap(heap);
-	cout << endl;
+// 	cout << endl;
+// 	printSideways(root);
+// 	cout << endl;
+// 	printHeap(heap);
+// 	cout << endl;
 
-	if (success)
-		numWindows++;
-	if (!success)
-		throw string("ERROR: fail to add WindowNode to WindowTree");
+// 	if (success)
+// 		numWindows++;
+// 	if (!success)
+// 		throw string("ERROR: fail to add WindowNode to WindowTree");
 
-	return success;
-}
+// 	return success;
+// }
 
 
 /**
@@ -329,7 +335,7 @@ bool HeapTree::remove(int targetID)
 	else
 	{
 		// **** get target node and index ***************
-		WindowNode* target = nullptr;
+		Window target;
 		int index = (size - 1) / 2 ;  // starting here lets us skip parent nodes
 
 		do
@@ -337,15 +343,15 @@ bool HeapTree::remove(int targetID)
 			target = heap[index];
 			index++;
 		}
-		while (target->window->windowID != targetID && index < heap.size());
+		while (target.node->window.windowID != targetID && index < heap.size());
 		index--;
 
-		if (target->window->windowID != targetID)
+		if (target.node->window.windowID != targetID)
 			return false;  // target not found
 
-		WindowNode* parentOfTarget = heap[(index - 1) / 2];
-		bool isLeftChild = target == parentOfTarget->part1;
-		bool isRightChild = target == parentOfTarget->part2;
+		Window parentOfTarget = heap[(index - 1) / 2];
+		bool isLeftChild = target.node == parentOfTarget.node->part1;
+		bool isRightChild = target.node == parentOfTarget.node->part2;
 
 		if (size == 2 && isRightChild)
 		{
@@ -367,19 +373,19 @@ bool HeapTree::remove(int targetID)
 		}
 
 		// **** get other relevant nodes ***************
-		WindowNode* leftTemp = parentOfTarget->part1;
-		WindowNode* rightTemp = parentOfTarget->part2;
-		WindowNode* grandpa = heap[((index - 1) / 2 - 1) / 2];
+		WindowNode* leftTemp = parentOfTarget.node->part1;
+		WindowNode* rightTemp = parentOfTarget.node->part2;
+		Window grandpa = heap[((index - 1) / 2 - 1) / 2];
 
-		bool isLeftGrandchild = grandpa->part1 == parentOfTarget;
-		bool isRightGrandchild = grandpa->part2 == parentOfTarget;
+		bool isLeftGrandchild = grandpa.node->part1 == parentOfTarget.node;
+		bool isRightGrandchild = grandpa.node->part2 == parentOfTarget.node;
 
 		// **** remove parent and target node **********
 
 		if (isLeftChild || isRightChild)
 		{
-			delete target;
-			delete parentOfTarget;
+			// delete target;
+			// delete parentOfTarget;
 		}
 		else
 		{
@@ -389,23 +395,23 @@ bool HeapTree::remove(int targetID)
 		// **** clean up pointers and reorder tree ****
 		if (isLeftChild && isLeftGrandchild)
 		{
-			parentOfTarget->part1 = nullptr;
-			grandpa->part1 = leftTemp;
+			parentOfTarget.node->part1 = nullptr;
+			grandpa.node->part1 = leftTemp;
 		}
 		else if (isLeftChild && isRightGrandchild)
 		{
-			parentOfTarget->part1 = nullptr;
-			grandpa->part2 == leftTemp;
+			parentOfTarget.node->part1 = nullptr;
+			grandpa.node->part2 == leftTemp;
 		}
 		else if (isRightChild && isLeftGrandchild)
 		{
-			parentOfTarget->part2 = nullptr;
-			grandpa->part1 == rightTemp;
+			parentOfTarget.node->part2 = nullptr;
+			grandpa.node->part1 == rightTemp;
 		}
 		else if (isRightChild && isRightGrandchild)
 		{
-			parentOfTarget->part2 = nullptr;
-			grandpa->part2 == rightTemp;
+			parentOfTarget.node->part2 = nullptr;
+			grandpa.node->part2 == rightTemp;
 		}
 	}
 
@@ -486,122 +492,122 @@ bool HeapTree::remove(int targetID)
 	return success;
 }
 
-void HeapTree::preOrderTraverse(WindowNode* node, forEachNode func) const
-{
-	if (node == nullptr) return;
-	// run the function and save result
-	bool keepGoing = func(node);
-	if (keepGoing)
-	{
-		// recurse
-		preOrderTraverse(node->part1, func);
-		preOrderTraverse(node->part2, func);
-	}
-}
+// void HeapTree::preOrderTraverse(WindowNode* node, forEachNode func) const
+// {
+// 	if (node == nullptr) return;
+// 	// run the function and save result
+// 	bool keepGoing = func(node);
+// 	if (keepGoing)
+// 	{
+// 		// recurse
+// 		preOrderTraverse(node->part1, func);
+// 		preOrderTraverse(node->part2, func);
+// 	}
+// }
 
-void HeapTree::inOrderTraverse(WindowNode* node,
-                                 std::function<bool(WindowNode*)> func) const
-{
-	if (node == nullptr) return;
+// void HeapTree::inOrderTraverse(WindowNode* node,
+//                                  std::function<bool(WindowNode*)> func) const
+// {
+// 	if (node == nullptr) return;
 
-	inOrderTraverse(node->part1, func);
-	bool keepGoing = func(node);
-	if (keepGoing)
-	{
-		inOrderTraverse(node->part2, func);
-	}
-}
+// 	inOrderTraverse(node->part1, func);
+// 	bool keepGoing = func(node);
+// 	if (keepGoing)
+// 	{
+// 		inOrderTraverse(node->part2, func);
+// 	}
+// }
 
-void HeapTree::postOrderTraverse(WindowNode* node, forEachNode func) const
-{
-	if (node == nullptr) return;
+// void HeapTree::postOrderTraverse(WindowNode* node, forEachNode func) const
+// {
+// 	if (node == nullptr) return;
 
-	postOrderTraverse(node->part1, func);
-	postOrderTraverse(node->part2, func);
-	func(node);
-}
+// 	postOrderTraverse(node->part1, func);
+// 	postOrderTraverse(node->part2, func);
+// 	func(node);
+// }
 
-void HeapTree::clear()
-{
-	forEachNode func = [this](WindowNode* node) -> bool { delete node; return true;};
-	postOrderTraverse(root, func);
-}
+// void HeapTree::clear()
+// {
+// 	forEachNode func = [this](WindowNode* node) -> bool { delete node; return true;};
+// 	postOrderTraverse(root, func);
+// }
 
-void HeapTree::breadthFirstSearch(WindowNode* node,
-                                    std::function<bool(WindowNode*)> func)
-{
-	queue<WindowNode*> levelOrder;
-	QueueTree(root, levelOrder);
+// void HeapTree::breadthFirstSearch(WindowNode* node,
+//                                     std::function<bool(WindowNode*)> func)
+// {
+// 	queue<WindowNode*> levelOrder;
+// 	QueueTree(root, levelOrder);
 
-	while (!levelOrder.empty())
-	{
-		WindowNode* node = levelOrder.front();
-		func(node);
-		levelOrder.pop();
-	}
-}
+// 	while (!levelOrder.empty())
+// 	{
+// 		WindowNode* node = levelOrder.front();
+// 		func(node);
+// 		levelOrder.pop();
+// 	}
+// }
 
-int HeapTree::height(WindowNode* node)
-{
-	if (node == nullptr) return 0;
+// int HeapTree::height(WindowNode* node)
+// {
+// 	if (node == nullptr) return 0;
 
-	int left  = height(node->part1);
-	int right = height(node->part2);
+// 	int left  = height(node->part1);
+// 	int right = height(node->part2);
 
-	if (left > right)
-	{
-		return (left + 1);
-	}
-	else
-	{
-		return (right + 1);
-	}
-}
+// 	if (left > right)
+// 	{
+// 		return (left + 1);
+// 	}
+// 	else
+// 	{
+// 		return (right + 1);
+// 	}
+// }
 
-void HeapTree::QueueTree(WindowNode* root, queue<WindowNode*>& levelOrder)
-{
-	int treeHeight = height(root);
-	for (int i = 1; i <= treeHeight; i++)
-	{
-		queueLevel(root, i, levelOrder);
-	}
-}
+// void HeapTree::QueueTree(WindowNode* root, queue<WindowNode*>& levelOrder)
+// {
+// 	int treeHeight = height(root);
+// 	for (int i = 1; i <= treeHeight; i++)
+// 	{
+// 		queueLevel(root, i, levelOrder);
+// 	}
+// }
 
-void HeapTree::queueLevel(WindowNode* node,
-                            int level,
-                            queue<WindowNode*>& levelOrder)
-{
-	if (node == nullptr) return;
-	if (level == 1) levelOrder.push(node);
-	else if (level > 1)
-	{
-		queueLevel(node->part1, level - 1, levelOrder);
-		queueLevel(node->part2, level - 1, levelOrder);
-	}
-}
+// void HeapTree::queueLevel(WindowNode* node,
+//                             int level,
+//                             queue<WindowNode*>& levelOrder)
+// {
+// 	if (node == nullptr) return;
+// 	if (level == 1) levelOrder.push(node);
+// 	else if (level > 1)
+// 	{
+// 		queueLevel(node->part1, level - 1, levelOrder);
+// 		queueLevel(node->part2, level - 1, levelOrder);
+// 	}
+// }
 
 // work in progress ******************************
 
-int HeapTree::calculateHeight(WindowNode* node, int windowID, double height)
-{
-	// TODO: fix this
+// int HeapTree::calculateHeight(WindowNode* node, int windowID, double height)
+// {
+// 	// TODO: fix this
 
-	if (node == nullptr) return 0;
-	if (node->isWindow() && (node->window->windowID == windowID))
-	{
-		return height;
-	}
-	else if (node->partVertically)
-	{
-		calculateHeight(node->part1, windowID, (height * node->part1Size));
-		calculateHeight(node->part2, windowID, (height * (100. - node->part1Size)));
-	}
-	else
-	{
-		calculateHeight(node->part1, windowID, height);
-		calculateHeight(node->part2, windowID, height);
-	}
-	return 0;
-}
+// 	if (node == nullptr) return 0;
+// 	if (node->isWindow() && (node->window->windowID == windowID))
+// 	{
+// 		return height;
+// 	}
+// 	else if (node->partVertically)
+// 	{
+// 		calculateHeight(node->part1, windowID, (height * node->part1Size));
+// 		calculateHeight(node->part2, windowID, (height * (100. - node->part1Size)));
+// 	}
+// 	else
+// 	{
+// 		calculateHeight(node->part1, windowID, height);
+// 		calculateHeight(node->part2, windowID, height);
+// 	}
+// 	return 0;
+// }
 
 // work in progress ******************************

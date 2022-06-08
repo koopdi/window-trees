@@ -8,20 +8,19 @@
 
 Window::Window (int windowID, int workspaceID)
 {
-	this->node = new WindowNode(int windowID, int workspaceID);
+	this->node = new WindowNode(windowID, workspaceID);
 }
 
 Window::Window (WindowNode* node)
 {
-	this->windowID = node->window.windowID;
 	this->node = node;
 }
 
-WindowNode::WindowNode(int WindowID, int WorkspaceID)
+WindowNode::WindowNode(int windowID, int workspaceID) : window(WindowPane(windowID, workspaceID))
 {
 	std::cout << "WindowNode Constructor" << std::endl;
 
-	this->window = WindowPane(int windowID, int workspaceID);
+	this->window = WindowPane(windowID, workspaceID);
 	this->part1 = nullptr;
 	this->part2 = nullptr;
 	partVertically = 0;
@@ -55,8 +54,6 @@ bool WindowPane::removeTag(int tag)
 	tags.erase(tag);
 	return !hasTag(tag);
 }
-
-bool WindowNode::isWindow() { return window != nullptr; }
 
 Window::~Window()
 {
