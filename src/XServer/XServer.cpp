@@ -86,7 +86,7 @@ void XServer::eventLoop()
 		{
 		case DestroyNotify:						//CRITICAL CASE DISABLED FOR TESTING
 		if(!windows.count(event.xdestroywindow.window)){
-			log.info("[XServerBackend]: dropped (likely dupe) destroy event for missing windowID" +
+			log.info("[XServerBackend]: dropped (likely dupe) destroy event for missing windowID " +
 				std::to_string(event.xdestroywindow.window));
 			break;
 		} else {
