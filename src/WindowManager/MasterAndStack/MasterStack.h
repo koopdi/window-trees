@@ -15,7 +15,7 @@ private:
 	int masterSize;
 	bool vertical;
 	ServerInterface* server;
-	void render(MasterStackNode* node, int depth);
+	void render(MasterStackNode* node, int remainder, int cumOffset, int depth);
 
 public:
 	MasterStack(ServerInterface* server, Area workspaceSize = {0,0, 600, 800});

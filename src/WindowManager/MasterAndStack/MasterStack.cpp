@@ -1,41 +1,49 @@
 #include "MasterStack.h"
 
-MasterStack::MasterStack(ServerInterface* server, Area area) : vertical(true), area(area),
-	numWindows(0), masterSize(area.width/2), head(nullptr), tail(nullptr){}
+MasterStack::MasterStack(ServerInterface* server, Area area) : server(server), area(area),
+	vertical(true), numWindows(0), masterSize(area.width/2), head(nullptr), tail(nullptr){}
 
-void MasterStack::render(MasterStackNode* node, int depth){
+void MasterStack::render(MasterStackNode* node, int remainder, int cumOffset, int depth){
 	if(node != nullptr){
+		int rem = 0;
+		int stackedWindows = numWindows - 1;
 		if(vertical){
 			server->setArea(node->windowID,
 			{masterSize,
-			depth * (area.height / numWindows),
+			depth * (area.height / stackedWindows) + cumOffset,
 			area.width - masterSize,
-			(area.height / numWindows)});
+			(area.height / stackedWindows) + rem});
+			rem = area.height % stackedWindows;
 		} else {
 			server->setArea(node->windowID,
-			{depth * (area.width / numWindows),
+			{depth * (area.width / stackedWindows) + cumOffset,
 			masterSize,
-			(area.width / numWindows),
+			(area.width / stackedWindows),
 			area.height - masterSize});
+			rem = area.height % stackedWindows;
 		}
-		render(node->next, depth + 1);
+		cumOffset += rem;
+		render(node->next, rem, cumOffset, depth + 1);
 	}
 }
 
 void MasterStack::render(ServerInterface* server){
 	if (head != nullptr){
-		if(vertical){
-			server->setArea(head->windowID, {0,0, masterSize, area.height});
+		if(numWindows == 1){
+			server->setArea(head->windowID, {0,0, area.width, area.height});
 		} else {
-			server->setArea(head->windowID, {0,0, area.width, masterSize});
+			if(vertical){
+				server->setArea(head->windowID, {0,0, masterSize, area.height});
+			} else {
+				server->setArea(head->windowID, {0,0, area.width, masterSize});
+			}
 		}
 
-		render(head->next, 0);
+		render(head->next, 0, 0, 0);
 	}
 }
 
 void MasterStack::addWindow(long windowID){
-	numWindows++;
 	if(head == nullptr){
 		head = new MasterStackNode(windowID, nullptr);
 		tail = head;
@@ -43,7 +51,7 @@ void MasterStack::addWindow(long windowID){
 		tail->next = new MasterStackNode(windowID, nullptr);
 		tail = tail->next;
 	}
-	render(server);
+	numWindows++;
 }
 
 void MasterStack::remWindow(long windowID){
@@ -71,15 +79,12 @@ void MasterStack::remWindow(long windowID){
 		}
 	}
 	numWindows--;
-	render(server);
 }
 
 void MasterStack::resize(Area area){
 	this->area = area;
-	render(server);
 }
 
 void MasterStack::rotateSplit(long windowID){
 	vertical = !vertical;
-	render(server);
 }
