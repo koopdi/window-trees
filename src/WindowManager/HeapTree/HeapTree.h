@@ -36,6 +36,7 @@ private:
 	WindowNode* root;   		// a pointer to the root node of the tree
 	WindowNode* last; 			// a pointer to the most recently added node
 	std::vector<Window> heap;	// a heap of Windows with WindowNodes that is in sync with the tree
+	ServerInterface* server;
 
 	bool isEmpty() const;
 	bool contains(int windowID) const;

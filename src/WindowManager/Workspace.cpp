@@ -43,6 +43,14 @@ void Workspace::resize(Area area){
 
 void Workspace::setLayoutMode(ev::TreeMode mode)
 {
+	std::string treeName;
+	if ((int)treeLayoutMode == 0)
+		treeName = "LEMON_FIR";
+	if ((int)treeLayoutMode == 2)
+		treeName = "MASTER_STACK";
+	if ((int)treeLayoutMode == 3)
+		treeName = "HEAP";
+
 	using std::cout;
 	using std::endl;
 	std::cout << "setLayoutMode, mode = " << std::oct << (int)mode << std::endl;
@@ -63,7 +71,7 @@ void Workspace::setLayoutMode(ev::TreeMode mode)
 		auto iter = windowTrees.find(mode);
 		int count = windowTrees.size();
 		cout << "Number of available modes: " << count << endl;
-		cout << "Current mode: #" << (int)treeLayoutMode << endl;
+		cout << "Current mode: #" << treeName << endl;
 
 		auto currLayout = windowTrees.find(treeLayoutMode);
 		currLayout++;

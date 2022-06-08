@@ -10,15 +10,34 @@ using namespace std;
 void HeapTree::rotateSplit(long windowID) { /*do nothing*/ }
 
 HeapTree::HeapTree() {
+	cout << "HEAP TREE constructor" << endl;
+
 	last = nullptr;
 	heap.push_back(Window());
 	root = heap[0].node;
+	heap[0].area = area;
 	size = 1;
 	numWindows = 0;
 }
 
 HeapTree::HeapTree(ServerInterface* server) {
 	HeapTree();
+	this->server = server;
+
+	auto what = server->getScreens();
+	auto who = *(what.begin());
+
+	area = server->getScreenSize(who);
+	cout << "area: " << area.width << "x" << area.height <<endl;
+	cout << "x: " << area.x << " y: " << area.y << endl;
+
+	area = server->getScreenSize(99);
+	cout << "area: " << area.width << "x" << area.height <<endl;
+	cout << "x: " << area.x << " y: " << area.y << endl;
+
+	area = server->getScreenSize(143);
+	cout << "area: " << area.width << "x" << area.height <<endl;
+	cout << "x: " << area.x << " y: " << area.y << endl;
 }
 
 
@@ -114,6 +133,14 @@ bool HeapTree::add(int windowID) // TODO: change part1Size when moving nodes
 	printHeap(heap);
 	cout << endl;
 
+	area = server->getScreenSize(99);
+	cout << "area: " << area.width << "x" << area.height <<endl;
+	cout << "x: " << area.x << " y: " << area.y << endl;
+
+	area = server->getScreenSize(143);
+	cout << "area: " << area.width << "x" << area.height <<endl;
+	cout << "x: " << area.x << " y: " << area.y << endl;
+
 	if (success)
 		numWindows++;
 	if (!success)
@@ -188,7 +215,7 @@ bool HeapTree::contains(WindowNode* target) const
 void HeapTree::printHeap(vector<Window> heap) const {
 	int num = 0;
 	for (Window window: heap) {
-		cout << num << ": ";
+		cout << num << ": " << "area: " << window.area.width << "x" << window.area.height;
 		num++;
 		cout << (window.node->isWindow() ? window.node->window.windowID : (long long)window.node) << endl;
 	}
