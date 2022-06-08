@@ -24,8 +24,9 @@ void Workspace::addWindow(long windowID){
 }
 
 void Workspace::remWindow(long windowID){
-	for(std::pair<ev::TreeMode,WindowTreeInterface*> pair : windowTrees){
-		pair.second->addWindow(windowID);
+		for(auto [LAYOUT_MODE, layoutPtr] : windowTrees){
+		std::cout << "WorkSpace remWindow: " << std::endl;
+		layoutPtr->remWindow(windowID);
 	}
 }
 

@@ -74,6 +74,7 @@ void WindowManager::update(ev::Event& ev)
 		case ev::EventType::ROTATE_SPLIT:
 		cout << "Window manager Rotate" << endl;
 			workspaces[ev.screenID]->rotateSplit(ev.rotate.windowID);
+			break;
 
 		default:
 			throw string("[ERROR] Window manager failed to handle WM level event");
