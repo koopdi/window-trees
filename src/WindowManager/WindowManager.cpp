@@ -22,11 +22,11 @@ WindowManager::WindowManager(ServerInterface* server) : server(server)
 		      "Provided server is null.";
 	}
 
-	//create a workspace for each screen
+	// create a workspace for each screen
 	vector<long> screens = server->getScreens();
-	for(long screenID : screens){
+	for (long screenID : screens) {
 		shared_ptr<Workspace> spw = make_shared<Workspace>(server, screenID);
-		workspaces[screenID] = spw;
+		workspaces[screenID]      = spw;
 	}
 }
 
@@ -40,33 +40,45 @@ void WindowManager::update(ev::Event& ev)
 	try {
 		cout << "Window Manager: event got" << endl;
 
-		switch(ev.type){
-			case ev::EventType::ADD:
-			workspaces[ev.screenID]->addWindow(ev.add.winID);
+		switch (ev.type) {
+		case ev::EventType::ADD:
+			cout << "WindowManager: ev::ADD" << endl;
+			cout << "ScreenID: " << ev.screenID << endl;
+			// workspaces[ev.screenID]->addWindow(ev.add.winID);
+			if (workspaces.find(ev.screenID) != workspaces.end()) {
+				// safe to access
+				cout << "good" << endl;
+			} else {
+				cout << "not good" << endl;
+			}
 			break;
 
-			case ev::EventType::REMOVE:
+		case ev::EventType::REMOVE:
 			workspaces[ev.screenID]->remWindow(ev.remove.winID);
 			break;
 
-			case ev::EventType::SWITCH_LAYOUT:
+		case ev::EventType::SWITCH_LAYOUT:
 			workspaces[ev.screenID]->setLayoutMode(ev.layout.mode);
 			break;
 
-			case ev::EventType::ROTATE_SPLIT:
+		case ev::EventType::ROTATE_SPLIT:
 			workspaces[ev.screenID]->rotateSplit(ev.rotate.windowID);
 
-			default:
+		default:
 			throw string("[ERROR] Window manager failed to handle WM level event");
 		}
-
-		workspaces[ev.screenID]->render();
-
+		if (workspaces.find(ev.screenID) != workspaces.end()) {
+			std::cout << "rendering screen: " << ev.screenID << endl;
+			workspaces[ev.screenID]->render();
+		}else{
+			cout << "Screen ID: " << ev.screenID << "not found in map" << endl;
+		}
 	} catch (string error) {
 		cout << error << endl;
 	}
 }
 
-void WindowManager::init(){
+void WindowManager::init()
+{
 	cout << "[WARNING] (WindowManager.cpp) => Init is not truly defined";
 }
