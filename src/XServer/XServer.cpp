@@ -58,25 +58,17 @@ void XServer::run()
 	                 SubstructureNotifyMask); // grab input from root window
 	                                          // //SINGLE HEAD ONLY
 
-	// handlerFunc = [this](XEvent* event) mutable
-	// {
-	// 	cout << "xserver self event ding?" << endl;
-	// 	if (event->type == ConfigureRequest)
-	// 	{
-	// 		setArea(event->xconfigurerequest.window, Area{0, 0, 400, 200});
-	// 	}
-	// };
+	auto localLogVar = log;
 
-	initFunc = [this](ServerInterface* server)
+	initFunc = [this, localLogVar](ServerInterface* server)
 	{
 		Area area = server->getArea(DefaultRootWindow(display));
-		std::cout << "RESOLUTION:" << area.width << "x" << area.height << std::endl;
+		log.info("RESOLUTION:" + std::to_string(area.width) + "x" + std::to_string(area.height));
 	};
 
 	XGrabServer(display); // block X Server
 	initFunc(this);
 	XUngrabServer(display); // unblock X Server
-	cout << "entering event loop" << endl;
 	eventLoop(); // enter event loop
 }
 
@@ -84,11 +76,8 @@ void XServer::eventLoop()
 { //														HALF IMPLEMENTED
 	while (running)
 	{
-		cout << "loopding" << endl;
 		XEvent event;
-		cout << "getting next event" << endl;
 		XNextEvent(display, &event);
-		cout << "got next event" << endl;
 
 		// event handling
 		ev::Event genEv;
@@ -97,8 +86,8 @@ void XServer::eventLoop()
 		{
 		case DestroyNotify:						//CRITICAL CASE DISABLED FOR TESTING
 		if(!windows.count(event.xdestroywindow.window)){
-			log.info("[XServerBackend]: dropped duplicate destroy event for windowID "
-				+ std::to_string(event.xdestroywindow.window));
+			log.info("[XServerBackend]: dropped (likely dupe) destroy event for missing windowID" +
+				std::to_string(event.xdestroywindow.window));
 			break;
 		} else {
 			windows.erase(event.xdestroywindow.window);
