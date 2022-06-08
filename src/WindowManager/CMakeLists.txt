@@ -37,6 +37,8 @@ target_include_directories(WindowManager
 target_link_libraries(WindowManager
 	PUBLIC
 	Protocol
+	LemonFir
+	MasterAndStack
 )
 
 # Configure flags for the C++ compiler
