@@ -8,6 +8,7 @@ set(CMAKE_VERBOSE_MAKEFILE ON)
 
 add_subdirectory(LemonFir)
 add_subdirectory(BSPTree)
+add_subdirectory(HeapTree)
 add_subdirectory(MasterAndStack)
 
 # source / header files specific to this project
@@ -39,6 +40,7 @@ target_link_libraries(WindowManager
 	Protocol
 	LemonFir
 	MasterAndStack
+	HeapTree
 )
 
 # Configure flags for the C++ compiler

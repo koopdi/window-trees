@@ -11,6 +11,7 @@
 
 #include "LemonFir.h"
 #include "MasterStack.h"
+#include "HeapTree.h"
 
 #include <memory>
 

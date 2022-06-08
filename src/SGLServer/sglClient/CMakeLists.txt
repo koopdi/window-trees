@@ -63,6 +63,7 @@ target_link_libraries(Lemon_Fir_SGL
 	SGL_Server
 )
 
+
 # WinterFace_SGL_Client ----------------------------------------
 
 add_executable(WinterFace_SGL_Client
@@ -79,5 +80,6 @@ PUBLIC
 Protocol
 WindowManager
 LemonFir
+HeapTree
 SGL_Server
 )
