@@ -11,6 +11,7 @@ class ServerScreenSDL {
 private:
 	bool visible;
 	int windowID;
+	Area screenArea;
 	//stores windows sorted by depth
 	std::set<ServerWindowSDL*, ServerWindowSDL> windows;
 	//stores windows
@@ -25,6 +26,8 @@ public:
 	void handleEvent(SDL_Event& e);
 	void render();
 	void populateRandom(int num);
+
+	long getScreenID();
 
 	Area getArea(long windowID);
 	void setArea(long windowID, Area area);

@@ -85,20 +85,47 @@ DisplayServerSDL::~DisplayServerSDL() {}
 Area DisplayServerSDL::getArea(long windowID) {
 	for (int i = 0; i < screens.size(); i++){
 		if(screens[i]->hasWindow(windowID)){
-
+			return screens[i]->getArea(windowID);
 		}
 	}
-
 }
 
-void DisplayServerSDL::setArea(long windowID, Area area) {}
+void DisplayServerSDL::setArea(long windowID, Area area) {
+	for (int i = 0; i < screens.size(); i++){
+		if(screens[i]->hasWindow(windowID)){
+			return screens[i]->setArea(windowID, area);
+		}
+	}
+}
 
-std::vector<long> DisplayServerSDL::getScreens() {}
+std::vector<long> DisplayServerSDL::getScreens() {
+	std::vector<long> screenIDs;
+	for(ServerScreenSDL* screen : screens) {
+		screenIDs.push_back(screen->getScreenID());
+	}
+	return screenIDs;
+}
 
-std::vector<long> DisplayServerSDL::getWindows(long screenID) {}
+std::vector<long> DisplayServerSDL::getWindows(long screenID) {
+	for (int i = 0; i < screens.size(); i++){
+		if(screens[i]->getScreenID() == screenID){
+			return screens[i]->getWindows();
+		}
+	}
+}
 
-Area DisplayServerSDL::getScreenSize(long screenID) {}
+Area DisplayServerSDL::getScreenSize(long screenID) {
+	for (int i = 0; i < screens.size(); i++){
+		if(screens[i]->getScreenID() == screenID){
+			return screens[i]->getScreenSize();
+		}
+	}
+}
 
-void DisplayServerSDL::setInitCallback(InitHandlerFn fn) {}
+void DisplayServerSDL::setInitCallback(InitHandlerFn fn) {
+	initFunc = fn;
+}
 
-void DisplayServerSDL::setEventCallback(EventHandlerFn fn) {}
+void DisplayServerSDL::setEventCallback(EventHandlerFn fn) {
+	handlerFunc = fn;
+}
