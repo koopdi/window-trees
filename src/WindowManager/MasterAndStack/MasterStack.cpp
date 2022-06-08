@@ -9,17 +9,19 @@ void MasterStack::render(MasterStackNode* node, int remainder, int cumOffset, in
 		int stackedWindows = numWindows - 1;
 		if(vertical){
 			server->setArea(node->windowID,
-			{masterSize,
-			depth * (area.height / stackedWindows) + cumOffset,
-			area.width - masterSize,
-			(area.height / stackedWindows) + rem});
+				{masterSize,
+				depth * (area.height / stackedWindows) + cumOffset,
+				area.width - masterSize,
+				(area.height / stackedWindows) + rem}
+			);
 			rem = area.height % stackedWindows;
 		} else {
 			server->setArea(node->windowID,
-			{depth * (area.width / stackedWindows) + cumOffset,
-			masterSize,
-			(area.width / stackedWindows),
-			area.height - masterSize});
+				{depth * (area.width / stackedWindows) + cumOffset,
+				masterSize,
+				(area.width / stackedWindows),
+				area.height - masterSize}
+			);
 			rem = area.height % stackedWindows;
 		}
 		cumOffset += rem;
