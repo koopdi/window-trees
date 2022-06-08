@@ -76,6 +76,10 @@ void WindowManager::update(ev::Event& ev)
 			workspaces[ev.screenID]->rotateSplit(ev.rotate.windowID);
 			break;
 
+		case ev::EventType::RESIZE:
+			workspaces[ev.screenID]->resize(ev.resize.size);
+		break;
+
 		default:
 			throw string("[ERROR] Window manager failed to handle WM level event");
 		}
