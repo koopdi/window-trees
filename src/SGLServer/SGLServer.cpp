@@ -89,6 +89,9 @@ std::vector<long> SGLServer::getScreens()
 std::vector<long> SGLServer::getWindows(long screenID)
 {
 	std::vector<long> foo;
+	for(auto [ID, win] : winDex){
+		foo.push_back(ID);
+	}
 	return foo;
 }
 
