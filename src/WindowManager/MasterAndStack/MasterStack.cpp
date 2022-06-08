@@ -78,3 +78,8 @@ void MasterStack::resize(Area area){
 	this->area = area;
 	render(server);
 }
+
+void MasterStack::rotateSplit(long windowID){
+	vertical = !vertical;
+	render(server);
+}
