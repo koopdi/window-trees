@@ -10,15 +10,33 @@ using namespace std;
 void HeapTree::rotateSplit(long windowID) { /*do nothing*/ }
 
 HeapTree::HeapTree() {
+	cout << "HEAP TREE constructor" << endl;
+
 	last = nullptr;
-	heap.push_back(Window());
+	heap.push_back(HeapWindow());
 	root = heap[0].node;
+	heap[0].area = area;
 	size = 1;
 	numWindows = 0;
 }
 
-HeapTree::HeapTree(ServerInterface* server) {
-	HeapTree();
+HeapTree::HeapTree(ServerInterface* server): HeapTree() {
+	this->server = server;
+
+	auto what = server->getScreens();
+	auto who = *(what.begin());
+
+	area = server->getScreenSize(who);
+	cout << "area: " << area.width << "x" << area.height <<endl;
+	cout << "x: " << area.x << " y: " << area.y << endl;
+
+	area = server->getScreenSize(99);
+	cout << "area: " << area.width << "x" << area.height <<endl;
+	cout << "x: " << area.x << " y: " << area.y << endl;
+
+	area = server->getScreenSize(143);
+	cout << "area: " << area.width << "x" << area.height <<endl;
+	cout << "x: " << area.x << " y: " << area.y << endl;
 }
 
 
@@ -26,7 +44,7 @@ void HeapTree::addWindow(long windowID) { add(windowID);}
 void HeapTree::remWindow(long windowID) { remove(windowID); }
 void HeapTree::resize(Area area) { this->area = area; }
 void HeapTree::render(ServerInterface* server) {
-	for (Window window: heap)
+	for (HeapWindow window: heap)
 	{
 		server->setArea(window.node->window.windowID, window.area);
 	}
@@ -39,7 +57,7 @@ bool HeapTree::add(int windowID) // TODO: change part1Size when moving nodes
 
 	if (size <= 2)
 	{
-		heap.push_back(Window(windowID));
+		heap.push_back(HeapWindow(windowID));
 		if (size == 1)
 		{
 			heap[0].node->part1 = heap.back().node; // add left node
@@ -59,9 +77,9 @@ bool HeapTree::add(int windowID) // TODO: change part1Size when moving nodes
 	{
 		int index = (size - 1) /2;
 		// target is the node that will be built off of
-		Window target = heap[(size - 1) / 2];
+		HeapWindow target = heap[(size - 1) / 2];
 		// having the parent makes reassigning nodes easier
-		Window parentOfTarget = heap[(index - 1) / 2];
+		HeapWindow parentOfTarget = heap[(index - 1) / 2];
 
 		// one of these will be target
 		WindowNode* leftChild = parentOfTarget.node->part1;  // child of parentOfTarget
@@ -71,8 +89,8 @@ bool HeapTree::add(int windowID) // TODO: change part1Size when moving nodes
 		//bool partVertically = !(target->partVertically);
 
 		// each add after node 2 requires 2 nodes, a parent and window
-		Window newParent = Window();
-		Window newWindow = Window(windowID, workspaceID);
+		HeapWindow newParent = HeapWindow();
+		HeapWindow newWindow = HeapWindow(windowID, workspaceID);
 		heap.push_back(newParent);		// add new nodes to heap
 		heap.push_back(newWindow);
 
@@ -97,7 +115,7 @@ bool HeapTree::add(int windowID) // TODO: change part1Size when moving nodes
 		newParent.node->part2 = newWindow.node;			// add newWindow to other side of parent
 
 		// **** modify heap *************
-		Window& temp = heap[index];
+		HeapWindow& temp = heap[index];
 		heap[index] = heap[size];  // swap target and newParent
 		heap[size] = temp;
 
@@ -113,6 +131,14 @@ bool HeapTree::add(int windowID) // TODO: change part1Size when moving nodes
 	cout << endl;
 	printHeap(heap);
 	cout << endl;
+
+	area = server->getScreenSize(99);
+	cout << "area: " << area.width << "x" << area.height <<endl;
+	cout << "x: " << area.x << " y: " << area.y << endl;
+
+	area = server->getScreenSize(143);
+	cout << "area: " << area.width << "x" << area.height <<endl;
+	cout << "x: " << area.x << " y: " << area.y << endl;
 
 	if (success)
 		numWindows++;
@@ -175,7 +201,7 @@ bool HeapTree::contains(int targetID) const
 
 bool HeapTree::contains(WindowNode* target) const
 {
-	for (Window window: heap){
+	for (HeapWindow window: heap){
 		if (window.node == target)
 			return true;
 	}
@@ -185,10 +211,10 @@ bool HeapTree::contains(WindowNode* target) const
 	// return *it == target;
 }
 
-void HeapTree::printHeap(vector<Window> heap) const {
+void HeapTree::printHeap(vector<HeapWindow> heap) const {
 	int num = 0;
-	for (Window window: heap) {
-		cout << num << ": ";
+	for (HeapWindow window: heap) {
+		cout << num << ": " << "area: " << window.area.width << "x" << window.area.height;
 		num++;
 		cout << (window.node->isWindow() ? window.node->window.windowID : (long long)window.node) << endl;
 	}
@@ -335,7 +361,7 @@ bool HeapTree::remove(int targetID)
 	else
 	{
 		// **** get target node and index ***************
-		Window target;
+		HeapWindow target;
 		int index = (size - 1) / 2 ;  // starting here lets us skip parent nodes
 
 		do
@@ -349,7 +375,7 @@ bool HeapTree::remove(int targetID)
 		if (target.node->window.windowID != targetID)
 			return false;  // target not found
 
-		Window parentOfTarget = heap[(index - 1) / 2];
+		HeapWindow parentOfTarget = heap[(index - 1) / 2];
 		bool isLeftChild = target.node == parentOfTarget.node->part1;
 		bool isRightChild = target.node == parentOfTarget.node->part2;
 
@@ -375,7 +401,7 @@ bool HeapTree::remove(int targetID)
 		// **** get other relevant nodes ***************
 		WindowNode* leftTemp = parentOfTarget.node->part1;
 		WindowNode* rightTemp = parentOfTarget.node->part2;
-		Window grandpa = heap[((index - 1) / 2 - 1) / 2];
+		HeapWindow grandpa = heap[((index - 1) / 2 - 1) / 2];
 
 		bool isLeftGrandchild = grandpa.node->part1 == parentOfTarget.node;
 		bool isRightGrandchild = grandpa.node->part2 == parentOfTarget.node;
