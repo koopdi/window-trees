@@ -72,6 +72,7 @@ void WindowManager::update(ev::Event& ev)
 			break;
 
 		case ev::EventType::ROTATE_SPLIT:
+		cout << "Window manager Rotate" << endl;
 			workspaces[ev.screenID]->rotateSplit(ev.rotate.windowID);
 
 		default:
