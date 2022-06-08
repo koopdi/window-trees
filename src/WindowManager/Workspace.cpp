@@ -2,12 +2,13 @@
 
 #include <iostream>
 
-Workspace::Workspace(ServerInterface* server, long screenID) : server(server)
+Workspace::Workspace(ServerInterface* server, long screenID) : server(server),
+	treeLayoutMode(ev::TreeMode::MASTER_STACK)
 	{
 	Area screenSize = server->getScreenSize(screenID);
 
-	windowTrees[ev::TreeMode::LEMON_FIR] = new LemonFir(server);
-	// windowTrees[ev::TreeMode::MASTER_STACK] = new MasterStack(server, screenSize);
+	// windowTrees[ev::TreeMode::LEMON_FIR] = new LemonFir(server);
+	windowTrees[ev::TreeMode::MASTER_STACK] = new MasterStack(server, screenSize);
 	// windowTrees[ev::TreeMode::HEAP] = new HeapTree(server);
 }
 

@@ -52,10 +52,12 @@ void WindowManager::update(ev::Event& ev)
 		case ev::EventType::ADD:
 			cout << "WindowManager: ev::ADD" << endl;
 			cout << "ScreenID: " << ev.screenID << endl;
-			// workspaces[ev.screenID]->addWindow(ev.add.winID);
+
 			if (workspaces.find(ev.screenID) != workspaces.end()) {
 				// safe to access
 				cout << "good" << endl;
+				workspaces[ev.screenID]->addWindow(ev.add.winID);
+
 			} else {
 				cout << "not good" << endl;
 			}
@@ -75,6 +77,7 @@ void WindowManager::update(ev::Event& ev)
 		default:
 			throw string("[ERROR] Window manager failed to handle WM level event");
 		}
+
 		if (workspaces.find(ev.screenID) != workspaces.end()) {
 			std::cout << "rendering screen: " << ev.screenID << endl;
 			workspaces[ev.screenID]->render();
