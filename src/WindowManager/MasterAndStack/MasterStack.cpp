@@ -60,9 +60,11 @@ void MasterStack::remWindow(long windowID){
 	MasterStackNode* node = head;
 	if(node != nullptr){
 		if(node->windowID == windowID){ //remove head
-			delete head;
-			head = nullptr;
-			tail = nullptr;
+			head = head->next;
+			delete node;
+			if(numWindows == 0){
+				tail = nullptr;
+			}
 		} else { //remove any other node
 			while(node->next->windowID != windowID && node->next != nullptr){
 				node = node->next;
