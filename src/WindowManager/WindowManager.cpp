@@ -22,8 +22,12 @@ WindowManager::WindowManager(ServerInterface* server) : server(server)
 		      "Provided server is null.";
 	}
 
+	cout << "Getting screens" << endl;
 	// create a workspace for each screen
 	vector<long> screens = server->getScreens();
+	for (long screenID : screens){
+		cout << screenID << endl;
+	}
 	for (long screenID : screens) {
 		cout << "	// create a workspace for each screen" << endl;
 		cout << "screenID: " << screenID << endl;
@@ -41,6 +45,8 @@ void WindowManager::update(ev::Event& ev)
 {
 	try {
 		cout << "Window Manager: event got" << endl;
+
+		cout << "The real screenID: " << server->getScreens().at(0) << endl;
 
 		switch (ev.type) {
 		case ev::EventType::ADD:

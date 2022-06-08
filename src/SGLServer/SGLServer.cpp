@@ -82,7 +82,7 @@ Area SGLServer::getScreenSize(long screenID)
 
 std::vector<long> SGLServer::getScreens()
 {
-	std::vector<long> foo;
+	std::vector<long> foo {99};
 	return foo;
 }
 
@@ -208,6 +208,8 @@ void SGLServer::menuEv(sgl::GEvent e)
 			evAdd->add.winID   = (*gwin).ID;
 			winDex[(*gwin).ID] = gwin;
 
+			evAdd->screenID = 99;
+
 			dropDown->addItem(to_string((*gwin).ID));
 
 			evFun(evAdd);
@@ -255,6 +257,7 @@ void SGLServer::evRemove(long windowID)
 	ev::Event* evRem    = new ev::Event;
 	evRem->type         = ev::EventType::REMOVE;
 	evRem->remove.winID = windowID;
+	evRem->screenID = 99;
 	// send remove event to event handler
 	evFun(evRem);
 	// free event memory
