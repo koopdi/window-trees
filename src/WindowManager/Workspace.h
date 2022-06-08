@@ -1,9 +1,9 @@
+#pragma once
 /**
  * @file Workspace.h
  * @author Andrew Hanson, Christen Spadevechia, Travis McKinney (you@domain.com)
  */
 
-#pragma once
 
 #include "types.h"
 #include "ServerInterface.h"

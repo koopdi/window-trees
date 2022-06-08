@@ -1,3 +1,5 @@
+#pragma once
+
 /***********************************************************
  * Class Window Manager
  * *********************************************************
@@ -6,14 +8,14 @@
  * @brief A collection of work spaces.
  */
 
-#pragma once
 
 #include <memory>
 #include <map>
 
 #include "ServerInterface.h"
 #include "Workspace.h"
-#include "xtypes.h"
+// #include "xtypes.h"
+#include "Events.h"
 
 /***********************************************************
  * Class Window Manager
