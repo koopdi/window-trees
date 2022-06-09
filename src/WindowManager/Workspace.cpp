@@ -8,8 +8,8 @@ Workspace::Workspace(ServerInterface* server, long screenID) : server(server),
 	Area screenSize = server->getScreenSize(screenID);
 
 	windowTrees[ev::TreeMode::LEMON_FIR] = new LemonFir(server);
-	// windowTrees[ev::TreeMode::MASTER_STACK] = new MasterStack(server, screenSize);
-	// windowTrees[ev::TreeMode::HEAP] = new HeapTree(server);
+	windowTrees[ev::TreeMode::MASTER_STACK] = new MasterStack(server, screenSize);
+	windowTrees[ev::TreeMode::HEAP] = new HeapTree(server);
 
 }
 
@@ -39,6 +39,11 @@ void Workspace::resize(Area area){
 	for(std::pair<ev::TreeMode,WindowTreeInterface*> pair : windowTrees){
 		pair.second->resize(area);
 	}
+}
+
+void Workspace::swapWindows(long windowA, long windowB)
+{
+	windowTrees[treeLayoutMode]->swapWindows(windowA, windowB);
 }
 
 void Workspace::setLayoutMode(ev::TreeMode mode)

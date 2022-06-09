@@ -40,6 +40,8 @@ public:
 
 	void setLayoutMode(ev::TreeMode mode);
 
+	void swapWindows(long windowA, long windowB);
+
 	std::vector<ev::TreeMode> getAvailableModes();
 
 	ev::TreeMode getActiveMode();

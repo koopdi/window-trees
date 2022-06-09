@@ -25,7 +25,7 @@ WindowManager::WindowManager(ServerInterface* server) : server(server)
 	cout << "Getting screens" << endl;
 	// create a workspace for each screen
 	vector<long> screens = server->getScreens();
-	for (long screenID : screens){
+	for (long screenID : screens) {
 		cout << screenID << endl;
 	}
 	for (long screenID : screens) {
@@ -67,8 +67,14 @@ void WindowManager::update(ev::Event& ev)
 			break;
 
 		case ev::EventType::FOCUS:
-			// workspaces[ev.screenID]->
 			// cout << "Window focused, ID: " << ev.focus.winID << endl;
+			break;
+
+		case ev::EventType::SWAP_WINDOWS:
+			workspaces[ev.screenID]->swapWindows(ev.swap.winA, ev.swap.winB);
+			break;
+
+		case ev::EventType::MOVE_WINDOW:
 			break;
 
 		case ev::EventType::SWITCH_LAYOUT:
@@ -76,13 +82,13 @@ void WindowManager::update(ev::Event& ev)
 			break;
 
 		case ev::EventType::ROTATE_SPLIT:
-		// cout << "Window manager Rotate" << endl;
+			// cout << "Window manager Rotate" << endl;
 			workspaces[ev.screenID]->rotateSplit(ev.rotate.winID);
 			break;
 
 		case ev::EventType::RESIZE:
 			workspaces[ev.screenID]->resize(ev.resize.size);
-		break;
+			break;
 
 		default:
 			throw string("[ERROR] Window manager failed to handle WM level event");
@@ -91,7 +97,7 @@ void WindowManager::update(ev::Event& ev)
 		if (workspaces.find(ev.screenID) != workspaces.end()) {
 			// std::cout << "rendering screen: " << ev.screenID << endl;
 			workspaces[ev.screenID]->render();
-		}else{
+		} else {
 			cout << "Screen ID: " << ev.screenID << "not found in map" << endl;
 		}
 	} catch (string error) {
