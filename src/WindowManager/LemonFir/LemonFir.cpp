@@ -56,11 +56,8 @@ void LemonFir::update(ev::Event& ev)
 void LemonFir::addWindow(long windowID)
 {
 	// cout << "addWindow" << endl;
-	nextOpen() = std::make_shared<Pane>(windowID);
-	if(splitDir){
-		rotateSplit(windowID);
-	}
-	splitDir = !splitDir;
+	PanePtr newWindow = std::make_shared<Pane>(windowID);
+	nextOpen()        = newWindow;
 }
 
 void LemonFir::remWindow(long windowID) { remove(tree, windowID); }
@@ -128,20 +125,31 @@ NodePtr& LemonFir::nextOpen()
 }
 
 NodePtr& LemonFir::nextOpen(NodePtr& node, int cycles)
-{ // Recursively search until a null node is found.
-	// cout << "nextOpen: " << cycles << endl;
-	if (!node) {
+{              // Recursively search until a null node or a pane node is found.
+	if (!node) { // Empty
 		return node;
-	} else if (Split* s = getSplit(node)) {
-		// attatch window here
+
+	} else if (Split* s = getSplit(node)) { // Split
+		// attatch window here, or here, or here, or here....
 		return nextOpen(s->right, cycles);
-	} else if (getPane(node)) {
-		// split this pane
-		NodePtr temp = node;
-		SplitPtr s   = std::make_shared<Split>();
-		node         = s;
-		s->left      = temp;
-		return s->right;
+
+	} else if (Pane* p = getPane(node)) { // Pane
+		// find the parent of the pane
+		Split* parent     = getSplit(getParent(p->windowID));
+
+		// move this pane into a new split
+		NodePtr temp      = node;
+		SplitPtr newSplit = std::make_shared<Split>();
+		node              = newSplit;
+		newSplit->left    = temp;
+
+		// Set the split direction opposite the parent.
+		if (parent) {
+			newSplit->vSplit = !parent->vSplit;
+		}
+
+		// Return the open spot in the new split.
+		return newSplit->right;
 	}
 	throw string("Next Open: error, unhandled recursive case");
 }
@@ -175,6 +183,8 @@ void LemonFir::remove(NodePtr& node, long targetID)
 {
 	if (Pane* p = getPane(node)) {
 		if (p->windowID == targetID) {
+			cout << "Remove: This is the one, the Pane with ID#: " << p->windowID
+			     << endl;
 			node = nullptr;
 		}
 	}
