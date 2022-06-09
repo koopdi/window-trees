@@ -121,6 +121,7 @@ winPtr SGLServer::getWin(sgl::GObject* obj)
 
 bool SGLServer::dropDownSelect(long windowID)
 {
+	// cout << "selecting ID# " << windowID << endl;
 	int count = dropDown->getItemCount();
 	for (int idx = 0; idx < count; idx++) {
 		if (stol(dropDown->getItem(idx)) == windowID) {
@@ -155,6 +156,14 @@ void SGLServer::clickEv(sgl::GEvent e)
 			// Find g in the winDex.
 			if (winPtr winP = getWin(g)) {
 				if (e.isLeftClick()) { // select g
+					// send focus event
+					ev::Event* evFocus   = new ev::Event;
+					evFocus->type        = ev::EventType::FOCUS;
+					evFocus->screenID    = 99;
+					evFocus->focus.winID = winP->ID;
+					evFun(evFocus);
+					delete evFocus;
+
 					// Highlight g.
 					g->setLineWidth(5);
 					g->setColor("yellow");
@@ -166,14 +175,6 @@ void SGLServer::clickEv(sgl::GEvent e)
 
 					// select g in the drop down chooser
 					dropDownSelect(winP->ID);
-
-					// send focus event
-					ev::Event* evFocus   = new ev::Event;
-					evFocus->type        = ev::EventType::FOCUS;
-					evFocus->screenID    = 99;
-					evFocus->focus.winID = winP->ID;
-					evFun(evFocus);
-					delete evFocus;
 
 				} else if (e.isMiddleClick()) { // remove g
 					remove(winP->ID);
