@@ -33,6 +33,7 @@ namespace ev
 enum class EventType {
 	ADD,           // Add a window.
 	REMOVE,        // Remove a window
+	FOCUS,         // A window was focused.
 	KEY,           // A key was pressed
 	MOUSE,         // A mouse was moved
 	SWITCH_LAYOUT, // Layout switch request
@@ -48,6 +49,10 @@ struct Add {
 };
 
 struct Remove {
+	long winID;
+};
+
+struct FocusWindow {
 	long winID;
 };
 
@@ -89,6 +94,7 @@ struct Event {
 	union {
 		Add add;
 		Remove remove;
+		FocusWindow focus;
 		Key key;
 		Mouse mouse;
 		SwitchLayout layout;
