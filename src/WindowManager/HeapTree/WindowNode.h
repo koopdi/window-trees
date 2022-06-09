@@ -33,9 +33,16 @@ struct WindowNode {
 struct HeapWindow {
 	Area area;
 	WindowNode* node;
+	/// This object does not support copy construction.
 	HeapWindow(const HeapWindow&) = delete;
-
+	/// Free this HeapWindow's WindowNode
 	~HeapWindow();
+
+	 /// @brief Construct a new Heap Window object
+	 /// @param windowID The ID of the server window to add.
+	 /// @param workspaceID The ID of the workspace the window is on.
 	HeapWindow(int windowID = -1, int workspaceID = -1);
+	/// @brief An existing window node to add.
+	/// @note This HeapWindow will manage the memory of the passed in node.
 	HeapWindow(WindowNode* node);
 };
