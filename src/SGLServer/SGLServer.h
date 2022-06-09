@@ -22,6 +22,7 @@
  * on the active workspace.
  *
  * \todo emit window focus event when a window is selected
+ * \todo emit resize event when the display is resized
  */
 class SGLServer : public ServerInterface
 {
@@ -91,6 +92,8 @@ private:
 	void keyEv(sgl::GEvent ev);
 	// A function to handle menu events.
 	void menuEv(sgl::GEvent ev);
+	// a function to handle gwindow evens
+	void screenEv(sgl::GEvent ev);
 
 	// Add buttons to the GWindow for sending events.
 	void addButtons();

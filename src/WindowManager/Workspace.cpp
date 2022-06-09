@@ -9,7 +9,7 @@ Workspace::Workspace(ServerInterface* server, long screenID) : server(server),
 
 	windowTrees[ev::TreeMode::LEMON_FIR] = new LemonFir(server);
 	windowTrees[ev::TreeMode::MASTER_STACK] = new MasterStack(server, screenSize);
-	windowTrees[ev::TreeMode::HEAP] = new HeapTree(server);
+	// windowTrees[ev::TreeMode::HEAP] = new HeapTree(server);
 
 }
 

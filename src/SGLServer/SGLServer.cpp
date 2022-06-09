@@ -33,6 +33,7 @@ SGLServer::SGLServer()
 	win.setKeyListener([this](GEvent ev) { keyEv(ev); });
 	win.setClickListener([this](GEvent ev) { clickEv(ev); });
 	win.setMenuListener([this](GEvent ev) { menuEv(ev); });
+	win.setWindowListener([this](GEvent ev) { screenEv(ev); });
 }
 
 bool SGLServer::contains(long windowID)
@@ -223,6 +224,21 @@ void SGLServer::menuEv(sgl::GEvent e)
 			evFun(evSwitch);
 			delete evSwitch;
 		}
+	}
+}
+
+void SGLServer::screenEv(sgl::GEvent ev)
+{
+	sgl::EventType type = ev.getType();
+	if (type == sgl::EventType::WINDOW_RESIZED) { // RESIZE
+		ev::Event* evResize   = new ev::Event;
+		evResize->type        = ev::EventType::RESIZE;
+		evResize->screenID    = 99;
+
+		evResize->resize.size = getScreenSize(99);
+		evFun(evResize);
+
+		delete evResize;
 	}
 }
 
