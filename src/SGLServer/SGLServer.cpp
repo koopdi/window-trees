@@ -134,10 +134,10 @@ bool SGLServer::dropDownSelect(long windowID)
 void SGLServer::evRotate(long windowID)
 {
 	// create rotate event
-	ev::Event* evRot       = new ev::Event;
-	evRot->type            = ev::EventType::ROTATE_SPLIT;
+	ev::Event* evRot    = new ev::Event;
+	evRot->type         = ev::EventType::ROTATE_SPLIT;
 	evRot->rotate.winID = windowID;
-	evRot->screenID        = 99;
+	evRot->screenID     = 99;
 	// send rotate event to event handler
 	evFun(evRot);
 	// free event memory
@@ -166,6 +166,14 @@ void SGLServer::clickEv(sgl::GEvent e)
 
 					// select g in the drop down chooser
 					dropDownSelect(winP->ID);
+
+					// send focus event
+					ev::Event* evFocus   = new ev::Event;
+					evFocus->type        = ev::EventType::FOCUS;
+					evFocus->screenID    = 99;
+					evFocus->focus.winID = winP->ID;
+					evFun(evFocus);
+					delete evFocus;
 
 				} else if (e.isMiddleClick()) { // remove g
 					remove(winP->ID);
