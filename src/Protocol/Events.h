@@ -31,15 +31,15 @@ namespace ev
 {
 // The type of event.
 enum class EventType {
-	ADD,           /*Add a window.*/
-	REMOVE,        /*Remove a window*/
-	KEY,           /*A key was pressed*/
-	MOUSE,         /*A mouse was moved */
-	SWITCH_LAYOUT, /*Layout switch request*/
-	RESIZE,        /*The screen was resized.*/
-	ROTATE_SPLIT,  /*Rotate the split orientation*/
-	OTHER,         /*Backend specific*/
-	GARBAGE        /*Unhandled*/
+	ADD,           // Add a window.
+	REMOVE,        // Remove a window
+	KEY,           // A key was pressed
+	MOUSE,         // A mouse was moved
+	SWITCH_LAYOUT, // Layout switch request
+	RESIZE,        // The screen was resized.
+	ROTATE_SPLIT,  // Rotate the split orientation
+	OTHER,         // Backend specific
+	GARBAGE        // Unhandled
 };
 
 struct Add {
