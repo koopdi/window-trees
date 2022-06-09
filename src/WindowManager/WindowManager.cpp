@@ -44,22 +44,21 @@ WindowManager::WindowManager(ServerInterface* server) : server(server)
 void WindowManager::update(ev::Event& ev)
 {
 	try {
-		cout << "Window Manager: event got" << endl;
-
-		cout << "The real screenID: " << server->getScreens().at(0) << endl;
+		// cout << "Window Manager: event got" << endl;
+		// cout << "The real screenID: " << server->getScreens().at(0) << endl;
 
 		switch (ev.type) {
 		case ev::EventType::ADD:
-			cout << "WindowManager: ev::ADD" << endl;
-			cout << "ScreenID: " << ev.screenID << endl;
+			// cout << "WindowManager: ev::ADD" << endl;
+			// cout << "ScreenID: " << ev.screenID << endl;
 
 			if (workspaces.find(ev.screenID) != workspaces.end()) {
 				// safe to access
-				cout << "good" << endl;
+				// cout << "good" << endl;
 				workspaces[ev.screenID]->addWindow(ev.add.winID);
 
 			} else {
-				cout << "not good" << endl;
+				// cout << "not good" << endl;
 			}
 			break;
 
@@ -72,7 +71,7 @@ void WindowManager::update(ev::Event& ev)
 			break;
 
 		case ev::EventType::ROTATE_SPLIT:
-		cout << "Window manager Rotate" << endl;
+		// cout << "Window manager Rotate" << endl;
 			workspaces[ev.screenID]->rotateSplit(ev.rotate.windowID);
 			break;
 
@@ -85,7 +84,7 @@ void WindowManager::update(ev::Event& ev)
 		}
 
 		if (workspaces.find(ev.screenID) != workspaces.end()) {
-			std::cout << "rendering screen: " << ev.screenID << endl;
+			// std::cout << "rendering screen: " << ev.screenID << endl;
 			workspaces[ev.screenID]->render();
 		}else{
 			cout << "Screen ID: " << ev.screenID << "not found in map" << endl;

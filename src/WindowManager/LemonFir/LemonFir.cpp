@@ -83,27 +83,30 @@ void LemonFir::render(ServerInterface* server)
 
 void LemonFir::rotateSplit(long windowID)
 {
-	cout << "Rotating window #" << windowID << endl;
+	// cout << "Rotating window #" << windowID << endl;
 	// getParent(windowID);
 	NodePtr parent = getParent(windowID);
-	cout << "Parent split aqcuired." << endl;
+	// cout << "Parent split aqcuired." << endl;
 
 	if (Split* s = getSplit(parent)) {
-		cout << "Rotating Split with children: ";
-		cout << s->left->type << ": ";
+		// cout << "Rotating Split with children: ";
+		// cout << s->left->type << ": ";
 		if (Pane* p = getPane(s->left)) {
-			cout << p->windowID;
+			// cout << p->windowID;
 		}
-		cout << " and " << s->right->type << ": ";
+		// cout << " and " << s->right->type << ": ";
 		if (Pane* p = getPane(s->right)) {
-			cout << p->windowID;
+			// cout << p->windowID;
 		}
-		cout << endl;
+		// cout << endl;
 		s->vSplit = !s->vSplit;
 	}
 }
 
-void LemonFir::resize(Area area) { cout << "resize" << endl; }
+void LemonFir::resize(Area area)
+{
+	cout << "LemonFir, got resize event, does nothing." << endl;
+}
 
 // Private Methods -----------------------------------------
 
@@ -158,7 +161,7 @@ NodePtr& LemonFir::nextOpen(NodePtr& node, int cycles)
 		// Return the open spot in the new split.
 		return newSplit->right;
 	}
-	throw string("Next Open: error, unhandled recursive case");
+	throw string("LemonFir, Next Open: ERROR, unhandled recursive case");
 }
 
 void LemonFir::render(NodePtr node, Area& space, bool vSplit)
@@ -190,8 +193,7 @@ void LemonFir::remove(NodePtr& node, long targetID)
 {
 	if (Pane* p = getPane(node)) {
 		if (p->windowID == targetID) {
-			cout << "Remove: This is the one, the Pane with ID#: " << p->windowID
-			     << endl;
+			cout << "LemonFir: Removing last pane. ID # " << p->windowID << endl;
 			node = nullptr;
 		}
 	}
@@ -234,7 +236,7 @@ void LemonFir::remove(NodePtr& node, long targetID)
 
 NodePtr LemonFir::getParent(long targetID)
 {
-	cout << "Aqcuiring parent Split." << endl;
+	// cout << "Aqcuiring parent Split." << endl;
 	return getParent(tree, targetID);
 }
 
