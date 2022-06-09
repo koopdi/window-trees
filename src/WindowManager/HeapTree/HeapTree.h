@@ -23,6 +23,7 @@ public:
 	void remWindow(long windowID) override;
 	void resize(Area area) override;
 	void rotateSplit(long windowID);
+	/// Switch the positions of A and B.
 	void swapWindows(long windowA, long windowB) override;
 
 	void update();

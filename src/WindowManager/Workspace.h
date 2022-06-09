@@ -40,6 +40,7 @@ public:
 
 	void setLayoutMode(ev::TreeMode mode);
 
+	/// Switch the positions of A and B in the active layout.
 	void swapWindows(long windowA, long windowB);
 
 	std::vector<ev::TreeMode> getAvailableModes();

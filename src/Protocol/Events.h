@@ -73,7 +73,13 @@ struct SwapWindows {
 	long winB;
 };
 
-enum class Direction { UP, DOWN, LEFT, RIGHT, CENTER };
+enum class Direction { //
+	UP,
+	DOWN,
+	LEFT,
+	RIGHT,
+	CENTER
+};
 
 struct MoveWindow {
 	long windowID;
