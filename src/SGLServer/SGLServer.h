@@ -22,7 +22,6 @@
  * on the active workspace.
  *
  * \todo emit window focus event when a window is selected
- * \todo figure out how to rotate a split on right click
  */
 class SGLServer : public ServerInterface
 {
