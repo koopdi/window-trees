@@ -104,6 +104,18 @@ void LemonFir::rotateSplit(long windowID)
 }
 
 void LemonFir::swapWindows(long windowA, long windowB){
+	// NodePtr* nodeA = getParent(windowA);
+	// NodePtr* nodeB = getParent(windowB);
+	// if(nodeA && nodeB){
+	// 	cout << "Proceding to swap A: ";
+	// 	cout << windowA << ", B: " << windowB << endl;
+
+	// 	PanePtr temp;
+	// 	PanePtr pA = getPane()
+	// }
+}
+
+void LemonFir::swapGroups(long windowA, long windowB){
 	NodePtr* nodeA = getParent(windowA);
 	NodePtr* nodeB = getParent(windowB);
 	if(nodeA && nodeB){
@@ -259,14 +271,12 @@ NodePtr* LemonFir::getParent(NodePtr* node, long targetID)
 		// look ahead left
 		if (Pane* p = getPane(s->left)) {
 			if (p->windowID == targetID) {
-				// return std::make_shared<Split>(s);
 				return node;
 			}
 		}
 		// look ahead right
 		if (Pane* p = getPane(s->right)) {
 			if (p->windowID == targetID) {
-				// return std::make_shared<Split>(s);
 				return node;
 			}
 		}
@@ -280,4 +290,9 @@ NodePtr* LemonFir::getParent(NodePtr* node, long targetID)
 	} else {
 		return nullptr;
 	}
+}
+
+PanePtr* LemonFir::getTreePane(long windowID)
+{
+
 }

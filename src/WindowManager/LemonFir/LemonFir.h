@@ -55,6 +55,7 @@ public:
 	virtual void rotateSplit(long windowID) override;
 
 	virtual void swapWindows(long windowA, long windowB) override;
+	virtual void swapGroups(long windowA, long windowB);
 
 private:
 	/// A pointer to the server.
@@ -90,6 +91,8 @@ private:
 	 *  Null Pointer if no parent of that window exists.
 	 */
 	NodePtr* getParent(NodePtr* node, long targetID);
+
+	PanePtr* getTreePane(long windowID);
 
 	// /// find the parent of this node
 	// NodePtr getParent(NodePtr target);
