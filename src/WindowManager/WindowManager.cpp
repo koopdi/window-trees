@@ -66,6 +66,11 @@ void WindowManager::update(ev::Event& ev)
 			workspaces[ev.screenID]->remWindow(ev.remove.winID);
 			break;
 
+		case ev::EventType::FOCUS:
+			// workspaces[ev.screenID]->
+			// cout << "Window focused, ID: " << ev.focus.winID << endl;
+			break;
+
 		case ev::EventType::SWITCH_LAYOUT:
 			workspaces[ev.screenID]->setLayoutMode(ev.layout.mode);
 			break;
