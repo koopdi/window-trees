@@ -60,7 +60,14 @@ void LemonFir::addWindow(long windowID)
 	nextOpen()        = newWindow;
 }
 
-void LemonFir::remWindow(long windowID) { remove(tree, windowID); }
+void LemonFir::remWindow(long windowID)
+{
+	remove(tree, windowID);
+	std::vector<long> windows = server->getWindows(screen);
+	for (long ID : windows) {
+	}
+	// print();
+}
 
 void LemonFir::render(ServerInterface* server)
 {
