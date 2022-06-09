@@ -1,7 +1,31 @@
 #!/bin/bash
 
-# check if program exists
+###USER VARIABLES
+#graphical terminal emulator that isn't xterm or konsole, preferably alacritty
+userTerm=alacritty
 
+
+
+# check if program exists
+if ! command -v Xephyr &> /dev/null
+then
+    echo "This script requires Xephyr, try installing your distribution's X11 devel package";
+	echo "Arch Pkg name: xorg-server-devel"
+    exit
+fi
+
+# check if user terminal emulator exits
+if ! command -v $userTerm &> /dev/null
+then
+    echo "This script requires $userTerm, try installing it or changing \$userTerm in this script";
+    exit
+fi
+
+curWD=$(sed 's#.*/##' <<< $(pwd));
+if [ $curWD != "XClient" ]; then
+	echo "This script requires that the working directory must be the XClient directory";
+	exit
+fi
 
 pkill Xephyr
 
@@ -20,7 +44,7 @@ DISPLAY=:9
 for i in {0..4}
 do
 	echo "";
-	alacritty &
+	$userTerm &
 	sleep 0.2;
 	procs[$i]=$!;
 done
@@ -33,14 +57,17 @@ done
 
 for i in {0..1}
 do
-	$(alacritty) &
+	$userTerm &
 	sleep 0.2;
 	procs[$i]=$!;
 done
-alacritty --command=top &
+
+$userTerm &
 procs[3]=$!
 
-alacritty --command=$EDITOR &
+$userTerm &
 procs[4]=$!
 
 echo $procs;
+
+
