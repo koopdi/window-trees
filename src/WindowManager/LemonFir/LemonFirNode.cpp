@@ -33,16 +33,27 @@ Pane::Pane(long windowID)
 }
 
 /// Get pointer to the stored split object.
-Split* getSplit(NodePtr node)
-{
-	// cout << "Getting Split pointer." << endl;
-	return dynamic_cast<Split*>(node.get());
-	// if (node) {
-	// 	return dynamic_cast<Split*>(node.get());
-	// } else {
-	// 	return nullptr;
-	// }
-}
+Split* getSplit(NodePtr node) { return dynamic_cast<Split*>(node.get()); }
 
 /// Get a pointer to the stored Pane object.
 Pane* getPane(NodePtr node) { return dynamic_cast<Pane*>(node.get()); }
+
+/// Get pointer to the stored split object.
+Split* getSplit(NodePtr* node)
+{
+	if (node) {
+		return dynamic_cast<Split*>(node->get());
+	} else {
+		return nullptr;
+	}
+}
+
+/// Get a pointer to the stored Pane object.
+Pane* getPane(NodePtr* node)
+{
+	if (node) {
+		return dynamic_cast<Pane*>(node->get());
+	} else {
+		return nullptr;
+	}
+}
