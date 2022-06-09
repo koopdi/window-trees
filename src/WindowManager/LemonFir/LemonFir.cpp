@@ -104,7 +104,16 @@ void LemonFir::rotateSplit(long windowID)
 }
 
 void LemonFir::swapWindows(long windowA, long windowB){
+	NodePtr* nodeA = getParent(windowA);
+	NodePtr* nodeB = getParent(windowB);
+	if(nodeA && nodeB){
+		cout << "Proceding to swap A: ";
+		cout << windowA << ", B: " << windowB << endl;
 
+		NodePtr* temp = nodeA;
+		*nodeA = *nodeB;
+		*nodeB = *temp;
+	}
 }
 
 void LemonFir::resize(Area area)

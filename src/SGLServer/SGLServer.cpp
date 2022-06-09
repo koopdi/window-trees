@@ -233,6 +233,22 @@ void SGLServer::menuEv(sgl::GEvent e)
 			evSwitch->layout.mode = ev::TreeMode::NEXT;
 			evFun(evSwitch);
 			delete evSwitch;
+
+		} else if (action == "toolbar/Swap Group") { // SWAP_WINDOWS
+			ev::Event* evSwap = new ev::Event;
+			evSwap->type      = ev::EventType::SWAP_WINDOWS;
+			evSwap->screenID  = 99;
+
+			if (!dropDown->isEmpty()) {
+				evSwap->swap.winA = stol(dropDown->getItem(0));
+				evSwap->swap.winB = stol(dropDown->getSelectedItem());
+			} else {
+				evSwap->swap.winA = 0;
+				evSwap->swap.winB = 0;
+			}
+
+			evFun(evSwap);
+			delete evSwap;
 		}
 	}
 }
@@ -297,14 +313,15 @@ void SGLServer::addButtons()
 	win.addToolbarItem("Add");
 	win.addToolbarItem("Remove");
 	win.addToolbarItem("Switch Layout");
+	win.addToolbarItem("Swap Group");
 
 	// Add a divider between the novelty placeholders.
 	win.addToolbarSeparator();
-	win.addToolbarItem("Distance");
-	win.addToolbarItem("Speed");
-	win.addToolbarItem("Acceleration");
-	win.addToolbarItem("Jerk");
-	win.addToolbarItem("Snap");
-	win.addToolbarItem("Crackle");
-	win.addToolbarItem("Pop");
+	// win.addToolbarItem("Distance");
+	// win.addToolbarItem("Speed");
+	// win.addToolbarItem("Acceleration");
+	// win.addToolbarItem("Jerk");
+	// win.addToolbarItem("Snap");
+	// win.addToolbarItem("Crackle");
+	// win.addToolbarItem("Pop");
 }
