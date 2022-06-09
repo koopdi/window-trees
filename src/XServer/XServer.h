@@ -6,6 +6,7 @@
 #include "types.h"
 #include <iostream>
 #include <set>
+#include <unordered_set>
 #include <unordered_map>
 #include <vector>
 
@@ -15,7 +16,8 @@
  */
 
 #include <X11/Xlib.h>
-#include <X11/extensions/randr.h>
+// #include <X11/extensions/randr.h>
+#include <X11/extensions/Xrandr.h>
 
 /**
  * @brief An implementation of the server interface.
@@ -28,8 +30,11 @@ private:
 	Display* display;
 	Logger log;
 	int defaultScreeen;
-	std::vector<Screen*> screens; // acts as a map between int and Screen*
-	std::unordered_map<Screen*, std::set<Window>> windowsPerScreenById;
+	std::vector<Screen*> screens;
+	std::unordered_map<Screen*, std::set<Window>> windowsPerScreenById;// map Screen* to windows
+
+	std::unordered_set<long> windows;
+
 	EventHandlerFn handlerFunc;
 	InitHandlerFn initFunc;
 	bool running = true; // is this bad style?

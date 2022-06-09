@@ -1,104 +1,104 @@
-/**
- * @file Workspace.cpp
- * @author Andrew Hanson, Christen Spadevechia, Travis McKinney
- */
-
 #include "Workspace.h"
 
 #include <iostream>
-#include <string>
 
-Workspace::Workspace(ServerInterface* server, WindowTreeInterface* mtree)
-    : workspaceID((long long)(this)), server(server), tree(nullptr),
-      metaTree(mtree)
+Workspace::Workspace(ServerInterface* server, long screenID) : server(server),
+	treeLayoutMode(ev::TreeMode::LEMON_FIR)
 {
-	if(metaTree == nullptr)
-	{
-		tree = new WindowTree(this);
+	Area screenSize = server->getScreenSize(screenID);
+
+	windowTrees[ev::TreeMode::LEMON_FIR] = new LemonFir(server);
+	windowTrees[ev::TreeMode::MASTER_STACK] = new MasterStack(server, screenSize);
+	windowTrees[ev::TreeMode::HEAP] = new HeapTree(server);
+
+}
+
+void Workspace::render(){
+	windowTrees[treeLayoutMode]->render(server);
+}
+
+void Workspace::addWindow(long windowID){
+	for(auto [LAYOUT_MODE, layoutPtr] : windowTrees){
+		std::cout << "WorkSpace addWindow: " << std::endl;
+		layoutPtr->addWindow(windowID);
 	}
 }
 
-bool Workspace::operator<(Workspace& other)
-{
-	return workspaceID < other.workspaceID;
-}
-
-bool operator<(std::shared_ptr<Workspace>& a, std::shared_ptr<Workspace>& b)
-{
-	return (*a) < (*b);
-}
-
-int Workspace::getHeight() const { return height; }
-
-int Workspace::getWidth() const { return width; }
-
-Point Workspace::getPosition() const { return position; }
-
-int Workspace::getNumWindows() const { return numWindows; }
-
-void Workspace::setHeight(int height) { this->height = height; }
-
-void Workspace::setWidth(int width) { this->width = width; }
-
-void Workspace::setPosition(Point position) { this->position = position; }
-
-bool Workspace::addWindow(int windowID, double part1Size)
-{
-	using namespace std;
-	cout << "In method workspace::addWindow." << endl;
-	if (tree == nullptr) {
-		cout << "tree is null" << endl;
-		throw "Workspace: cannot add to null tree"s;
+void Workspace::remWindow(long windowID){
+		for(auto [LAYOUT_MODE, layoutPtr] : windowTrees){
+		std::cout << "WorkSpace remWindow: " << std::endl;
+		layoutPtr->remWindow(windowID);
 	}
-	bool success = tree->add(part1Size, windowID);
-	// if (success) {
-	//		TODO: add to map<windowID:set<workspaceID>>
-	//		map[windowID];
-	// }
-	return success;
 }
 
-bool Workspace::removeWindow(int windowID)
-{
-	bool success = tree->remove(windowID);
-	// if (success) {
-	//		TODO: add to map<windowID:set<workspaceID>>
-	//		map.erase(windowID);
-	// }
-	return success;
+void Workspace::rotateSplit(long windowID){
+	windowTrees[treeLayoutMode]->rotateSplit(windowID);
 }
 
-void Workspace::renderTree(WindowNode* node, Area bounds)
+void Workspace::resize(Area area){
+	for(std::pair<ev::TreeMode,WindowTreeInterface*> pair : windowTrees){
+		pair.second->resize(area);
+	}
+}
+
+void Workspace::setLayoutMode(ev::TreeMode mode)
 {
-	if (node != nullptr) {
-		if (node->window->windowID !=
-		    -1) { // node->isWindow() appears to be non functional
-			server->setArea(node->window->windowID, bounds);
-		} else {
-			if (node->partVertically) {
-				bounds.height -= node->part1Size; // restrict area to bottom size
-				bounds.y += node->part1Size;      // select bottom area
-				renderTree(node->part2, bounds);  // render bottom area
+	std::string treeName;
+	if ((int)treeLayoutMode == 0)
+		treeName = "LEMON_FIR";
+	if ((int)treeLayoutMode == 2)
+		treeName = "MASTER_STACK";
+	if ((int)treeLayoutMode == 3)
+		treeName = "HEAP";
 
-				bounds.height = node->part1Size;
-				bounds.y -= node->part1Size;
-				renderTree(node->part1, bounds); // render top section
-			} else {
-				bounds.width -= node->part1Size; // restrict area to right size
-				bounds.x += node->part1Size;     // select right area
-				renderTree(node->part2, bounds); // render right area
-
-				bounds.width = node->part1Size;
-				bounds.x -= node->part1Size;
-				renderTree(node->part1, bounds); // render left section
+	using std::cout;
+	using std::endl;
+	std::cout << "setLayoutMode, mode = " << std::oct << (int)mode << std::endl;
+	if (mode == ev::TreeMode::PREV) {
+		cout << "mode: PREV	#" << (int)mode << endl;
+		std::vector<ev::TreeMode> modes = getAvailableModes();
+		cout << "Number of available modes: " << modes.size() << endl;
+		if (modes.size() > 1) {
+			for (int i = 0; i < modes.size() - 1; i++) {
+				if (modes[i + 1] == treeLayoutMode) {
+					treeLayoutMode = modes[i];
+				}
 			}
 		}
+
+	} else if (mode == ev::TreeMode::NEXT) {
+		cout << "mode: NEXT	#" << (int)mode << endl;
+		auto iter = windowTrees.find(mode);
+		int count = windowTrees.size();
+		cout << "Number of available modes: " << count << endl;
+		cout << "Current mode: #" << treeName << endl;
+
+		auto currLayout = windowTrees.find(treeLayoutMode);
+		currLayout++;
+		if (currLayout == windowTrees.end()) {
+			currLayout = windowTrees.begin();
+		}
+		treeLayoutMode = currLayout->first;
 	}
+	// 	if (iter != windowTrees.end() && ++iter != windowTrees.end()) {
+	// 		mode = (*windowTrees.begin()).first;
+	// 	} else {
+	// 		mode = (*windowTrees.begin()).first;
+	// 	}
+
+	// } else {
+	// 	treeLayoutMode = mode;
+	// }
 }
 
-void Workspace::render()
-{
-	Area area = {0, 0, 600, 450}; //{0, 0, width, height};						// WARNINGL
-	                              // WIDTH AND HEIGHT ARE NOT SET PROPERLY
-	renderTree(tree->getRoot(), area);
+std::vector<ev::TreeMode> Workspace::getAvailableModes(){
+	std::vector<ev::TreeMode> modes;
+	for (auto [mode, ptr] : windowTrees){
+		modes.push_back(mode);
+	}
+	return modes;
+}
+
+ev::TreeMode Workspace::getActiveMode(){
+	return treeLayoutMode;
 }

@@ -82,13 +82,16 @@ Area SGLServer::getScreenSize(long screenID)
 
 std::vector<long> SGLServer::getScreens()
 {
-	std::vector<long> foo;
+	std::vector<long> foo{99};
 	return foo;
 }
 
 std::vector<long> SGLServer::getWindows(long screenID)
 {
 	std::vector<long> foo;
+	for (auto [ID, win] : winDex) {
+		foo.push_back(ID);
+	}
 	return foo;
 }
 
@@ -133,9 +136,10 @@ bool SGLServer::dropDownSelect(long windowID)
 void SGLServer::evRotate(long windowID)
 {
 	// create remove event
-	ev::Event* evRot    = new ev::Event;
-	evRot->type         = ev::EventType::ROTATE_SPLIT;
+	ev::Event* evRot       = new ev::Event;
+	evRot->type            = ev::EventType::ROTATE_SPLIT;
 	evRot->rotate.windowID = windowID;
+	evRot->screenID        = 99;
 	// send remove event to event handler
 	evFun(evRot);
 	// free event memory
@@ -208,6 +212,8 @@ void SGLServer::menuEv(sgl::GEvent e)
 			evAdd->add.winID   = (*gwin).ID;
 			winDex[(*gwin).ID] = gwin;
 
+			evAdd->screenID    = 99;
+
 			dropDown->addItem(to_string((*gwin).ID));
 
 			evFun(evAdd);
@@ -218,6 +224,14 @@ void SGLServer::menuEv(sgl::GEvent e)
 			} else {
 				remove(stol(dropDown->getSelectedItem()));
 			}
+		} else if (action == "toolbar/Switch Layout") {
+			cout << "switch layout" << endl;
+			ev::Event* evSwitch = new ev::Event;
+			evSwitch->type = ev::EventType::SWITCH_LAYOUT;
+			evSwitch->screenID = 99;
+			evSwitch->layout.mode = ev::TreeMode::NEXT;
+			evFun(evSwitch);
+			delete evSwitch;
 		}
 	}
 }
@@ -255,6 +269,7 @@ void SGLServer::evRemove(long windowID)
 	ev::Event* evRem    = new ev::Event;
 	evRem->type         = ev::EventType::REMOVE;
 	evRem->remove.winID = windowID;
+	evRem->screenID     = 99;
 	// send remove event to event handler
 	evFun(evRem);
 	// free event memory
@@ -281,6 +296,7 @@ void SGLServer::addButtons()
 	// Add buttons.
 	win.addToolbarItem("Add");
 	win.addToolbarItem("Remove");
+	win.addToolbarItem("Switch Layout");
 
 	// Add a divider between the novelty placeholders.
 	win.addToolbarSeparator();

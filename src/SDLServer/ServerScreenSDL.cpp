@@ -7,12 +7,12 @@ void ServerScreenSDL::populateRandom(int num){
 		ServerWindowSDL* newWin = new ServerWindowSDL(
 			{rand() % width, rand() % height, 200, 300},
 			{(Uint8) rand(), (Uint8) rand(), (Uint8) rand(), 0xFF});
-		windows.insert(newWin);
-		idWindowMap[newWin->windowID] = newWin;
+
+		addWindow(newWin);
 	}
 
 }
-ServerScreenSDL::ServerScreenSDL(std::string name, Area area) : visible(true){
+ServerScreenSDL::ServerScreenSDL(std::string name, Area area) : visible(true), screenArea(area){
 	win = SDL_CreateWindow(name.c_str(), area.x, area.y, area.width, area.height, SDL_WINDOW_SHOWN);
 	ren = SDL_CreateRenderer(win, -1, 0);
 	tex = SDL_CreateTexture(ren, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_STATIC,
@@ -80,13 +80,53 @@ bool ServerScreenSDL::hasWindow(long windowID){
 }
 
 ServerScreenSDL::~ServerScreenSDL() {
-
-
+	for (ServerWindowSDL* win: windows){
+		delete win;
+	}
 
 	SDL_DestroyRenderer(ren);
 	SDL_DestroyTexture(tex);
 	SDL_DestroyWindow(win);
 }
 
+long ServerScreenSDL::getScreenID(){
+	return windowID;
+}
+
+
+Area ServerScreenSDL::getArea(long windowID){
+	SDL_Rect rect = idWindowMap[windowID]->rect;
+	return Area {rect.x, rect.y, rect.w, rect.h};
+}
+
+void ServerScreenSDL::setArea(long windowID, Area area){
+	ServerWindowSDL* winPtr = idWindowMap[windowID];
+	winPtr->rect.x = area.x;
+	winPtr->rect.y = area.y;
+	winPtr->rect.w = area.width;
+	winPtr->rect.h = area.height;
+}
+
+std::vector<long> ServerScreenSDL::getWindows(){
+	std::vector<long> wins;
+	for(ServerWindowSDL* win : windows){
+		wins.push_back(win->windowID);
+	}
+}
+
+Area ServerScreenSDL::getScreenSize(){
+	return screenArea;
+}
+
+void ServerScreenSDL::addWindow(ServerWindowSDL* newWin){
+	windows.insert(newWin);
+	idWindowMap[newWin->windowID] = newWin;
+}
+
+void ServerScreenSDL::remWindow(ServerWindowSDL* dedWin){
+	windows.erase(dedWin);
+	idWindowMap.erase(dedWin->windowID);
+	delete dedWin;
+}
 
 

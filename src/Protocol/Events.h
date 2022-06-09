@@ -36,6 +36,7 @@ enum class EventType {
 	KEY,           /*A key was pressed*/
 	MOUSE,         /*A mouse was moved */
 	SWITCH_LAYOUT, /*Layout switch request*/
+	RESIZE,
 	ROTATE_SPLIT,  /*Rotate the split orientation*/
 	OTHER,         /*Backend specific*/
 	GARBAGE        /*Unhandled*/
@@ -52,7 +53,6 @@ struct Remove {
 
 struct Key {
 	long winID;
-	long screen;
 	bool isUpEv;
 	bool isRepeat;
 };
@@ -66,7 +66,8 @@ enum class TreeMode {
 	BSP_TREE,
 	MASTER_STACK,
 	HEAP,
-	CLASSIC
+	PREV,
+	NEXT
 }; ////////////////
 
 struct SwitchLayout {
@@ -78,8 +79,13 @@ struct RotateSplit {
 	long windowID;
 };
 
+struct Resize {
+	Area size;
+};
+
 struct Event {
 	EventType type;
+	long screenID;
 	union {
 		Add add;
 		Remove remove;
@@ -87,6 +93,7 @@ struct Event {
 		Mouse mouse;
 		SwitchLayout layout;
 		RotateSplit rotate;
+		Resize resize;
 	};
 };
 

@@ -1,0 +1,63 @@
+/**
+ * @file WindowNode.cpp
+ * @author Andrew Hanson, Christen Spadevechia, Travis McKinney
+ */
+
+#include "WindowNode.h"
+#include <iostream>
+
+HeapWindow::HeapWindow (int windowID, int workspaceID)
+{
+	this->node = new WindowNode(windowID, workspaceID);
+}
+
+HeapWindow::HeapWindow (WindowNode* node)
+{
+	this->node = node;
+}
+
+WindowNode::WindowNode(int windowID, int workspaceID)
+{
+	std::cout << "WindowNode Constructor" << std::endl;
+	this->window = WindowPane(windowID, workspaceID);
+	this->part1 = nullptr;
+	this->part2 = nullptr;
+	partVertically = 0;
+	part1Size = 50;
+}
+
+/**
+ * @brief Construct a new Window Pane object
+ * @param windowID The ID of the window to place in this pane.
+ * @param workspaceID The ID of the workspace to place this pane on.
+ */
+WindowPane::WindowPane(int windowID, int workspaceID) : windowID(windowID)
+{
+	addTag(workspaceID);
+}
+
+bool WindowPane::hasTag(int tag) { return tags.count(tag); }
+
+bool WindowPane::addTag(int tag)
+{
+	tags.insert(tag);
+	return hasTag(tag);
+}
+
+bool WindowNode::isWindow() {
+	return window.windowID != -1;
+}
+
+bool WindowPane::removeTag(int tag)
+{
+	tags.erase(tag);
+	return !hasTag(tag);
+}
+
+HeapWindow::~HeapWindow()
+{
+	if (node != nullptr)
+	{
+		delete node; // no memory leaks
+	}
+}

@@ -1,3 +1,5 @@
+#pragma once
+
 /***********************************************************
  * Class Window Manager
  * *********************************************************
@@ -6,14 +8,14 @@
  * @brief A collection of work spaces.
  */
 
-#pragma once
 
 #include <memory>
-#include <set>
+#include <map>
 
 #include "ServerInterface.h"
 #include "Workspace.h"
-#include "xtypes.h"
+// #include "xtypes.h"
+#include "Events.h"
 
 /***********************************************************
  * Class Window Manager
@@ -28,16 +30,13 @@ public:
 
 	void update(ev::Event& ev);
 
-	void renderAll();
+	void init();
 
 private:
 	// private attributes ------------------------------------
 
-	/// A collection of window IDs.
-	std::set<int> winDex;
-
 	/// A collection of workspace pointers.
-	std::set<std::shared_ptr<Workspace>> workspaces;
+	std::unordered_map<long, std::shared_ptr<Workspace>> workspaces;
 
 	/// A pointer to the server.
 	ServerInterface* server;

@@ -22,15 +22,17 @@ WindowManager::WindowManager(ServerInterface* server) : server(server)
 		      "Provided server is null.";
 	}
 
-	// add a workspace
-	shared_ptr<Workspace> spw = make_shared<Workspace>(server);
-	workspaces.insert(spw);
-}
-
-
-void WindowManager::renderAll(){
-	for (auto& workspace : workspaces){
-		workspace->render();
+	cout << "Getting screens" << endl;
+	// create a workspace for each screen
+	vector<long> screens = server->getScreens();
+	for (long screenID : screens){
+		cout << screenID << endl;
+	}
+	for (long screenID : screens) {
+		cout << "	// create a workspace for each screen" << endl;
+		cout << "screenID: " << screenID << endl;
+		shared_ptr<Workspace> spw = make_shared<Workspace>(server, screenID);
+		workspaces[screenID]      = spw;
 	}
 }
 
@@ -43,15 +45,57 @@ void WindowManager::update(ev::Event& ev)
 {
 	try {
 		cout << "Window Manager: event got" << endl;
-		if (ev.type == ev::EventType::ADD) {
-			(workspaces.begin())->get()->addWindow(ev.add.winID, 0.5);
-		} else if (ev.type == ev::EventType::REMOVE) {
-			(workspaces.begin())->get()->removeWindow(ev.remove.winID);
+
+		cout << "The real screenID: " << server->getScreens().at(0) << endl;
+
+		switch (ev.type) {
+		case ev::EventType::ADD:
+			cout << "WindowManager: ev::ADD" << endl;
+			cout << "ScreenID: " << ev.screenID << endl;
+
+			if (workspaces.find(ev.screenID) != workspaces.end()) {
+				// safe to access
+				cout << "good" << endl;
+				workspaces[ev.screenID]->addWindow(ev.add.winID);
+
+			} else {
+				cout << "not good" << endl;
+			}
+			break;
+
+		case ev::EventType::REMOVE:
+			workspaces[ev.screenID]->remWindow(ev.remove.winID);
+			break;
+
+		case ev::EventType::SWITCH_LAYOUT:
+			workspaces[ev.screenID]->setLayoutMode(ev.layout.mode);
+			break;
+
+		case ev::EventType::ROTATE_SPLIT:
+		cout << "Window manager Rotate" << endl;
+			workspaces[ev.screenID]->rotateSplit(ev.rotate.windowID);
+			break;
+
+		case ev::EventType::RESIZE:
+			workspaces[ev.screenID]->resize(ev.resize.size);
+		break;
+
+		default:
+			throw string("[ERROR] Window manager failed to handle WM level event");
 		}
 
-		renderAll();
-
+		if (workspaces.find(ev.screenID) != workspaces.end()) {
+			std::cout << "rendering screen: " << ev.screenID << endl;
+			workspaces[ev.screenID]->render();
+		}else{
+			cout << "Screen ID: " << ev.screenID << "not found in map" << endl;
+		}
 	} catch (string error) {
 		cout << error << endl;
 	}
+}
+
+void WindowManager::init()
+{
+	cout << "[WARNING] (WindowManager.cpp) => Init is not truly defined";
 }

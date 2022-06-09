@@ -60,6 +60,8 @@ private:
 	long screen;
 	NodePtr tree;
 
+	bool splitDir;
+
 	// Private Methods ---------------------------------------
 	/// Get the next open spot in the treee.
 	NodePtr& nextOpen();
@@ -86,4 +88,10 @@ private:
 	 *  Null Pointer if no parent of that window exists.
 	 */
 	NodePtr getParent(NodePtr node, long targetID);
+
+	// /// find the parent of this node
+	// NodePtr getParent(NodePtr target);
+	// /// find the parent of this node
+	// NodePtr getParent(NodePtr node, NodePtr target);
+
 };

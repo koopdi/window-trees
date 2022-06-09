@@ -3,7 +3,12 @@
 #include "Logger.h"
 #include "ServerScreenSDL.h"
 #include <vector>
-#include <mutex>
+
+enum ClickMode {
+	ADD,
+	DEL,
+	ROT,
+};
 
 class DisplayServerSDL : public ServerInterface{
 private:
@@ -13,6 +18,10 @@ private:
 	bool running;
 
 	std::vector<ServerScreenSDL*> screens;
+
+	ClickMode clickMode;
+	void clickHandler(SDL_Event& e);
+
 	EventHandlerFn handlerFunc;
 	InitHandlerFn initFunc;
 

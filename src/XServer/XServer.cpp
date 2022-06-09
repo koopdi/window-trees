@@ -37,7 +37,6 @@ ev::Event XServer::convertXEvent(XEvent& xEv){
 		case KeyRelease:
 		ev.type = ev::EventType::KEY;
 		ev.key.isUpEv = xEv.xkey.state; //maybe
-		ev.key.screen = xEv.xkey.root; //maybe
 		ev.key.winID = xEv.xkey.window;
 		log.warn("Shitty key event conversion in convertXEvent");
 		break;
@@ -47,6 +46,7 @@ ev::Event XServer::convertXEvent(XEvent& xEv){
 		throw string("Failed to convert XEvent");
 		break;
 	}
+	ev.screenID = defaultScreeen; //supports only one screen
 	return ev;
 }
 
@@ -58,45 +58,44 @@ void XServer::run()
 	                 SubstructureNotifyMask); // grab input from root window
 	                                          // //SINGLE HEAD ONLY
 
-	// handlerFunc = [this](XEvent* event) mutable
-	// {
-	// 	cout << "xserver self event ding?" << endl;
-	// 	if (event->type == ConfigureRequest)
-	// 	{
-	// 		setArea(event->xconfigurerequest.window, Area{0, 0, 400, 200});
-	// 	}
-	// };
+	auto localLogVar = log;
 
-	initFunc = [this](ServerInterface* server)
+	initFunc = [this, localLogVar](ServerInterface* server)
 	{
 		Area area = server->getArea(DefaultRootWindow(display));
-		std::cout << "RESOLUTION:" << area.width << "x" << area.height << std::endl;
+		log.info("RESOLUTION:" + std::to_string(area.width) + "x" + std::to_string(area.height));
 	};
 
 	XGrabServer(display); // block X Server
 	initFunc(this);
 	XUngrabServer(display); // unblock X Server
-	cout << "entering event loop" << endl;
 	eventLoop(); // enter event loop
 }
 
 void XServer::eventLoop()
-{ //														HALF IMPLEMENTED
+{
 	while (running)
 	{
-		cout << "loopding" << endl;
 		XEvent event;
-		cout << "getting next event" << endl;
 		XNextEvent(display, &event);
-		cout << "got next event" << endl;
 
 		// event handling
 		ev::Event genEv;
 
 		switch (event.type)
 		{
+		case DestroyNotify:
+		if(!windows.count(event.xdestroywindow.window)){
+			log.info("[XServerBackend]: dropped (likely dupe) destroy event for missing windowID " +
+				std::to_string(event.xdestroywindow.window));
+			break;
+		} else {
+			windows.erase(event.xdestroywindow.window);
+		}
 		case ConfigureRequest:
-		case DestroyNotify:						//CRITICAL CASE DISABLED FOR TESTING
+		if(event.type == ConfigureRequest){
+			windows.insert(event.xconfigurerequest.window);
+		}
 		case ButtonPress:
 		case ButtonRelease:
 		case KeyPress:
@@ -117,7 +116,7 @@ void XServer::eventLoop()
 			break;
 
 		default:
-			log.verb("[Window Manager]: dropped event of type \"" +
+			log.verb("[XServerBackend]: dropped event of type \"" +
 			         std::to_string(event.type) + "\"");
 		}
 	}

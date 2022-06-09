@@ -1,15 +1,17 @@
+#pragma once
 /**
  * @file Workspace.h
  * @author Andrew Hanson, Christen Spadevechia, Travis McKinney (you@domain.com)
  */
 
-#pragma once
 
-#include "WindowNode.h"
-#include "WindowTree.h"
 #include "types.h"
 #include "ServerInterface.h"
 #include "WindowTreeInterface.h"
+
+#include "LemonFir.h"
+#include "MasterStack.h"
+#include "HeapTree.h"
 
 #include <memory>
 
@@ -24,55 +26,39 @@ public:
 	/**
 	 * @brief Construct a new Workspace object
 	 */
-	Workspace(ServerInterface* server, WindowTreeInterface* mtree = nullptr);
-
-	void setHeight(int height);
-
-	void setWidth(int width);
-
-	void setPosition(Point position);
-
-	bool addWindow(int windowID, double part1Size);
-
-	bool removeWindow(int windowID);
-
-	/// operator to allow using sorted containers
-	bool operator<(Workspace& other);
-
-	int getHeight() const;
-
-	int getWidth() const;
-
-	Point getPosition() const;
-
-	int getNumWindows() const;
+	Workspace(ServerInterface* server, long screenID);
 
 	void render();
+
+	void addWindow(long windowID);
+
+	void remWindow(long windowID);
+
+	void rotateSplit(long windowID);
+
+	void resize(Area area);
+
+	void setLayoutMode(ev::TreeMode mode);
+
+	std::vector<ev::TreeMode> getAvailableModes();
+
+	ev::TreeMode getActiveMode();
 private:
 	// private attributes ------------------------------------
 
-	/// a pointer to the window tree
-	WindowTree* tree;
-	WindowTreeInterface* metaTree;
+	/// window tree ptrs
+	std::unordered_map<ev::TreeMode, WindowTreeInterface*> windowTrees;
 
-	/// the height of the workspace
-	int height;
+	/// the size of the workspace
+	Area area;
 
-	/// the width of the workspace
-	int width;
-
-	int workspaceID;
-
-	/// the number of windows in the workspace
-	int numWindows;
-
-	/// a point representing the position of the top left corner of the workspace
-	Point position;
-
+	/// the ServerInterface that the workspace will render to
 	ServerInterface* server;
 
+	/// the layout that is currently active
+	ev::TreeMode treeLayoutMode;
+
 	// private methods ---------------------------------------
-	void renderTree(WindowNode* node, Area bounds);
 };
 
 bool operator<(std::shared_ptr<Workspace>& a, std::shared_ptr<Workspace>& b);

@@ -42,6 +42,10 @@ void DisplayServerSDL::run()
 			}
 			break;
 
+		case SDL_MOUSEBUTTONDOWN:
+		clickHandler(e);
+			break;
+
 		default:
 			std::cout << "DisplayServerSDL::run: dropped event of type ["
 			          << std::to_string(e.type) << "]" << std::endl;
@@ -80,25 +84,65 @@ DisplayServerSDL::DisplayServerSDL(InitHandlerFn initFn, EventHandlerFn eventFn)
 {
 }
 
-DisplayServerSDL::~DisplayServerSDL() {}
-
-Area DisplayServerSDL::getArea(long windowID) {
-	for (int i = 0; i < screens.size(); i++){
-		if(screens[i]->hasWindow(windowID)){
-
-		}
+DisplayServerSDL::~DisplayServerSDL() {
+	for (ServerScreenSDL* screen : screens){
+		delete screen;
 	}
 
 }
 
-void DisplayServerSDL::setArea(long windowID, Area area) {}
+Area DisplayServerSDL::getArea(long windowID) {
+	for (int i = 0; i < screens.size(); i++){
+		if(screens[i]->hasWindow(windowID)){
+			return screens[i]->getArea(windowID);
+		}
+	}
+}
 
-std::vector<long> DisplayServerSDL::getScreens() {}
+void DisplayServerSDL::setArea(long windowID, Area area) {
+	for (int i = 0; i < screens.size(); i++){
+		if(screens[i]->hasWindow(windowID)){
+			return screens[i]->setArea(windowID, area);
+		}
+	}
+	throw std::string("[DisplayServerSDL] No window with ID "
+		+ std::to_string(windowID) + "exists");
+}
 
-std::vector<long> DisplayServerSDL::getWindows(long screenID) {}
+std::vector<long> DisplayServerSDL::getScreens() {
+	std::vector<long> screenIDs;
+	for(ServerScreenSDL* screen : screens) {
+		screenIDs.push_back(screen->getScreenID());
+	}
+	return screenIDs;
+}
 
-Area DisplayServerSDL::getScreenSize(long screenID) {}
+std::vector<long> DisplayServerSDL::getWindows(long screenID) {
+	for (int i = 0; i < screens.size(); i++){
+		if(screens[i]->getScreenID() == screenID){
+			return screens[i]->getWindows();
+		}
+	}
 
-void DisplayServerSDL::setInitCallback(InitHandlerFn fn) {}
+	throw std::string("[DisplayServerSDL] No screen with ID "
+		+ std::to_string(screenID) + "exists");
+}
 
-void DisplayServerSDL::setEventCallback(EventHandlerFn fn) {}
+Area DisplayServerSDL::getScreenSize(long screenID) {
+	for (int i = 0; i < screens.size(); i++){
+		if(screens[i]->getScreenID() == screenID){
+			return screens[i]->getScreenSize();
+		}
+	}
+
+	throw std::string("[DisplayServerSDL] No screen with ID "
+		+ std::to_string(screenID) + "exists");
+}
+
+void DisplayServerSDL::setInitCallback(InitHandlerFn fn) {
+	initFunc = fn;
+}
+
+void DisplayServerSDL::setEventCallback(EventHandlerFn fn) {
+	handlerFunc = fn;
+}
