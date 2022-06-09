@@ -36,6 +36,8 @@ enum class EventType {
 	FOCUS,         // A window was focused.
 	KEY,           // A key was pressed
 	MOUSE,         // A mouse was moved
+	SWAP_WINDOWS,  // Swap window placement.
+	MOVE_WINDOW,   // Move window request
 	SWITCH_LAYOUT, // Layout switch request
 	RESIZE,        // The screen was resized.
 	ROTATE_SPLIT,  // Rotate the split orientation
@@ -64,6 +66,18 @@ struct Key {
 
 struct Mouse {
 	int atributeD;
+};
+
+struct SwapWindows {
+	long winA;
+	long winB;
+};
+
+enum class Direction { UP, DOWN, LEFT, RIGHT, CENTER };
+
+struct MoveWindow {
+	long windowID;
+	Direction dir;
 };
 
 enum class TreeMode {
@@ -97,6 +111,8 @@ struct Event {
 		FocusWindow focus;
 		Key key;
 		Mouse mouse;
+		SwapWindows swap;
+		MoveWindow move;
 		SwitchLayout layout;
 		RotateSplit rotate;
 		Resize resize;
