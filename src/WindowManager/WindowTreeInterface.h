@@ -20,27 +20,29 @@ public:
 	 * @param server The tree calls methods of this server to
 	 * update the window positions and size.
 	 */
-	virtual void render(ServerInterface* server) = 0;
+	virtual void render(ServerInterface* server)         = 0;
 	/**
 	 * @brief Tell the tree to manage a window's layout.
 	 * @param windowID A window ID.
 	 */
-	virtual void addWindow(long windowID)        = 0;
+	virtual void addWindow(long windowID)                = 0;
 	/**
 	 * @brief Tell the tree to stop managing a window's layout.
 	 * @param windowID A window ID.
 	 */
-	virtual void remWindow(long windowID)        = 0;
+	virtual void remWindow(long windowID)                = 0;
 	/**
 	 * @brief Reverse the split angle of this windows parent.
 	 * @param windowID A window ID.
 	 */
-	virtual void rotateSplit(long windowID)      = 0;
+	virtual void rotateSplit(long windowID)              = 0;
 	/**
 	 * @brief I have no idea.
 	 * @param area A space, a place, a time...
 	 */
-	virtual void resize(Area area)               = 0;
+	virtual void resize(Area area)                       = 0;
+
+	virtual void swapWindows(long windowA, long windowB) = 0;
 	// /**
 	//  * @brief Set the Screen this tree renders to.
 	//  * @param screenID A screen ID.

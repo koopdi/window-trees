@@ -7,6 +7,10 @@
 
 using namespace std;
 
+void HeapTree::swapWindows(long windowA, long windowB){
+
+}
+
 void HeapTree::rotateSplit(long windowID) { /*do nothing*/ }
 
 HeapTree::HeapTree() {

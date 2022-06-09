@@ -1,5 +1,9 @@
 #include "MasterStack.h"
 
+void MasterStack::swapWindows(long windowA, long windowB){
+
+}
+
 MasterStack::MasterStack(ServerInterface* server, Area area) : server(server), area(area),
 	vertical(true), numWindows(0), masterSize(area.width/2), head(nullptr), tail(nullptr){}
 

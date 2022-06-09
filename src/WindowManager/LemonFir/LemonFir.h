@@ -54,6 +54,8 @@ public:
 
 	virtual void rotateSplit(long windowID) override;
 
+	virtual void swapWindows(long windowA, long windowB) override;
+
 private:
 	/// A pointer to the server.
 	ServerInterface* server;
@@ -93,5 +95,4 @@ private:
 	// NodePtr getParent(NodePtr target);
 	// /// find the parent of this node
 	// NodePtr getParent(NodePtr node, NodePtr target);
-
 };

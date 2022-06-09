@@ -103,6 +103,10 @@ void LemonFir::rotateSplit(long windowID)
 	}
 }
 
+void LemonFir::swapWindows(long windowA, long windowB){
+
+}
+
 void LemonFir::resize(Area area)
 {
 	cout << "LemonFir, got resize event, does nothing." << endl;
