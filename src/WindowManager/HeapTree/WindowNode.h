@@ -5,12 +5,10 @@
  * @author Andrew Hanson, Christen Spadevechia, Travis McKinney
  */
 
-
-#include <unordered_set>
 #include "types.h"
+#include <unordered_set>
 
-struct WindowPane
-{
+struct WindowPane {
 	std::unordered_set<int> tags;
 	int windowID;
 
@@ -20,8 +18,7 @@ struct WindowPane
 	bool removeTag(int tag);
 };
 
-struct WindowNode
-{
+struct WindowNode {
 	bool partVertically;
 	double part1Size;
 	WindowPane window;
@@ -36,10 +33,9 @@ struct WindowNode
 struct HeapWindow {
 	Area area;
 	WindowNode* node;
+	HeapWindow(const HeapWindow&) = delete;
 
 	~HeapWindow();
 	HeapWindow(int windowID = -1, int workspaceID = -1);
-	HeapWindow (WindowNode* node);
-
-
+	HeapWindow(WindowNode* node);
 };
