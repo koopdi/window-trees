@@ -36,7 +36,7 @@ enum class EventType {
 	KEY,           /*A key was pressed*/
 	MOUSE,         /*A mouse was moved */
 	SWITCH_LAYOUT, /*Layout switch request*/
-	RESIZE,
+	RESIZE,        /*The screen was resized.*/
 	ROTATE_SPLIT,  /*Rotate the split orientation*/
 	OTHER,         /*Backend specific*/
 	GARBAGE        /*Unhandled*/
@@ -76,7 +76,7 @@ struct SwitchLayout {
 };
 
 struct RotateSplit {
-	long windowID;
+	long winID;
 };
 
 struct Resize {

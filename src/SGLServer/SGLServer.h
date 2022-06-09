@@ -22,7 +22,6 @@
  * on the active workspace.
  *
  * \todo emit window focus event when a window is selected
- * \todo emit resize event when the display is resized
  */
 class SGLServer : public ServerInterface
 {

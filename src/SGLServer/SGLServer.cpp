@@ -136,7 +136,7 @@ void SGLServer::evRotate(long windowID)
 	// create rotate event
 	ev::Event* evRot       = new ev::Event;
 	evRot->type            = ev::EventType::ROTATE_SPLIT;
-	evRot->rotate.windowID = windowID;
+	evRot->rotate.winID = windowID;
 	evRot->screenID        = 99;
 	// send rotate event to event handler
 	evFun(evRot);
