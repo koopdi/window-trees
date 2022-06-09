@@ -32,6 +32,11 @@ Split* getSplit(NodePtr);
 /// Get a pointer to the stored Pane object.
 Pane* getPane(NodePtr);
 
+/// Get a pointer to the stored split object.
+Split* getSplit(NodePtr*);
+/// Get a pointer to the stored Pane object.
+Pane* getPane(NodePtr*);
+
 struct LemonFirNode {
 	/// A tag to make runtime type inference easy.
 	const std::string_view& type;
