@@ -95,4 +95,9 @@ void MasterStack::resize(Area area){
 
 void MasterStack::rotateSplit(long windowID){
 	vertical = !vertical;
+	if(vertical){
+		masterSize = area.width/2;
+	} else {
+		masterSize = area.height/2;
+	}
 }
