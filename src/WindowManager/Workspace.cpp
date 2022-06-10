@@ -79,16 +79,9 @@ void Workspace::setLayoutMode(ev::TreeMode mode)
 			currLayout = windowTrees.begin();
 		}
 		treeLayoutMode = currLayout->first;
+	} else {
+		treeLayoutMode = mode;
 	}
-	// 	if (iter != windowTrees.end() && ++iter != windowTrees.end()) {
-	// 		mode = (*windowTrees.begin()).first;
-	// 	} else {
-	// 		mode = (*windowTrees.begin()).first;
-	// 	}
-
-	// } else {
-	// 	treeLayoutMode = mode;
-	// }
 }
 
 std::vector<ev::TreeMode> Workspace::getAvailableModes(){
