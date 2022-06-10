@@ -92,7 +92,8 @@ private:
 	 */
 	NodePtr* getParent(NodePtr* node, long targetID);
 
-	PanePtr* getTreePane(long windowID);
+	NodePtr* getTreePane(long targetID);
+	NodePtr* getTreePane(NodePtr* node, long targetID, long cycles = 0);
 
 	// /// find the parent of this node
 	// NodePtr getParent(NodePtr target);

@@ -103,34 +103,35 @@ void LemonFir::rotateSplit(long windowID)
 	}
 }
 
-void LemonFir::swapWindows(long windowA, long windowB){
-	// NodePtr* nodeA = getParent(windowA);
-	// NodePtr* nodeB = getParent(windowB);
-	// if(nodeA && nodeB){
-	// 	cout << "Proceding to swap A: ";
-	// 	cout << windowA << ", B: " << windowB << endl;
+void LemonFir::swapWindows(long windowA, long windowB)
+{
+	NodePtr* nodeA = getTreePane(windowA);
+	NodePtr* nodeB = getTreePane(windowB);
 
-	// 	PanePtr temp;
-	// 	PanePtr pA = getPane()
-	// }
+	if (nodeA && nodeB) {
+		Pane* paneA = getPane(nodeA);
+		Pane* paneB = getPane(nodeB);
+		if (paneA && paneB) {
+			nodeA->swap(*nodeB);
+		}
+	}
 }
 
-void LemonFir::swapGroups(long windowA, long windowB){
+void LemonFir::swapGroups(long windowA, long windowB)
+{
 	NodePtr* nodeA = getParent(windowA);
 	NodePtr* nodeB = getParent(windowB);
-	if(nodeA && nodeB){
-		cout << "Proceding to swap A: ";
-		cout << windowA << ", B: " << windowB << endl;
+	if (nodeA && nodeB) {
+		// cout << "Proceding to swap A: ";
+		// cout << windowA << ", B: " << windowB << endl;
 
-		NodePtr* temp = nodeA;
-		*nodeA = *nodeB;
-		*nodeB = *temp;
+		nodeA->swap(*nodeB);
 	}
 }
 
 void LemonFir::resize(Area area)
 {
-	cout << "LemonFir, got resize event, does nothing." << endl;
+	// cout << "LemonFir, got resize event, does nothing." << endl;
 }
 
 // Private Methods -----------------------------------------
@@ -218,7 +219,7 @@ void LemonFir::remove(NodePtr& node, long targetID)
 {
 	if (Pane* p = getPane(node)) {
 		if (p->windowID == targetID) {
-			cout << "LemonFir: Removing last pane. ID # " << p->windowID << endl;
+			// cout << "LemonFir: Removing last pane. ID # " << p->windowID << endl;
 			node = nullptr;
 		}
 	}
@@ -292,7 +293,38 @@ NodePtr* LemonFir::getParent(NodePtr* node, long targetID)
 	}
 }
 
-PanePtr* LemonFir::getTreePane(long windowID)
+NodePtr* LemonFir::getTreePane(long targetID)
 {
+	// cout << "getTreePane targetID: " << targetID << endl;
+	getTreePane(&tree, targetID);
+}
 
+NodePtr* LemonFir::getTreePane(NodePtr* node, long targetID, long cycles)
+{
+	if (!node) {
+		// cout << "Returning null, cycles: " << cycles << endl;
+		return nullptr;
+	}
+
+	if (Pane* p = getPane(node)) {
+		if (p->windowID == targetID) {
+			// cout << "Found the target, cycles: " << cycles << endl;
+			return node;
+		} else {
+			return nullptr;
+		}
+	}
+
+	if (Split* s = getSplit(node)) {
+		NodePtr* left = getTreePane(&s->left, targetID, ++cycles);
+		if (left) {
+			return left;
+		} else {
+			return getTreePane(&s->right, targetID, ++cycles);
+		}
+	}
+
+	// cout << "This should not execute" << endl;
+
+	return nullptr;
 }

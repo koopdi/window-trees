@@ -52,6 +52,7 @@ Split* getSplit(NodePtr* node)
 Pane* getPane(NodePtr* node)
 {
 	if (node) {
+		// cout << "(*node).unique:" << std::boolalpha << (*node).unique() << endl;
 		return dynamic_cast<Pane*>(node->get());
 	} else {
 		return nullptr;

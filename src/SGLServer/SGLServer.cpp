@@ -234,21 +234,20 @@ void SGLServer::menuEv(sgl::GEvent e)
 			evFun(evSwitch);
 			delete evSwitch;
 
-		} else if (action == "toolbar/Swap Group") { // SWAP_WINDOWS
+		} else if (action == "toolbar/Swap Windows") { // SWAP_WINDOWS
 			ev::Event* evSwap = new ev::Event;
 			evSwap->type      = ev::EventType::SWAP_WINDOWS;
 			evSwap->screenID  = 99;
 
-			if (!dropDown->isEmpty()) {
+			if (dropDown->getItemCount() > 1) {
 				evSwap->swap.winA = stol(dropDown->getItem(0));
 				evSwap->swap.winB = stol(dropDown->getSelectedItem());
+				// cout << "sending swap event" << endl;
+				evFun(evSwap);
+				delete evSwap;
 			} else {
-				evSwap->swap.winA = 0;
-				evSwap->swap.winB = 0;
+				// cout << "NOT sending swap event" << endl;
 			}
-
-			evFun(evSwap);
-			delete evSwap;
 		}
 	}
 }
@@ -313,7 +312,7 @@ void SGLServer::addButtons()
 	win.addToolbarItem("Add");
 	win.addToolbarItem("Remove");
 	win.addToolbarItem("Switch Layout");
-	win.addToolbarItem("Swap Group");
+	win.addToolbarItem("Swap Windows");
 
 	// Add a divider between the novelty placeholders.
 	win.addToolbarSeparator();
