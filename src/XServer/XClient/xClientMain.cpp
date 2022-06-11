@@ -19,39 +19,19 @@ int main()
       		winMan->update(*event);
 		};
 
+		// Tell the server what function to call on initialization
 		InitHandlerFn initFun = [&winMan](ServerInterface* server) {
       		winMan->init();
 		};
 
+		//actually set init and event callbacks
 		server->setInitCallback(initFun);
 		server->setEventCallback(evFun);
 
+		// Start the X Server Backend event loop
 		server->run();
 
 	} catch (std::string error) {
 		std::cout << error << std::endl;
 	}
-
-
-// #ifdef _DEBUG_PRINT_
-// 	std::cout << "new windowManager()" << std::endl;
-// #endif
-
-// 	ServerInterface* server = new XServer();
-// 	WindowManager winMan(server);
-
-// #ifdef _DEBUG_PRINT_
-// 	std::cout << "run" << std::endl;
-// #endif
-
-// 	EventHandlerFn handlerFunc = [&winMan](ev::Event* event)
-// 	{ winMan.update(*event); };
-
-// 	server->setEventCallback(handlerFunc);
-
-// 	server->run();
-
-// #ifdef _DEBUG_PRINT_
-// 	std::cout << "return(0)" << std::endl;
-// #endif
 }
