@@ -18,7 +18,7 @@ void MasterStack::render(MasterStackNode* node, int cumOffset, int depth){
 				(int)((area.height / stackedWindows) + rem)}
 			);
 		} else {
-			rem = ceil(1.0 * area.height / stackedWindows) - (int)(area.height / stackedWindows);
+			rem = ceil(1.0 * area.width / stackedWindows) - (int)(area.width / stackedWindows);
 			server->setArea(node->windowID,
 				{depth * (area.width / stackedWindows) + cumOffset,
 				masterSize,
