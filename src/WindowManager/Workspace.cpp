@@ -12,7 +12,7 @@ Workspace::Workspace(ServerInterface* server, long screenID)
 	// windowTrees[ev::TreeMode::HEAP] = new HeapTree(server);
 }
 
-void Workspace::render() { windowTrees[treeLayoutMode]->render(server); }
+void Workspace::render() { windowTrees.at(treeLayoutMode)->render(server); }
 
 void Workspace::addWindow(long windowID)
 {
@@ -32,7 +32,7 @@ void Workspace::remWindow(long windowID)
 
 void Workspace::rotateSplit(long windowID)
 {
-	windowTrees[treeLayoutMode]->rotateSplit(windowID);
+	windowTrees.at(treeLayoutMode)->rotateSplit(windowID);
 }
 
 void Workspace::resize(Area area)
@@ -44,7 +44,7 @@ void Workspace::resize(Area area)
 
 void Workspace::swapWindows(long windowA, long windowB)
 {
-	windowTrees[treeLayoutMode]->swapWindows(windowA, windowB);
+	windowTrees.at(treeLayoutMode)->swapWindows(windowA, windowB);
 }
 
 void Workspace::setLayoutMode(ev::TreeMode mode)
