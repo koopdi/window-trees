@@ -6,58 +6,38 @@
 #include "WindowNode.h"
 #include <iostream>
 
-HeapWindow::HeapWindow (int windowID, int workspaceID)
+HeapWindow::HeapWindow(int windowID, Area area)
 {
-	this->node = new WindowNode(windowID, workspaceID);
+	this->windowID = windowID;
+	this->area = area;
+	this->left = nullptr;
+	this->right = nullptr;
+
+	std::cout << "new Window:" << windowID << " area: " << "(" << area.x << ",";
+	std::cout << area.x + area.width << ")x(" << area.y << ",";
+	std::cout << area.y + area.height << ")" << std::endl;
 }
 
-HeapWindow::HeapWindow (WindowNode* node)
+HeapWindow::HeapWindow
+(
+	bool partVertically,
+	int part1Size,
+	HeapWindow* left,
+	HeapWindow* right
+)
 {
-	this->node = node;
+	this->partVertically = partVertically;
+	this->part1Size = part1Size;
+	this->left = left;
+	this->right = right;
+	this->area = Area{0,0,0,0};
+	this->windowID = -1;
+
+	std::cout << "new Window:" << windowID << " area: " << "(" << area.x << ",";
+	std::cout << area.x + area.width << ")x(" << area.y << ",";
+	std::cout << area.y + area.height << ")" << std::endl;
 }
 
-WindowNode::WindowNode(int windowID, int workspaceID)
-{
-	std::cout << "WindowNode Constructor" << std::endl;
-	this->window = WindowPane(windowID, workspaceID);
-	this->part1 = nullptr;
-	this->part2 = nullptr;
-	partVertically = 0;
-	part1Size = 50;
-}
-
-/**
- * @brief Construct a new Window Pane object
- * @param windowID The ID of the window to place in this pane.
- * @param workspaceID The ID of the workspace to place this pane on.
- */
-WindowPane::WindowPane(int windowID, int workspaceID) : windowID(windowID)
-{
-	addTag(workspaceID);
-}
-
-bool WindowPane::hasTag(int tag) { return tags.count(tag); }
-
-bool WindowPane::addTag(int tag)
-{
-	tags.insert(tag);
-	return hasTag(tag);
-}
-
-bool WindowNode::isWindow() {
-	return window.windowID != -1;
-}
-
-bool WindowPane::removeTag(int tag)
-{
-	tags.erase(tag);
-	return !hasTag(tag);
-}
-
-HeapWindow::~HeapWindow()
-{
-	if (node != nullptr)
-	{
-		delete node; // no memory leaks
-	}
+bool HeapWindow::isWindow() const {
+  return windowID != -1;
 }
