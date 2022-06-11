@@ -69,7 +69,7 @@ class Logger {
 		std::ostream& out;
 		LogLevel level;
 	public:
-	Logger(std::ostream& out = std::cout, LogLevel level = LogLevel::INFO);
+	Logger(std::ostream& out = std::cout, LogLevel level = LogLevel::VERBOSE);
 	void erro(std::string msg);
 	void warn(std::string msg);
 	void info(std::string msg);
