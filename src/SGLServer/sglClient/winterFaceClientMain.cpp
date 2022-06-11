@@ -6,6 +6,10 @@
 
 using namespace std;
 
+// Global logger object.
+Logger loggy(std::cout, LogLevel::VERBOSE);
+
+
 int main()
 {
 	try { // Create an X Server for the Window Manager to interface with.
