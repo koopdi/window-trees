@@ -1,11 +1,18 @@
 #include "SGLServer.h"
 #include "gchooser.h"
 #include "gobjects.h"
+#include "Logger.h"
 #include <string>
 using namespace std;
 
+// Global logger object, INSTANTIATED IN MAIN.
+extern Logger loggy;
+
+
 SGLServer::SGLServer()
 {
+	loggy.verb("LOGGY IS IN SGL SERVER!");
+
 	using sgl::GEvent;
 	using sgl::GWindow;
 
