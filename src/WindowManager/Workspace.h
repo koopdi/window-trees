@@ -1,7 +1,7 @@
 #pragma once
 /**
  * @file Workspace.h
- * @author Andrew Hanson, Christen Spadevechia, Travis McKinney (you@domain.com)
+ * @author Andrew Hanson, Christen Spadevechia, Travis McKinney
  */
 
 
@@ -62,6 +62,15 @@ private:
 	ev::TreeMode treeLayoutMode;
 
 	// private methods ---------------------------------------
+
+	/**
+	 * @brief Check if a layout is available on this workspace
+	 * and get a pointer to it.
+	 * @param mode The name of the layout.
+	 * @return WindowTreeInterface* a pointer to the layout or
+	 * nullptr if the layout is not found.
+	 */
+	WindowTreeInterface* getTree(ev::TreeMode mode);
 };
 
 bool operator<(std::shared_ptr<Workspace>& a, std::shared_ptr<Workspace>& b);
