@@ -30,7 +30,7 @@ ev::Event XServer::convertXEvent(XEvent& xEv){
 		case ButtonPress:
 		case ButtonRelease:
 		ev.type = ev::EventType::MOUSE;
-		log.warn("Shitty mouse event conversion in convertXEvent");
+		log.warn("Unideal mouse event conversion in convertXEvent");
 		break;
 
 		case KeyPress:
@@ -38,7 +38,7 @@ ev::Event XServer::convertXEvent(XEvent& xEv){
 		ev.type = ev::EventType::KEY;
 		ev.key.isUpEv = xEv.xkey.state; //maybe
 		ev.key.winID = xEv.xkey.window;
-		log.warn("Shitty key event conversion in convertXEvent");
+		log.warn("Unideal key event conversion in convertXEvent");
 		break;
 
 		default:
@@ -52,6 +52,9 @@ ev::Event XServer::convertXEvent(XEvent& xEv){
 
 void XServer::run()
 { //														HALF IMPLEMENTED
+	log.warn("The X backend is intended as a proof of concept");
+	log.info("The X backend will not work for any windows that have children");
+
 	XSelectInput(display,
 	             DefaultRootWindow(display),
 	             SubstructureRedirectMask |
@@ -122,8 +125,36 @@ void XServer::eventLoop()
 	}
 }
 
-XServer::XServer() : log(Logger())
+
+XErrorHandler XServer::getXErrorHandler(){
+	XErrorHandler evh = [](Display* display, XErrorEvent* error){
+		char txtBuff[errorSize];
+		Logger logger;
+
+		XGetErrorText(display, error->error_code, txtBuff, errorSize);
+		logger.warn(std::string(txtBuff));
+
+		switch (error->error_code){
+		case BadWindow:
+			logger.info("An invalid windowID reached the X Backend");
+		break;
+
+		case BadAccess:
+			logger.exit("Failed to bind to X Server");
+		break;
+
+		default:
+			logger.exit("This type of error is either unrecoverable or not in scope to be handled");
+		}
+
+		return 0;
+	};
+	return evh;
+}
+
+XServer::XServer()
 {
+	Logger log = Logger(std::cout, LogLevel::VERBOSE);
 	log.info("---Using X Server Backend---");
 
 	log.verb("Getting $DISPLAY environment variable...");
@@ -151,6 +182,8 @@ XServer::XServer() : log(Logger())
 	{
 		screens.push_back(XScreenOfDisplay(display, i));
 	}
+
+	XSetErrorHandler(getXErrorHandler());
 }
 
 XServer::XServer(InitHandlerFn initFn, EventHandlerFn eventFn)

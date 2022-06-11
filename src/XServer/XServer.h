@@ -32,6 +32,7 @@ private:
 	int defaultScreeen;
 	std::vector<Screen*> screens;
 	std::unordered_map<Screen*, std::set<Window>> windowsPerScreenById;// map Screen* to windows
+	const static int errorSize = 512;
 
 	std::unordered_set<long> windows;
 
@@ -40,8 +41,8 @@ private:
 	bool running = true; // is this bad style?
 
 	void setXAttribute(unsigned int bitmask);
-
 	ev::Event convertXEvent(XEvent& xEv);
+	XErrorHandler getXErrorHandler();
 
 	void addWindow(Screen* screen, Window w);
 	void removeWindow(Screen* screen, Window w);
