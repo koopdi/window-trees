@@ -100,3 +100,12 @@ std::vector<ev::TreeMode> Workspace::getAvailableModes(){
 ev::TreeMode Workspace::getActiveMode(){
 	return treeLayoutMode;
 }
+
+WindowTreeInterface* Workspace::getTree(ev::TreeMode mode){
+	auto tree = windowTrees.find(mode);
+	if(tree != windowTrees.end()){
+		return tree->second;
+	} else {
+		return nullptr;
+	}
+}
