@@ -13,10 +13,18 @@
 /**
  * @brief Provide an xserver backend to the server interface API.
  *
+ * XServer extends the abstract ServerInterface class and implements its virtual methods.
+ * This window server uses XLib to tap into events from an X server and forward them to
+ * the window manager.
+ *
+ * THIS BACKEND IS A PROOF OF CONCEPT TO SHOW THAT A REAL WORLD BACKEND IS POSSIBLE WITH
+ * THE ABSTRACTIONS PROVIDED BY SERVERINTERFACE. A STABLE X BACKEND IS NOT IN SCOPE (for now).
+ * As such, this backend is subject to strange behavior, does not support applications that
+ * spawn X sub windows (most applications), and consequently mostly only supports a couple
+ * terminal emulators.
  */
 
 #include <X11/Xlib.h>
-// #include <X11/extensions/randr.h>
 #include <X11/extensions/Xrandr.h>
 
 /**
