@@ -1,6 +1,13 @@
 #include "XServer.h"
 
-
+/**
+ * @brief Provide an implementation for the methods defined in XServer.h
+ * Most notable functions:
+ * -ctor - connects to X
+ * -run - enters eventLoop
+ * -eventLoop - handles events from the X server and informs the WM when necessary
+ * -convertXEvent - converts events from XEvents to our internal event type
+ */
 ev::Event XServer::convertXEvent(XEvent& xEv){
 	ev::Event ev;
 
@@ -118,30 +125,31 @@ void XServer::eventLoop()
 }
 
 
-XErrorHandler XServer::getXErrorHandler(){
-	XErrorHandler evh = [](Display* display, XErrorEvent* error){
-		char txtBuff[errorSize];
-		Logger logger;
 
-		XGetErrorText(display, error->error_code, txtBuff, errorSize);
-		logger.warn(std::string(txtBuff));
+int XServer::XErrorHandlerFn(Display* display, XErrorEvent* error){
+	char txtBuff[errorSize];
+	Logger logger;
 
-		switch (error->error_code){
-		case BadWindow:
-			logger.info("An invalid windowID reached the X Backend");
-		break;
+	XGetErrorText(display, error->error_code, txtBuff, errorSize);
+	logger.warn(std::string(txtBuff));
 
-		case BadAccess:
-			logger.exit("Failed to bind to X Server");
-		break;
+	switch (error->error_code){
+	case BadWindow:
+		logger.info("An invalid windowID reached the X Backend");
+	break;
 
-		default:
-			logger.exit("This type of error is either unrecoverable or not in scope to be handled");
-		}
+	case BadAccess:
+		logger.verb("BadAccess is often reported on failure to bind to the X server");
+		logger.verb("Is an X server running on the correct display?");
+		logger.verb("TIP: relaunch the X server and this program");
+		logger.exit("Failed to gain access to critical X resource");
+	break;
 
-		return 0;
-	};
-	return evh;
+	default:
+		logger.exit("This type of error is either unrecoverable or not in scope to be handled");
+	}
+
+	return 0;
 }
 
 XServer::XServer()
@@ -175,7 +183,7 @@ XServer::XServer()
 		screens.push_back(XScreenOfDisplay(display, i));
 	}
 
-	XSetErrorHandler(getXErrorHandler());
+	XSetErrorHandler(&XErrorHandlerFn);
 }
 
 XServer::XServer(InitHandlerFn initFn, EventHandlerFn eventFn)
@@ -221,8 +229,7 @@ std::vector<long> XServer::getScreens()
 }
 
 std::vector<long> XServer::getWindows(long screenID)
-{ // NOT FUNCTIONAL?
-	log.erro("XServer::getWindows() does not support functioning.");
+{
 	TreeQueryResult qry;
 	Screen* screen = XScreenOfDisplay(
 	    display,

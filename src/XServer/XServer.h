@@ -13,10 +13,6 @@
 /**
  * @brief Provide an xserver backend to the server interface API.
  *
- * XServer extends the abstract ServerInterface class and implements its virtual methods.
- * This window server uses XLib to tap into events from an X server and forward them to
- * the window manager.
- *
  * THIS BACKEND IS A PROOF OF CONCEPT TO SHOW THAT A REAL WORLD BACKEND IS POSSIBLE WITH
  * THE ABSTRACTIONS PROVIDED BY SERVERINTERFACE. A STABLE X BACKEND IS NOT IN SCOPE (for now).
  * As such, this backend is subject to strange behavior, does not support applications that
@@ -27,33 +23,42 @@
 #include <X11/Xlib.h>
 #include <X11/extensions/Xrandr.h>
 
-/**
- * @brief An implementation of the server interface.
+/** @brief
  *
- */
-
+ * XServer extends the abstract ServerInterface class and implements its virtual methods.
+ * This window server uses XLib to tap into events from an X server and forward them to
+ * the window manager.
+*/
 class XServer : public ServerInterface
 {
 private:
+	//stores a pointer to an X display
 	Display* display;
+	//stores the logger for XServer
 	Logger log;
+	//stores the index of the default X screen
 	int defaultScreeen;
+	//stores pointers to each screen
 	std::vector<Screen*> screens;
-	std::unordered_map<Screen*, std::set<Window>> windowsPerScreenById;// map Screen* to windows
+	//the max size for the char buffer for X11 errors
 	const static int errorSize = 512;
-
+	//stores the set of windows that exist on the X Server (helps prevent duplicate removes)
 	std::unordered_set<long> windows;
-
-	EventHandlerFn handlerFunc;
-	InitHandlerFn initFunc;
+	//if the event loop should continue
 	bool running = true; // is this bad style?
 
-	void setXAttribute(unsigned int bitmask);
-	ev::Event convertXEvent(XEvent& xEv);
-	XErrorHandler getXErrorHandler();
+	//function that is called to handle events
+	EventHandlerFn handlerFunc;
+	//function that is called to handle initialization
+	InitHandlerFn initFunc;
 
-	void addWindow(Screen* screen, Window w);
-	void removeWindow(Screen* screen, Window w);
+	//converts X11 events to the internal event type
+	ev::Event convertXEvent(XEvent& xEv);
+	//handles X11 errors when they arise (bound in ctor)
+	//signature determined by XErrorHandler type
+	static int XErrorHandlerFn(Display* display, XErrorEvent* error);
+
+	//waits on events from the X server
 	void eventLoop();
 
 public:
