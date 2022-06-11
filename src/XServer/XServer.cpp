@@ -1,5 +1,5 @@
 #include "XServer.h"
-using namespace std;
+
 struct TreeQueryResult
 {
 	bool success;
@@ -43,7 +43,7 @@ ev::Event XServer::convertXEvent(XEvent& xEv){
 
 		default:
 		log.erro("BAD XEVENT CONVERSION");
-		throw string("Failed to convert XEvent");
+		throw std::string("Failed to convert XEvent");
 		break;
 	}
 	ev.screenID = defaultScreeen; //supports only one screen
