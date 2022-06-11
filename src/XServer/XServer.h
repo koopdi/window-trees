@@ -58,25 +58,36 @@ private:
 	//signature determined by XErrorHandler type
 	static int XErrorHandlerFn(Display* display, XErrorEvent* error);
 
-	//waits on events from the X server
+	//waits on events from the X server and processes them when they arise
 	void eventLoop();
+	//returns a default InitHandlerFn for XServer
+	InitHandlerFn getDefaultInitFn();
 
 public:
+	//returns the area of the window with the given windowID
 	virtual Area getArea(long windowID) override;
+	//sets the area of the window with the given windowID
 	virtual void setArea(long windowID, Area area) override;
+	//returns a vector of screen IDs (longs)
 	virtual std::vector<long> getScreens() override;
+	//returns a vector of windowIDs for a screen identified by a given screenID
 	virtual std::vector<long> getWindows(long screenID) override;
+	//returns the size of a screen identified by a given screenID
 	virtual Area getScreenSize(long screenID) override;
-
+	//sets the function to be called when window management is about to begin
 	virtual void setInitCallback(InitHandlerFn fn) override;
-
+	//sets the function to be called when events are recieved
+	//Note: this is usually a closure that calls an event handler method for a window manager class
 	virtual void setEventCallback(EventHandlerFn fn) override;
 
+	//sets up the event loop and then enteres it
 	virtual void run() override;
 
+	//constructs an XServer (ServerInterface backend)
 	XServer();
+	//constructs an XServer (ServerInterface backend) with the given init and event handlers
 	XServer(InitHandlerFn initFn, EventHandlerFn eventFn);
-
+	//cleans up the memory of an XServer (ServerInterface backend)
 	~XServer();
 };
 

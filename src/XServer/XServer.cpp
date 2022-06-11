@@ -60,18 +60,18 @@ void XServer::run()
 	                 SubstructureNotifyMask); // grab input from root window
 	                                          // //SINGLE HEAD ONLY
 
-	auto localLogVar = log;
-
-	initFunc = [this, localLogVar](ServerInterface* server)
-	{
-		Area area = server->getArea(DefaultRootWindow(display));
-		log.info("RESOLUTION:" + std::to_string(area.width) + "x" + std::to_string(area.height));
-	};
-
 	XGrabServer(display); // block X Server
 	initFunc(this);
 	XUngrabServer(display); // unblock X Server
 	eventLoop(); // enter event loop
+}
+
+InitHandlerFn XServer::getDefaultInitFn(){
+	return [this](ServerInterface* server)
+	{
+		Area area = server->getArea(DefaultRootWindow(display));
+		log.info("RESOLUTION:" + std::to_string(area.width) + "x" + std::to_string(area.height));
+	};
 }
 
 void XServer::eventLoop()
@@ -183,6 +183,7 @@ XServer::XServer()
 		screens.push_back(XScreenOfDisplay(display, i));
 	}
 
+	initFunc = getDefaultInitFn();
 	XSetErrorHandler(&XErrorHandlerFn);
 }
 
@@ -264,6 +265,4 @@ void XServer::setInitCallback(InitHandlerFn fn) { initFunc = fn; }
 XServer::~XServer()
 {
 	XCloseDisplay(display);
-	log.warn(
-	    "The current destructor in Xserver.cpp does not free any memory itself"); // review this fact
 }
