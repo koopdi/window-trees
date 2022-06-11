@@ -74,3 +74,13 @@ public:
 
 	~XServer();
 };
+
+//provides a type for storing XQueryTree results
+struct TreeQueryResult
+{
+	bool success;
+	Window root_return;
+	Window parent_return;
+	Window* children_return;
+	unsigned int nchildren_return;
+};

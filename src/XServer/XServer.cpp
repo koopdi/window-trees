@@ -1,13 +1,5 @@
 #include "XServer.h"
 
-struct TreeQueryResult
-{
-	bool success;
-	Window root_return;
-	Window parent_return;
-	Window* children_return;
-	unsigned int nchildren_return;
-};
 
 ev::Event XServer::convertXEvent(XEvent& xEv){
 	ev::Event ev;
