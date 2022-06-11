@@ -8,6 +8,8 @@
  * -eventLoop - handles events from the X server and informs the WM when necessary
  * -convertXEvent - converts events from XEvents to our internal event type
  */
+
+//creates and returns a new internal Event from a given XEvent&
 ev::Event XServer::convertXEvent(XEvent& xEv){
 	ev::Event ev;
 
@@ -49,6 +51,8 @@ ev::Event XServer::convertXEvent(XEvent& xEv){
 	return ev;
 }
 
+//initializes grabing of window events from X's root window
+//calls init and enters the event loop
 void XServer::run()
 { //														HALF IMPLEMENTED
 	log.warn("The X backend is intended as a proof of concept");
@@ -66,6 +70,7 @@ void XServer::run()
 	eventLoop(); // enter event loop
 }
 
+//returns a default InitHandlerFn so that this backend will function if no InitHandlerFn is set
 InitHandlerFn XServer::getDefaultInitFn(){
 	return [this](ServerInterface* server)
 	{
@@ -74,6 +79,8 @@ InitHandlerFn XServer::getDefaultInitFn(){
 	};
 }
 
+//X event loop; calls XServer::handlerFunc when events deemed important are intercepted
+//Note: automatically honnors MapRequest events (windows will appear as soon as they try to)
 void XServer::eventLoop()
 {
 	while (running)
@@ -125,7 +132,7 @@ void XServer::eventLoop()
 }
 
 
-
+//handler function for XLib errors (allows for recovery from some errors)
 int XServer::XErrorHandlerFn(Display* display, XErrorEvent* error){
 	char txtBuff[errorSize];
 	Logger logger;
@@ -152,6 +159,10 @@ int XServer::XErrorHandlerFn(Display* display, XErrorEvent* error){
 	return 0;
 }
 
+//constructs an XServer (X Server ServerInterface)
+//opens an X display with XLib
+//sets default initFunc
+//sets an XErrorHandler to allow recovery from recoverable errors
 XServer::XServer()
 {
 	Logger log = Logger(std::cout, LogLevel::VERBOSE);
@@ -187,6 +198,8 @@ XServer::XServer()
 	XSetErrorHandler(&XErrorHandlerFn);
 }
 
+//Constructs an XServer (interface) with a predefiend InitHandlerFn and EventHandlerFn
+//See other constructor for more info
 XServer::XServer(InitHandlerFn initFn, EventHandlerFn eventFn)
 {
 	handlerFunc = eventFn;
@@ -194,6 +207,7 @@ XServer::XServer(InitHandlerFn initFn, EventHandlerFn eventFn)
 	XServer();
 }
 
+//returns the area of the window with the given windowID
 Area XServer::getArea(long windowID)
 {
 	XWindowAttributes attrs;
@@ -201,11 +215,13 @@ Area XServer::getArea(long windowID)
 	return Area{attrs.x, attrs.y, attrs.width, attrs.height};
 }
 
+//returns the size of the screen with the given screenID
 Area XServer::getScreenSize(long screenID)
 {
 	return getArea(XRootWindowOfScreen(XScreenOfDisplay(display, screenID)));
 }
 
+//sets the dimensions of the window with the given windowID to the given area
 void XServer::setArea(long windowID, Area area)
 {
 	unsigned int areaBitmask = CWX | CWY | CWWidth | CWHeight;
@@ -218,17 +234,21 @@ void XServer::setArea(long windowID, Area area)
 	XConfigureWindow(display, (Window)windowID, areaBitmask, &changes);
 }
 
+//returns a vector of X screens on the current X Server
+//Note: XRandR is often used for multihead instead of multiple real X Screens
+//      this will only return actual X screens
 std::vector<long> XServer::getScreens()
 {
 	std::vector<long> screens;
 	int numScreens = ScreenCount(display);
 	for (int i = 0; i < numScreens; i++)
-	{ // I unironically have no idea
+	{ // screens are indexed serially in X
 		screens.push_back(i);
 	}
 	return screens;
 }
 
+//returns a vector of windowIDs on the screen with the given screenID
 std::vector<long> XServer::getWindows(long screenID)
 {
 	TreeQueryResult qry;
@@ -258,10 +278,13 @@ std::vector<long> XServer::getWindows(long screenID)
 	return windows;
 }
 
+//sets the function called when a convertable is produced by the X server
 void XServer::setEventCallback(EventHandlerFn fn) { handlerFunc = fn; }
 
+//sets the function to be called on initialization ( called during XServer::run() )
 void XServer::setInitCallback(InitHandlerFn fn) { initFunc = fn; }
 
+//cleans up memory after the XServer (ServerInterface Backend) is deleted
 XServer::~XServer()
 {
 	XCloseDisplay(display);
