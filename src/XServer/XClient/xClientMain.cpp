@@ -3,6 +3,11 @@
 #include "ServerInterface.h"
 #include "XServer.h"
 
+/** @brief
+ * Main for the X Server window manager backend
+ * Creates an "XServer" and a WindowManager, and sets up event callbacks, and starts the event loop
+*/
+
 
 #define _DEBUG_PRINT_
 
