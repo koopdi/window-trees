@@ -19,6 +19,30 @@ class Workspace;
 /**
  * @brief this class is a heap like tree that stores windows
  *
+ * 		nodes should be added in level order
+ * 		nodes should be removed such that the windows layout changes as little as possible
+ * 		a tree like this:
+ * 						-1
+ * 					/		\
+ * 				-1				1
+ * 			/		\
+ * 			0		2
+ *
+ * 		should look like this:
+ *
+ * 		-------------------------
+ * 		|			|			|
+ * 		|	0   	|	1   	|
+ * 		|			|			|
+ * 		|-----------|			|
+ * 		|			|			|
+ * 		|	2   	|			|
+ * 		|			|			|
+ * 		-------------------------
+ *
+ * 		if window 0 or 2 was removed then the other window
+ * 		would gain the full height and window 2 would stay where it was
+ *
  */
 class HeapTree : public WindowTreeInterface
 {
