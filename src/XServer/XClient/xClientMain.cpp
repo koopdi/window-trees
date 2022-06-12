@@ -7,6 +7,7 @@
  * Main for the X Server window manager backend
  * Creates an "XServer" and a WindowManager, and sets up event callbacks, and starts the event loop
 */
+		Logger glogger(std::cout, LogLevel::VERBOSE);
 
 
 #define _DEBUG_PRINT_
@@ -15,7 +16,6 @@
 int main()
 {
 	try { // Create an X Server for the Window Manager to interface with.
-		Logger glogger(std::cout, LogLevel::VERBOSE);
 		ServerInterface* server     = new XServer();
 		// Create a Window Manager.
 		// WindowManager* winMan = new WindowManager(server);
