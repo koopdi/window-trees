@@ -1,3 +1,13 @@
+/**
+ * @file LemonFir.cpp
+ * @author Travis McKinney (movonarvic@gmail.com)
+ * @brief This file contains method definitions for class LemonFir.
+ * See LemonFir.h for a high level overview.
+ * @version 0.1
+ * @date 06-11-2022
+ */
+
+
 #include "LemonFir.h"
 #include <iostream>
 #include <string>
@@ -183,7 +193,6 @@ void LemonFir::remove(NodePtr& node, long targetID)
 
 NodePtr* LemonFir::getParent(long targetID)
 {
-	// cout << "Aqcuiring parent Split." << endl;
 	return getParent(&tree, targetID);
 }
 
