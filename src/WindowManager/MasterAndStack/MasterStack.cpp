@@ -1,15 +1,23 @@
 #include "MasterStack.h"
-#include <cmath>
 
+/** @file MasterStack.cpp
+ * Provides implementations for the methods defined in MasterStack.h
+ * @author Christen Spadavecchia
+ * @date Spring 2022
+ * CS 133
+*/
 
+/// @brief swaps the id of 2 MasterStackNodes by windowID
 void MasterStack::swapWindows(long windowA, long windowB){
 
 }
 
-
+/// @brief ctor for MasterStack, takes a ServerInterface* and an area
 MasterStack::MasterStack(ServerInterface* server, Area area) : server(server), area(area),
 	vertical(true), numWindows(0), masterSize(area.width/2), head(nullptr), tail(nullptr){}
 
+/// @brief renders a linked list of MasterStackNodes by calling server->setArea on each node
+/// uses cumOffset (cumulative offset) and a depth int
 void MasterStack::render(MasterStackNode* node, int cumOffset, int depth){
 	if(node != nullptr){
 		double rem = 0;
@@ -37,6 +45,7 @@ void MasterStack::render(MasterStackNode* node, int cumOffset, int depth){
 	}
 }
 
+/// @brief implements the render method as defiend by the WindowTreeInterface
 void MasterStack::render(ServerInterface* server){
 	if (head != nullptr){
 		if(numWindows == 1){
@@ -53,6 +62,8 @@ void MasterStack::render(ServerInterface* server){
 	}
 }
 
+/// @brief implements the addWindow method defined by the WindowTreeInterface
+/// adds the given windowID to the linkedlist and updates the tail ptr
 void MasterStack::addWindow(long windowID){
 	if(head == nullptr){
 		head = new MasterStackNode(windowID, nullptr);
@@ -64,6 +75,8 @@ void MasterStack::addWindow(long windowID){
 	numWindows++;
 }
 
+/// @brief implements the remWindow method defined by the WindowTreeInterface
+/// updates the head and tail pointers a necessary
 void MasterStack::remWindow(long windowID){
 	MasterStackNode* node = head;
 	if(node != nullptr){
@@ -93,10 +106,13 @@ void MasterStack::remWindow(long windowID){
 	numWindows--;
 }
 
+/// @brief implements resize as defined by WindowTreeInterface (sets new area)
 void MasterStack::resize(Area area){
 	this->area = area;
 }
 
+///@brief implements resize as defined by WindowTreeInterface
+///(changes the rotation direction of the entire layout instead of on a per window basis)
 void MasterStack::rotateSplit(long windowID){
 	vertical = !vertical;
 	if(vertical){
