@@ -11,7 +11,7 @@ extern Logger glogger;
 
 SGLServer::SGLServer()
 {
-	glogger.verb("LOGGY IS IN SGL SERVER!");
+	glogger.verb("Entering SGL Server constructor.");
 
 	using sgl::GEvent;
 	using sgl::GWindow;
@@ -27,6 +27,7 @@ SGLServer::SGLServer()
 	win.setAutoRepaint(false);
 	win.center();
 
+	// Uncomment to enable Edmonds logo.
 	// #if _WIN32
 	// 	win.drawImage("../../../res/edmonds.png");
 	// #else
@@ -45,14 +46,7 @@ SGLServer::SGLServer()
 
 bool SGLServer::contains(long windowID)
 {
-	if (winDex.find(windowID) != winDex.end()) {
-		return true;
-	} else {
-		cout << "SGLServer, contains:" << endl;
-		cout << "Window ID " << windowID << " does not exist." << endl;
-		// throw string("Window ID does not exist.");
-		return false;
-	}
+	return (winDex.find(windowID) != winDex.end());
 }
 
 void SGLServer::setArea(long windowID, Area a)
@@ -62,7 +56,7 @@ void SGLServer::setArea(long windowID, Area a)
 		gWin.get()->setArea(a);
 		window->repaint();
 	} else {
-		cout << "Failed to set area." << endl;
+		glogger.erro("Failed to set area.");
 	}
 }
 
@@ -73,8 +67,8 @@ Area SGLServer::getArea(long windowID)
 		winPtr gWin = winDex[windowID];
 		foo         = gWin.get()->getArea();
 	} else {
-		cout << "Failed to get area -- Returning bogus data." << endl;
-		foo = {-1, -1, -1, -1};
+	glogger.erro("Failed to get area -- Returning bogus data.");
+	foo = {-1, -1, -1, -1};
 	}
 	return foo;
 }
@@ -128,7 +122,6 @@ winPtr SGLServer::getWin(sgl::GObject* obj)
 
 bool SGLServer::dropDownSelect(long windowID)
 {
-	// cout << "selecting ID# " << windowID << endl;
 	int count = dropDown->getItemCount();
 	for (int idx = 0; idx < count; idx++) {
 		if (stol(dropDown->getItem(idx)) == windowID) {
@@ -249,11 +242,9 @@ void SGLServer::menuEv(sgl::GEvent e)
 			if (dropDown->getItemCount() > 1) {
 				evSwap->swap.winA = stol(dropDown->getItem(0));
 				evSwap->swap.winB = stol(dropDown->getSelectedItem());
-				// cout << "sending swap event" << endl;
 				evFun(evSwap);
 				delete evSwap;
 			} else {
-				// cout << "NOT sending swap event" << endl;
 			}
 		}
 	}
@@ -321,13 +312,4 @@ void SGLServer::addButtons()
 	win.addToolbarItem("Switch Layout");
 	win.addToolbarItem("Swap Windows");
 
-	// Add a divider between the novelty placeholders.
-	win.addToolbarSeparator();
-	// win.addToolbarItem("Distance");
-	// win.addToolbarItem("Speed");
-	// win.addToolbarItem("Acceleration");
-	// win.addToolbarItem("Jerk");
-	// win.addToolbarItem("Snap");
-	// win.addToolbarItem("Crackle");
-	// win.addToolbarItem("Pop");
 }
