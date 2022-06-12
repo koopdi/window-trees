@@ -18,7 +18,7 @@ ev::Event XServer::convertXEvent(XEvent& xEv){
 	ev::Event ev;
 
 	switch(xEv.type){
-		case ConfigureRequest:
+		case ConfigureRequest: //windows request when want to be placed
 		ev.type = ev::EventType::ADD;
 		ev.add.winID = xEv.xconfigure.window;
 		ev.add.winArea.x = xEv.xconfigure.x;
@@ -27,25 +27,28 @@ ev::Event XServer::convertXEvent(XEvent& xEv){
 		ev.add.winArea.height = xEv.xconfigure.height;
 		break;
 
-		case DestroyNotify:
+		case DestroyNotify: //windows request this when they close
 		ev.type = ev::EventType::REMOVE;
 		ev.remove.winID = xEv.xdestroywindow.window;
 		break;
 
+		//mouse clicks
 		case ButtonPress:
 		case ButtonRelease:
 		ev.type = ev::EventType::MOUSE;
 		glogger.warn("Unideal mouse event conversion in convertXEvent");
 		break;
 
+		//keyboard presses
 		case KeyPress:
 		case KeyRelease:
 		ev.type = ev::EventType::KEY;
-		ev.key.isUpEv = xEv.xkey.state; //maybe
+		ev.key.isUpEv = xEv.xkey.state;
 		ev.key.winID = xEv.xkey.window;
 		glogger.warn("Unideal key event conversion in convertXEvent");
 		break;
 
+		//should not be entered
 		default:
 		glogger.erro("BAD XEVENT CONVERSION");
 		throw std::string("Failed to convert XEvent");
@@ -99,8 +102,10 @@ void XServer::eventLoop()
 		{
 		case DestroyNotify:
 		if(!windows.count(event.xdestroywindow.window)){
-			glogger.info("[XServerBackend]: dropped (likely dupe) destroy event for missing windowID " +
-				std::to_string(event.xdestroywindow.window));
+			glogger.info(
+				"[XServerBackend]: dropped (likely dupe) destroy event for missing windowID " +
+				std::to_string(event.xdestroywindow.window)
+			);
 			break;
 		} else {
 			windows.erase(event.xdestroywindow.window);
@@ -144,18 +149,18 @@ int XServer::XErrorHandlerFn(Display* display, XErrorEvent* error){
 	glogger.warn(std::string(txtBuff));
 
 	switch (error->error_code){
-	case BadWindow:
+	case BadWindow: //known recoverable error
 		glogger.info("An invalid windowID reached the X Backend");
 	break;
 
-	case BadAccess:
+	case BadAccess: //known recoverable error
 		glogger.verb("BadAccess is often reported on failure to bind to the X server");
 		glogger.verb("Is an X server running on the correct display?");
 		glogger.verb("TIP: relaunch the X server and this program");
 		glogger.exit("Failed to gain access to critical X resource");
 	break;
 
-	default:
+	default: //may be unrecoverable
 		glogger.exit("This type of error is either unrecoverable or not in scope to be handled");
 	}
 
@@ -178,7 +183,7 @@ XServer::XServer()
 	}
 
 	glogger.verb("Opening X display...");
-	if (!(display = XOpenDisplay(display_var)))
+	if (!(display = XOpenDisplay(display_var))) //open x display (connect to x server)
 	{
 		glogger.exit("Failed to get X display; Exiting.");
 	}
@@ -193,19 +198,21 @@ XServer::XServer()
 	glogger.verb("Getting other screens...");
 	for (int i = 0; i < screenCount; i++)
 	{
-		screens.push_back(XScreenOfDisplay(display, i));
+		screens.push_back(XScreenOfDisplay(display, i)); //push screens to vector
 	}
 
-	initFunc = getDefaultInitFn();
-	XSetErrorHandler(&XErrorHandlerFn);
+	initFunc = getDefaultInitFn(); //set init handler func
+	XSetErrorHandler(&XErrorHandlerFn); //set XErrorHandler (for error recovery)
 }
 
 //Constructs an XServer (interface) with a predefiend InitHandlerFn and EventHandlerFn
 //See other constructor for more info
 XServer::XServer(InitHandlerFn initFn, EventHandlerFn eventFn)
 {
+	//register handler functions
 	handlerFunc = eventFn;
 	initFunc    = initFn;
+	//call other ctor
 	XServer();
 }
 
@@ -213,20 +220,21 @@ XServer::XServer(InitHandlerFn initFn, EventHandlerFn eventFn)
 Area XServer::getArea(long windowID)
 {
 	XWindowAttributes attrs;
-	XGetWindowAttributes(display, (Window)windowID, &attrs);
-	return Area{attrs.x, attrs.y, attrs.width, attrs.height};
+	XGetWindowAttributes(display, (Window)windowID, &attrs); //get attributes of window
+	return Area{attrs.x, attrs.y, attrs.width, attrs.height}; //unpack relevant ones into an Area
 }
 
 //returns the size of the screen with the given screenID
 Area XServer::getScreenSize(long screenID)
 {
+	//return area of root window using getArea
 	return getArea(XRootWindowOfScreen(XScreenOfDisplay(display, screenID)));
 }
 
 //sets the dimensions of the window with the given windowID to the given area
 void XServer::setArea(long windowID, Area area)
 {
-	unsigned int areaBitmask = CWX | CWY | CWWidth | CWHeight;
+	unsigned int areaBitmask = CWX | CWY | CWWidth | CWHeight; //bitmask for changes to actually use
 	XWindowChanges changes;
 	changes.x      = area.x;
 	changes.y      = area.y;
@@ -289,5 +297,5 @@ void XServer::setInitCallback(InitHandlerFn fn) { initFunc = fn; }
 //cleans up memory after the XServer (ServerInterface Backend) is deleted
 XServer::~XServer()
 {
-	XCloseDisplay(display);
+	XCloseDisplay(display); //close the X display (free XLib mem)
 }
