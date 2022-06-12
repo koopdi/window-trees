@@ -1,29 +1,14 @@
 #pragma once
 
 /**
- * @brief This system needs to be implemented.
+ * @file Events.h
+ * @author Christen Spadevechia, Travis McKinney
+ * @date 6/10/22
+ * @brief
  * The big idea is that the event struct holds an event type
  * and a union of structs.
  * To find out which struct it is, check the type.
- * The downside of this aproach is that it's not very flexible.
- * Only simple types can be contained in the structs.
  *
- * An alternate method would be to use polymorphism.
- * That would be more flexible and allow complex types like std::string.
- * It would also save more space than the union, as the union
- * has to accomodate the greatest common denominator and can't
- * shrink to fit a type that uses less space.
- *
- * Example usage:
- * ev::Event* ev = new ev::Event;
- * ev->type = ev::EventType::ADD;
- * ev->add.atributeA = 13;
- *
- *
- * Further thoughts:
- * Does it make sense for events to be passed as pointers?
- * Who is responsible for that memory?
- * Would passing them by copy work better?
  */
 
 #include "types.h"
@@ -45,34 +30,41 @@ enum class EventType {
 	GARBAGE        // Unhandled
 };
 
+//add event specific fields
 struct Add {
 	long winID;
 	Area winArea;
 };
 
+//remove event specific fields
 struct Remove {
 	long winID;
 };
 
+//focus event specific fields
 struct FocusWindow {
 	long winID;
 };
 
+//key event specific fields
 struct Key {
 	long winID;
 	bool isUpEv;
 	bool isRepeat;
 };
 
+//mouse event specific fields
 struct Mouse {
 	int atributeD;
 };
 
+//window swap event specific fields
 struct SwapWindows {
 	long winA;
 	long winB;
 };
 
+//enum for the 4 cardinal directions and center (up, down, left, right, center)
 enum class Direction { //
 	UP,
 	DOWN,
@@ -81,11 +73,13 @@ enum class Direction { //
 	CENTER
 };
 
+//movewindow event specific fields
 struct MoveWindow {
 	long windowID;
 	Direction dir;
 };
 
+//enum for every tree available as a layout to workspaces (and prev/next)
 enum class TreeMode {
 	LEMON_FIR,
 	BSP_TREE,
@@ -93,21 +87,25 @@ enum class TreeMode {
 	HEAP,
 	PREV,
 	NEXT
-}; ////////////////
+};
 
+//layout switch event specific fields
 struct SwitchLayout {
 	long screenID;
 	TreeMode mode;
 };
 
+//split direction change event specific fields
 struct RotateSplit {
 	long winID;
 };
 
+//workspace resize event specific fields
 struct Resize {
 	Area size;
 };
 
+//Unified window manager event type
 struct Event {
 	EventType type;
 	long screenID;
@@ -124,54 +122,4 @@ struct Event {
 		Resize resize;
 	};
 };
-
-// struct Area
-// {
-// 	int x;
-// 	int y;
-// 	int width;
-// 	int height;
-// };
-
-// typedef unsigned long Window;
-// typedef unsigned long Time;
-
-// typedef struct
-// {
-// 	int type;
-// 	Window parent; /* parent of the window */
-// 	Window window; /* window id of window created */
-// 	Area windowArea;
-// 	int border_width; /* border width */
-// } CreateWindowEvent;
-
-// typedef struct
-// {
-// 	int type;
-// 	Window event;
-// 	Window window;
-// } DestroyWindowEvent;
-
-// typedef struct
-// {
-// 	int type; /* of event */
-// 	// Window windownamespace ev;
-// 	/* "event" window it is reported relative to */
-// 	Window root;          /* root window that the event occurred on */
-// 	Window subwindow;     /* child window */
-// 	Time time;            /* milliseconds */
-// 	int x, y;             /* pointer x, y coordinates in event window */
-// 	int root_x, root_y;   /* coordinates relative to root */
-// 	unsigned int state;   /* key or button mask */
-// 	unsigned int keycode; /* detail */
-// } KeyEvent;
-
-// union Event
-// {
-// 	int type;
-// 	CreateWindowEvent create;
-// 	DestroyWindowEvent destroy;
-// 	KeyEvent keyEvent;
-// };
-
 } // namespace ev
