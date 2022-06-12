@@ -7,55 +7,14 @@ using std::endl;
 using std::string;
 
 #define margin 1;
-// WindowManager -------------------------------------------
-// WorkSpace -----------------------------------------------
 
 LemonFir::LemonFir(ServerInterface* server)
     : server(server), splitDir(true) //////////////////////
 {
-	// there's no screen ID so passing -1
-	// there's only one screen in sgl server and the ID is ignored.
-	std::vector<long> screens = server->getScreens();
-	if (screens.size() > 0) {
-		screen = screens.at(0);
-	} else {
-		screen = -1;
-	}
-	std::vector<long> windows = server->getWindows(screen);
-
-	for (long ID : windows) {
-		addWindow(ID);
-	}
 }
-
-void LemonFir::update(ev::Event& ev)
-{
-	try { // Handle server events.
-		if (ev.type == ev::EventType::ADD) {
-			addWindow(ev.add.winID);
-		} else if (ev.type == ev::EventType::REMOVE) {
-			remWindow(ev.remove.winID);
-		} else if (ev.type == ev::EventType::ROTATE_SPLIT) {
-			rotateSplit(ev.rotate.winID);
-		}
-
-		render(server);
-
-	} catch (string error) {
-		// Print string exceptions and break.
-		cout << error << endl;
-	}
-}
-
-// WindowTreeInterface -------------------------------------
-// todos;
-// \todo swap panes,
-// \todo cycle panes,
-// \todo insert new panes in middle.
 
 void LemonFir::addWindow(long windowID)
 {
-	// cout << "addWindow" << endl;
 	PanePtr newWindow = std::make_shared<Pane>(windowID);
 	nextOpen()        = newWindow;
 }
@@ -112,9 +71,7 @@ void LemonFir::swapGroups(long windowA, long windowB)
 	}
 }
 
-void LemonFir::resize(Area area)
-{
-}
+void LemonFir::resize(Area area) {}
 
 // Private Methods -----------------------------------------
 

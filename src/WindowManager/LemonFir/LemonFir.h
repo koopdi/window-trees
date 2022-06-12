@@ -37,8 +37,6 @@ class LemonFir : public WindowTreeInterface
 public:
 	// ServerInterFace ---------------------------------------
 	LemonFir(ServerInterface* server = nullptr);
-	// allow the LemonFir to act as a full window manager for now.
-	void update(ev::Event& ev);
 
 	// WindowTreeInterface -----------------------------------
 	/// Add a window to this tree.
