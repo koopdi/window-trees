@@ -3,13 +3,12 @@
 
 #include "Events.h"
 #include "types.h"
-// #include "xtypes.h"
 #include <functional>
 #include <vector>
 
 /**
  * @file ServerInterface.cpp
- * @author Christen Spadavecchia, Travis McKinney
+ * @author Christen Spadavecchia, Travis McKinney, Andrew Hudson
  * @date 6/10/2022
  * @brief An abstract class that provides an interface for window
  * managmenet on any display server.
