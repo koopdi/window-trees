@@ -1,3 +1,10 @@
+/**
+ * @file winterFaceClientMain.cpp
+ * @author Andrew Hanson, Christen Spadevechia, Travis McKinney
+ * @brief This is the main entry point for the SGL version of WindowTrees
+ * @date 06-11-2022
+ */
+
 #include <iostream>
 #include "Logger.h"
 #include "LemonFir.h"
