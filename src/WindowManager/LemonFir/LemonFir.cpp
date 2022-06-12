@@ -72,15 +72,6 @@ void LemonFir::swapWindows(long windowA, long windowB)
 	}
 }
 
-void LemonFir::swapGroups(long windowA, long windowB)
-{
-	NodePtr* nodeA = getParent(windowA);
-	NodePtr* nodeB = getParent(windowB);
-	if (nodeA && nodeB) {
-		nodeA->swap(*nodeB);
-	}
-}
-
 void LemonFir::resize(Area area) {}
 
 // Private Methods -----------------------------------------

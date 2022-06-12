@@ -72,7 +72,6 @@ public:
 	 * @param windowB Another window to swap.
 	 */
 	virtual void swapWindows(long windowA, long windowB) override;
-	virtual void swapGroups(long windowA, long windowB);
 
 private:
 	/// A pointer to the server.
