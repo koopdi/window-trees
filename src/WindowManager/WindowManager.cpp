@@ -1,7 +1,8 @@
 /**
  * @file WindowManager.cpp
- * @author Andrew Hanson, Christen Spadevechia, Travis McKinney
- * @brief
+ * @author Christen Spadevechia, Travis McKinney
+ * @brief provide an implementation for the functions defined in WindowManager.h
+ * @date 6/10/2022
  */
 #include <iostream>
 #include <string>
@@ -13,7 +14,7 @@ using namespace std;
 
 /**
  * @brief Construct a new Window Manager
- * @param server
+ * @param server a pointer to the ServerInterface backend for the windowing system being managed
  */
 WindowManager::WindowManager(ServerInterface* server) : server(server)
 {
@@ -39,7 +40,7 @@ WindowManager::WindowManager(ServerInterface* server) : server(server)
 /**
  * @brief This function is called whenever the server sends
  *  an event.
- * @param ev A tagged event union.
+ * @param ev A tagged event union to be handled.
  */
 void WindowManager::update(ev::Event& ev)
 {
@@ -104,7 +105,7 @@ void WindowManager::update(ev::Event& ev)
 		cout << error << endl;
 	}
 }
-
+/** @brief called when the WindowManager is created, does necessary init work (none for now)*/
 void WindowManager::init()
 {
 	cout << "[WARNING] (WindowManager.cpp) => Init is not truly defined";

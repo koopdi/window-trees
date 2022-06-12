@@ -5,7 +5,11 @@
  * *********************************************************
  * @file WindowManager.h
  * @author Andrew Hanson, Christen Spadevechia, Travis McKinney
+ * @date 6/10/2022
  * @brief A collection of work spaces.
+ * Handles window events by calling functions on the correct workspace.
+ * (Theoretically) provides a means of supporting multihead in the future by muxing (fanning out)
+ * events to their respective workspaces.
  */
 
 
