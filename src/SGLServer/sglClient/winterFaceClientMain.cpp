@@ -1,5 +1,5 @@
 #include <iostream>
-
+#include "Logger.h"
 #include "LemonFir.h"
 #include "SGLServer.h"
 #include "WindowManager.h"
