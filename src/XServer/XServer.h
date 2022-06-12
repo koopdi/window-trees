@@ -11,8 +11,12 @@
 #include <vector>
 
 /**
- * @brief Provide an xserver backend to the server interface API.
- *
+ * @file XServer.h
+ * @author Christen Spadavecchia
+ * @date 6/10/2022
+ * @brief
+ * Provide an xserver backend to the server interface API.
+ * @note
  * THIS BACKEND IS A PROOF OF CONCEPT TO SHOW THAT A REAL WORLD BACKEND IS POSSIBLE WITH
  * THE ABSTRACTIONS PROVIDED BY SERVERINTERFACE. A STABLE X BACKEND IS NOT IN SCOPE (for now).
  * As such, this backend is subject to strange behavior, does not support applications that

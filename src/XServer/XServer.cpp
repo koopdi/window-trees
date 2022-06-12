@@ -1,6 +1,9 @@
 #include "XServer.h"
 
 /**
+ * @file XServer.h
+ * @author Christen Spadavecchia
+ * @date 6/10/2022
  * @brief Provide an implementation for the methods defined in XServer.h
  * Most notable functions:
  * -ctor - connects to X
