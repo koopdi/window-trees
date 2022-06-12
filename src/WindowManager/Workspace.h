@@ -1,8 +1,13 @@
 #pragma once
 /**
  * @file Workspace.h
- * @author Andrew Hanson, Christen Spadevechia, Travis McKinney
- */
+ * @author Christen Spadevechia
+ * @date 6/10/2022
+ * @brief Provides Workspace, a class that manages the creation and maintainance of multiple layouts
+ * for a workspace.
+ * Handles creating layouts, muxing (fanning out) events to each layout, and rendering the
+ * selected layout.
+*/
 
 
 #include "types.h"
@@ -17,7 +22,7 @@
 
 class WindowTree;
 
-
+/** @brief creates and maanges layouts for a workspace */
 class Workspace
 {
 public:
