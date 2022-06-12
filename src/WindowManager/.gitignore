@@ -5,7 +5,6 @@
 #dirs
 !/LemonFir
 !/HeapTree
-!/BSPTree
 !/MasterAndStack
 #files
 !/*.h

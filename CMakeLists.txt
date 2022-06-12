@@ -15,12 +15,10 @@ add_subdirectory("src/WindowManager/")
 
 if(NOT WIN32)
 add_subdirectory("src/XServer/")
-add_subdirectory("src/SDLServer/")
 endif(NOT WIN32)
 
 add_subdirectory("src/SGLServer/")
-add_subdirectory("src/Tiles")
-add_subdirectory("src/Term")
+
 
 # Configure flags for the C++ compiler
 # (In general, many warnings/errors are enabled to tighten compile-time checking.

@@ -7,7 +7,6 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_VERBOSE_MAKEFILE ON)
 
 add_subdirectory(LemonFir)
-add_subdirectory(BSPTree)
 add_subdirectory(HeapTree)
 add_subdirectory(MasterAndStack)
 

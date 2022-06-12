@@ -1,6 +1,5 @@
 #pragma once
 
-#include "xtypes.h"
 #include "Logger.h"
 #include "ServerInterface.h"
 #include "types.h"
