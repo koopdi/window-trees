@@ -35,21 +35,57 @@ public:
 	 * @param fn
 	 */
 	void setArea(long windowID, Area area) override;
+		/**
+	 * @brief Get the size and position of a window.
+	 * @param windowID The window to get.
+	 * @return Area The size and position of the window.
+	 */
 	Area getArea(long windowID) override;
+		/**
+	 * @brief Get the size of a screen.
+	 * @param screenID The screen to get.
+	 * @return Area The size of the screen.
+	 */
 	Area getScreenSize(long screenID) override;
+		/**
+	 * @brief Get all available screens.
+	 * @return std::vector<long> A collection of Screen IDs.
+	 */
 	std::vector<long> getScreens() override;
+		/**
+	 * @brief Get all available windows on a given screen.
+	 * @param screenID The screen to get windows from.
+	 * @return std::vector<long> A collection of Window IDs.
+	 */
 	std::vector<long> getWindows(long screenID) override;
+		/**
+	 * @brief Register a function to be called.
+	 * @param fn Called when the Window Manager starts.
+	 */
 	void setInitCallback(InitHandlerFn fn) override;
+		/**
+	 * @brief Set the Event Callback object.
+	 * @param fn A function that accepts server events.
+	 */
 	void setEventCallback(EventHandlerFn fn) override;
+		/**
+	 * @brief We get signal, main screen turn on:
+	 * it you.
+	 */
 	void run() override;
-	void setHeight(int screen, int windowID, int height);
-	void setWidth(int screen, int windowID, int width);
-	void setPosition(int screen, int windowID, Point position);
+	/**
+	 * @brief Set the Height object
+	 *
+	 * @param screen
+	 * @param windowID
+	 * @param height
+	 */
 
-	int getHeight(int screen, int windowID) const;
-	int getWidth(int screen, int windowID) const;
-	int getPosition(int screen, int windowID) const;
-
+	/**
+	 * @brief check if a window exists
+	 * @param windowID the window to check
+	 * @return true if the window exists.
+	 */
 	bool contains(long windowID);
 
 private:

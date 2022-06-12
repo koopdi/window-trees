@@ -45,9 +45,5 @@ public:
 
 	/// @brief Switch the positions of A and B.
 	virtual void swapWindows(long windowA, long windowB) = 0;
-	// /**
-	//  * @brief Set the Screen this tree renders to.
-	//  * @param screenID A screen ID.
-	//  */
-	// virtual void setScreen(long screenID) = 0;
+
 };
