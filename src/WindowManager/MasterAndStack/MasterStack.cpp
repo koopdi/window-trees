@@ -23,25 +23,26 @@ void MasterStack::render(MasterStackNode* node, int cumOffset, int depth){
 		double rem = 0;
 		int stackedWindows = numWindows - 1;
 
+		//set window area
 		if(vertical){
 			rem = ceil(1.0 * area.height / stackedWindows) - (int)(area.height / stackedWindows);
 			server->setArea(node->windowID,
-				{masterSize,
-				depth * (area.height / stackedWindows) + cumOffset,
-				area.width - masterSize,
-				(int)((area.height / stackedWindows) + rem)}
+				{masterSize,//x
+				depth * (area.height / stackedWindows) + cumOffset,//y
+				area.width - masterSize,//w
+				(int)((area.height / stackedWindows) + rem)}//h
 			);
 		} else {
 			rem = ceil(1.0 * area.width / stackedWindows) - (int)(area.width / stackedWindows);
 			server->setArea(node->windowID,
-				{depth * (area.width / stackedWindows) + cumOffset,
-				masterSize,
-				(int)((area.width / stackedWindows) + rem),
-				area.height - masterSize}
+				{depth * (area.width / stackedWindows) + cumOffset,//x
+				masterSize,//y
+				(int)((area.width / stackedWindows) + rem),//w
+				area.height - masterSize}//h
 			);
 		}
-		cumOffset += rem;
-		render(node->next, cumOffset, depth + 1);
+		cumOffset += rem; //add offset for placement of next window
+		render(node->next, cumOffset, depth + 1);//render next node
 	}
 }
 
