@@ -1,6 +1,16 @@
+
 #pragma once
 
 #include <iostream>
+
+/** @file Logger.h
+ * @brief defines Logger, a class used for printing nice looking logs.
+ * Provides the ability to log to any output stream, and pretty colors!
+ * @note including this file will #define quite a few terminal color codes
+ * @note also #defines terminal color codes (if on linux)
+ * @author Christen Spadavecchia
+ * @date 6/10/2022
+*/
 
 #ifdef __linux__
 	//Regular text
@@ -56,6 +66,7 @@
 	const char MSG_LOGGING_BEGIN[] = "BEGIN LOGGING: [Notice]: Colored output is not supported on your platform.";
 #endif
 
+/** @brief enumerates possible log levels */
 enum LogLevel {
 	VERBOSE,
 	INFO,
@@ -64,15 +75,41 @@ enum LogLevel {
 	FATAL,
 };
 
+
+/** @brief Logger is a class that provides visually pleasing logging capabilities
+ * @note allows logs to be sent to an ostream and for debug levels to be set
+*/
+
 class Logger {
 	private:
+		//the ostream to write debug messages to
 		std::ostream& out;
+		//the current log level
 		LogLevel level;
 	public:
+	/** @brief constructs a new logger
+	 * @param out the stream to output logs to (defaults to std::cout)
+	 * @param level the minimum level for logs to be reported (defaults to verbose)
+	 */
 	Logger(std::ostream& out = std::cout, LogLevel level = LogLevel::VERBOSE);
+	/** @brief print an error to the log
+	 * @param msg the message string to log
+	 */
 	void erro(std::string msg);
+	/** @brief print a warning to the log
+	 * @param msg the message string to log
+	 */
 	void warn(std::string msg);
+	/** @brief print info to the log
+	 * @param msg the message string to log
+	 */
 	void info(std::string msg);
+	/** @brief print extra information to the log
+	 * @param msg the message string to log
+	 */
 	void verb(std::string msg);
+	/** @brief print an error that is considered fatal and then exit with code 1
+	 * @param msg the message string to log
+	 */
 	void exit(std::string msg);
 };

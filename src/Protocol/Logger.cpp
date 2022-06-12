@@ -1,5 +1,11 @@
 #include "Logger.h"
 
+/** @file Logger.cpp
+ * @brief provides implementations for the methods described in Logger.h
+ * @author Christen Spadavecchia
+ * @date 6/10/2022
+*/
+
 Logger::Logger(std::ostream& out, LogLevel level) : out(out), level(level){}
 
 void Logger::erro(std::string msg){
