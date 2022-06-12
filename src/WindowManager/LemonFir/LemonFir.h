@@ -88,6 +88,8 @@ private:
 	// Private Methods ---------------------------------------
 	/// Get the next open spot in the treee.
 	NodePtr& nextOpen();
+	/// Recursive helper for nextopen.
+	/// \param node The current node.
 	NodePtr& nextOpen(NodePtr& node);
 
 	/// Display the contents of this tree.
