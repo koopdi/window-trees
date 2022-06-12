@@ -12,6 +12,8 @@ HeapWindow::HeapWindow(int windowID, Area area)
 	this->area = area;
 	this->left = nullptr;
 	this->right = nullptr;
+	this->partVertically = 0;
+	this->part1Size = 50;
 
 	std::cout << "new Window:" << windowID << " area: " << "(" << area.x << ",";
 	std::cout << area.x + area.width << ")x(" << area.y << ",";
@@ -39,5 +41,6 @@ HeapWindow::HeapWindow
 }
 
 bool HeapWindow::isWindow() const {
-  return windowID != -1;
+	//std::cout << "windowID: " << windowID << " bool: " << (windowID != -1 ? "true" : "false") << std::endl;
+  	return windowID != -1;
 }
