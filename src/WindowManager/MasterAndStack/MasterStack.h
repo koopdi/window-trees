@@ -13,9 +13,7 @@
 #include "WindowTreeInterface.h"
 #include "MasterStackNode.h"
 #include <string>
-namespace c {
 #include <cmath>
-};
 
 /** @brief
  * Describes the MasterStack class, a class that extends the WindowTreeInterface and that

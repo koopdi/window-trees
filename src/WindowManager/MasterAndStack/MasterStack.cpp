@@ -24,7 +24,7 @@ void MasterStack::render(MasterStackNode* node, int cumOffset, int depth){
 		int stackedWindows = numWindows - 1;
 
 		if(vertical){
-			rem = c::ceil(1.0 * area.height / stackedWindows) - (int)(area.height / stackedWindows);
+			rem = ceil(1.0 * area.height / stackedWindows) - (int)(area.height / stackedWindows);
 			server->setArea(node->windowID,
 				{masterSize,
 				depth * (area.height / stackedWindows) + cumOffset,
@@ -32,7 +32,7 @@ void MasterStack::render(MasterStackNode* node, int cumOffset, int depth){
 				(int)((area.height / stackedWindows) + rem)}
 			);
 		} else {
-			rem = c::ceil(1.0 * area.width / stackedWindows) - (int)(area.width / stackedWindows);
+			rem = ceil(1.0 * area.width / stackedWindows) - (int)(area.width / stackedWindows);
 			server->setArea(node->windowID,
 				{depth * (area.width / stackedWindows) + cumOffset,
 				masterSize,
