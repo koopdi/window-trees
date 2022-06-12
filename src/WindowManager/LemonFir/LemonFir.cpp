@@ -9,7 +9,7 @@ using std::string;
 #define margin 1;
 
 LemonFir::LemonFir(ServerInterface* server)
-    : server(server), splitDir(true) //////////////////////
+    : server(server)
 {
 }
 
@@ -129,7 +129,7 @@ NodePtr& LemonFir::nextOpen(NodePtr& node)
 	throw string("LemonFir, Next Open: ERROR, unhandled recursive case");
 }
 
-void LemonFir::render(NodePtr node, Area& space, bool vSplit)
+void LemonFir::render(NodePtr node, Area& space)
 {
 	if (node) {
 		if (Split* s = getSplit(node)) {
@@ -138,13 +138,13 @@ void LemonFir::render(NodePtr node, Area& space, bool vSplit)
 			} else {
 				space.height = (space.height * 0.5) - margin;
 			}
-			render(s->left, space, !vSplit);
+			render(s->left, space);
 			if (s->vSplit) {
 				space.x += space.width + 2 * margin;
 			} else {
 				space.y += space.height + 2 * margin;
 			}
-			render(s->right, space, !vSplit);
+			render(s->right, space);
 		} else if (Pane* p = getPane(node)) {
 			server->setArea(p->windowID, space);
 		}

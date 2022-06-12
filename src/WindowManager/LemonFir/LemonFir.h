@@ -81,8 +81,6 @@ private:
 	/// The root of the underlying tree.
 	NodePtr tree;
 
-	bool splitDir;
-
 	// Private Methods ---------------------------------------
 	/// Get the next open spot in the treee.
 	NodePtr& nextOpen();
@@ -98,7 +96,7 @@ private:
 
 	/// Recursively traverse the tree and layout the panes.
 	/// Area by reference.
-	void render(NodePtr node, Area& space, bool vSplit = true);
+	void render(NodePtr node, Area& space);
 
 	/// Recursively traverse the tree and remove
 	/// panes with a matching ID.
