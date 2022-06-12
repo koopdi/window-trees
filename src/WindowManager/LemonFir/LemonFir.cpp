@@ -21,6 +21,7 @@ using std::string;
 LemonFir::LemonFir(ServerInterface* server)
     : server(server)
 {
+	screen = server->getScreens()[0];
 }
 
 void LemonFir::addWindow(long windowID)
