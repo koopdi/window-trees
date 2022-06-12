@@ -1,5 +1,12 @@
 #include "types.h"
 
+/** @file types.h
+ * @brief implements the functions defined in types.h
+ * @author Christen Spadavecchia
+ * @date 6/10/2022
+*/
+
+//implements the * operator for area
 Area Area::operator*(Area other){
 	other.x *= x;
 	other.y *= y;
@@ -8,6 +15,7 @@ Area Area::operator*(Area other){
 	return other;
 }
 
+//implements the / operator for area
 Area Area::operator/(Area other){
 	other.x = x / other.x;
 	other.y = y / other.y;
@@ -16,6 +24,7 @@ Area Area::operator/(Area other){
 	return other;
 }
 
+//implements the + operator for area
 Area Area::operator+(Area other){
 	other.x += x;
 	other.y += y;
@@ -24,6 +33,7 @@ Area Area::operator+(Area other){
 	return other;
 }
 
+//implements the - operator for area
 Area Area::operator-(Area other){
 	other.x = x - other.x;
 	other.y = y - other.y;
