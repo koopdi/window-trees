@@ -90,7 +90,6 @@ public:
 private:
 	Area area;						// the area of the workspace the tree's windows are on
 	int numWindows;  				// the number of windows
-	int workspaceID;				// the ID for the Workspace that owns the tree
 	int size;  						// the size of the tree
 	WindowNode* root;   			// a pointer to the root node of the tree
 	WindowNode* last; 				// a pointer to the most recently added node

@@ -25,14 +25,12 @@ HeapWindow::HeapWindow (WindowNode* node)
  * @param workspaceID  the ID  for the workspace
  */
 WindowNode::WindowNode(int windowID, int workspaceID)
-{
-	std::cout << "WindowNode Constructor" << std::endl;
-	this->window = WindowPane(windowID, workspaceID);
-	this->part1 = nullptr;
-	this->part2 = nullptr;
-	partVertically = 0;
-	part1Size = 50;
-}
+: 	window(WindowPane(windowID, workspaceID)),
+	part1(nullptr),
+	part2(nullptr),
+	partVertically(0),
+	part1Size(50)
+{}
 
 /**
  * @brief Construct a new Window Pane object

@@ -8,25 +8,31 @@
 using namespace std;
 
 // not implemented
-void HeapTree::swapWindows(long windowA, long windowB){ /*do nothing*/ }
+void HeapTree::swapWindows(long windowA, long windowB)
+{
+	/*do nothing*/
+}
 
 
 // not implemented
-void HeapTree::rotateSplit(long windowID) { /*do nothing*/ }
+void HeapTree::rotateSplit(long windowID)
+{
+	 /*do nothing*/
+}
 
 /**
  * @brief Construct a new Heap Tree:: Heap Tree object
  *
  */
-HeapTree::HeapTree() {
-	cout << "HEAP TREE constructor" << endl;
-
-	last = nullptr;
+HeapTree::HeapTree()
+:	area(Area{0, 0, 0, 0}),
+	numWindows(0),
+	size(1),
+	last(nullptr)
+{
 	heap.push_back(new HeapWindow());
 	root = heap[0]->node;
 	heap[0]->area = area;
-	size = 1;
-	numWindows = 0;
 }
 
 /**
@@ -34,7 +40,8 @@ HeapTree::HeapTree() {
  *
  * @param server the abstract interface
  */
-HeapTree::HeapTree(ServerInterface* server): HeapTree() {
+HeapTree::HeapTree(ServerInterface* server): HeapTree()
+{
 	this->server = server;
 }
 
@@ -43,28 +50,38 @@ HeapTree::HeapTree(ServerInterface* server): HeapTree() {
  *
  * @param windowID the ID for the window
  */
-void HeapTree::addWindow(long windowID) { add(windowID);}
+void HeapTree::addWindow(long windowID)
+{
+	add(windowID);
+}
 
 /**
  * @brief remove a window from the tree
  *
  * @param windowID the ID for the window
  */
-void HeapTree::remWindow(long windowID) { remove(windowID); }
+void HeapTree::remWindow(long windowID)
+{
+	remove(windowID);
+}
 
 /**
  * @brief resize a window
  *
  * @param area the area of the window
  */
-void HeapTree::resize(Area area) { this->area = area; }
+void HeapTree::resize(Area area)
+{
+	this->area = area;
+}
 
 /**
  * @brief render all the windows
  *
  * @param server the abstract interface
  */
-void HeapTree::render(ServerInterface* server) {
+void HeapTree::render(ServerInterface* server)
+{
 	for (const HeapWindow* window: heap)
 	{
 		server->setArea(window->node->window.windowID, window->area);
@@ -120,7 +137,7 @@ bool HeapTree::add(int windowID) // TODO: change part1Size when moving nodes
 
 		// each add after node 2 requires 2 nodes, a parent and window
 		HeapWindow* newParent = new HeapWindow();
-		HeapWindow* newWindow = new HeapWindow(windowID, workspaceID);
+		HeapWindow* newWindow = new HeapWindow(windowID, 0);
 		heap.push_back(newParent);		// add new nodes to heap
 		heap.push_back(newWindow);
 
@@ -157,16 +174,32 @@ bool HeapTree::add(int windowID) // TODO: change part1Size when moving nodes
 	return success;
 }
 
-int HeapTree::getSize() const { return size; }
+int HeapTree::getSize() const
+{
+	return size;
+}
 
-bool HeapTree::isEmpty() const { return numWindows == 0; }
+bool HeapTree::isEmpty() const
+{
+	return numWindows == 0;
+}
 
-int HeapTree::getNumWindows() const { return numWindows; }
+int HeapTree::getNumWindows() const
+{
+	return numWindows;
+}
 
-void HeapTree::printSideways(WindowNode* root) const { printSidewaysHelper(root, ""); }
+// barrowed from allison
+void HeapTree::printSideways(WindowNode* root) const
+{
+	printSidewaysHelper(root, "");
+}
 
-void HeapTree::printSidewaysHelper(WindowNode* root, string spaces)  const{
-    if(root != nullptr) {
+// barrowed from allison
+void HeapTree::printSidewaysHelper(WindowNode* root, string spaces)  const
+{
+    if(root != nullptr)
+	{
         printSidewaysHelper(root->part2, spaces + "    ");
         cout << spaces << (root->isWindow() ? root->window.windowID : (size_t)root) << endl;
         printSidewaysHelper(root->part1, spaces + "    ");
@@ -189,16 +222,19 @@ bool HeapTree::contains(int targetID) const
 
 bool HeapTree::contains(WindowNode* target) const
 {
-	for (const HeapWindow* window: heap){
+	for (const HeapWindow* window: heap)
+	{
 		if (window->node == target)
 			return true;
 	}
 	return false;
 }
 
-void HeapTree::printHeap(const std::vector<HeapWindow*>& heap) const {
+void HeapTree::printHeap(const std::vector<HeapWindow*>& heap) const
+{
 	int num = 0;
-	for (HeapWindow* window: heap) {
+	for (HeapWindow* window: heap)
+	{
 		cout << num << ": " << "area: " << window->area.width << "x" << window->area.height;
 		num++;
 		cout << (window->node->isWindow() ? window->node->window.windowID : (long long)window->node) << endl;
