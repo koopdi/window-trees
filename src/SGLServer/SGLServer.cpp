@@ -5,13 +5,13 @@
 #include <string>
 using namespace std;
 
-// Global logger object, INSTANTIATED IN MAIN.
-extern Logger loggy;
+// Global logger object
+extern Logger glogger;
 
 
 SGLServer::SGLServer()
 {
-	loggy.verb("LOGGY IS IN SGL SERVER!");
+	glogger.verb("LOGGY IS IN SGL SERVER!");
 
 	using sgl::GEvent;
 	using sgl::GWindow;
