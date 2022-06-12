@@ -5,7 +5,7 @@
  *
  * @brief This abstract class provides an interface for
  *  different layout structures.
- *
+ * @date 6/10/2022
  * @file WindowTreeInterface.h
  * @author Andrew Hanson, Christen Spadevechia, Travis McKinney
  */
