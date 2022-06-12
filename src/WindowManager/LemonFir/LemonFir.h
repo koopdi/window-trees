@@ -49,18 +49,38 @@ public:
 	/// \param windowID The ID of the window to remove.
 	virtual void remWindow(long windowID) override;
 
+	/**
+	 * @brief Update the size and position of all windows in this tree.
+	 * @param server The graphics and input system object.
+	 */
 	virtual void render(ServerInterface* server) override;
+
+	/**
+	 * @brief Notify this layout that the screen dimensions have changed.
+	 * @param area The new screen dimensions.
+	 */
 	virtual void resize(Area area) override;
 
+	/**
+	 * @brief Rotate a window container.
+	 * @param windowID The ID of a window in the container to rotate.
+	 */
 	virtual void rotateSplit(long windowID) override;
 
+	/**
+	 * @brief Swap the position of 2 windows.
+	 * @param windowA A window to swap.
+	 * @param windowB Another window to swap.
+	 */
 	virtual void swapWindows(long windowA, long windowB) override;
 	virtual void swapGroups(long windowA, long windowB);
 
 private:
 	/// A pointer to the server.
 	ServerInterface* server;
+	/// The screen this tree is on.
 	long screen;
+	/// The root of the underlying tree.
 	NodePtr tree;
 
 	bool splitDir;
@@ -68,7 +88,7 @@ private:
 	// Private Methods ---------------------------------------
 	/// Get the next open spot in the treee.
 	NodePtr& nextOpen();
-	NodePtr& nextOpen(NodePtr& node, int cycles = 0);
+	NodePtr& nextOpen(NodePtr& node);
 
 	/// Display the contents of this tree.
 	void print();
@@ -84,6 +104,7 @@ private:
 
 	/// find the parent of windowID
 	NodePtr* getParent(long targetID);
+
 	/**
 	 * @param node The current node.
 	 * @param windowID The window to get the parent of.
@@ -92,11 +113,7 @@ private:
 	 */
 	NodePtr* getParent(NodePtr* node, long targetID);
 
-	NodePtr* getTreePane(long targetID);
-	NodePtr* getTreePane(NodePtr* node, long targetID, long cycles = 0);
 
-	// /// find the parent of this node
-	// NodePtr getParent(NodePtr target);
-	// /// find the parent of this node
-	// NodePtr getParent(NodePtr node, NodePtr target);
+	NodePtr* getTreePane(long targetID);
+	NodePtr* getTreePane(NodePtr* node, long targetID);
 };

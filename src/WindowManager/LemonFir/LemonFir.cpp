@@ -73,10 +73,6 @@ void LemonFir::render(ServerInterface* server)
 {
 
 	Area size = server->getScreenSize(screen);
-	// cout << size;
-	// cout << "Scree Size:" << endl;
-	// cout << "x " << size.x << ", y " << size.y << endl;
-	// cout << "width " << size.width << ", height " << size.height << endl;
 
 	render(tree, size);
 }
@@ -122,9 +118,6 @@ void LemonFir::swapGroups(long windowA, long windowB)
 	NodePtr* nodeA = getParent(windowA);
 	NodePtr* nodeB = getParent(windowB);
 	if (nodeA && nodeB) {
-		// cout << "Proceding to swap A: ";
-		// cout << windowA << ", B: " << windowB << endl;
-
 		nodeA->swap(*nodeB);
 	}
 }
@@ -160,14 +153,14 @@ NodePtr& LemonFir::nextOpen()
 	return nextOpen(tree);
 }
 
-NodePtr& LemonFir::nextOpen(NodePtr& node, int cycles)
+NodePtr& LemonFir::nextOpen(NodePtr& node)
 {              // Recursively search until a null node or a pane node is found.
 	if (!node) { // Empty
 		return node;
 
 	} else if (Split* s = getSplit(node)) { // Split
 		// attatch window here, or here, or here, or here....
-		return nextOpen(s->right, cycles);
+		return nextOpen(s->right);
 
 	} else if (Pane* p = getPane(node)) { // Pane
 		// find the parent of the pane
@@ -194,8 +187,6 @@ void LemonFir::render(NodePtr node, Area& space, bool vSplit)
 {
 	if (node) {
 		if (Split* s = getSplit(node)) {
-			// cout << "vSplit: ";
-			// cout << std::boolalpha << s->vSplit << endl;
 			if (s->vSplit) {
 				space.width = (space.width * 0.5) - margin;
 			} else {
@@ -214,12 +205,10 @@ void LemonFir::render(NodePtr node, Area& space, bool vSplit)
 	}
 }
 
-/// \todo rebalance after remove
 void LemonFir::remove(NodePtr& node, long targetID)
 {
 	if (Pane* p = getPane(node)) {
 		if (p->windowID == targetID) {
-			// cout << "LemonFir: Removing last pane. ID # " << p->windowID << endl;
 			node = nullptr;
 		}
 	}
@@ -246,19 +235,6 @@ void LemonFir::remove(NodePtr& node, long targetID)
 		remove(s->right, targetID);
 	}
 }
-
-// void LemonFir::remove(NodePtr& node, long targetID)
-// {
-// 	NodePtr parent = getParent(targetID);
-// 	if()
-// }
-
-// NodePtr LemonFir::getParent(NodePtr target) { getParent(tree, target); }
-
-// NodePtr LemonFir::getParent(NodePtr node, NodePtr target)
-// {
-// 	if (Split* s = getSplit(node))
-// }
 
 NodePtr* LemonFir::getParent(long targetID)
 {
@@ -295,20 +271,17 @@ NodePtr* LemonFir::getParent(NodePtr* node, long targetID)
 
 NodePtr* LemonFir::getTreePane(long targetID)
 {
-	// cout << "getTreePane targetID: " << targetID << endl;
 	getTreePane(&tree, targetID);
 }
 
-NodePtr* LemonFir::getTreePane(NodePtr* node, long targetID, long cycles)
+NodePtr* LemonFir::getTreePane(NodePtr* node, long targetID)
 {
 	if (!node) {
-		// cout << "Returning null, cycles: " << cycles << endl;
 		return nullptr;
 	}
 
 	if (Pane* p = getPane(node)) {
 		if (p->windowID == targetID) {
-			// cout << "Found the target, cycles: " << cycles << endl;
 			return node;
 		} else {
 			return nullptr;
@@ -316,15 +289,13 @@ NodePtr* LemonFir::getTreePane(NodePtr* node, long targetID, long cycles)
 	}
 
 	if (Split* s = getSplit(node)) {
-		NodePtr* left = getTreePane(&s->left, targetID, ++cycles);
+		NodePtr* left = getTreePane(&s->left, targetID);
 		if (left) {
 			return left;
 		} else {
-			return getTreePane(&s->right, targetID, ++cycles);
+			return getTreePane(&s->right, targetID);
 		}
 	}
-
-	// cout << "This should not execute" << endl;
 
 	return nullptr;
 }
