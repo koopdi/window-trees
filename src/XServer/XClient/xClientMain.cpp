@@ -1,13 +1,16 @@
+/** @brief
+ * Main for the X Server window manager backend
+ * Creates an "XServer" and a WindowManager, and sets up event callbacks, and starts the event loop
+ * @author Andrew Hanson, Christen Spadevechia, Travis McKinney
+ * @date 06-11-2022
+*/
+
 #include "WindowManager.h"
 #include <iostream>
 #include "ServerInterface.h"
 #include "XServer.h"
 
-/** @brief
- * Main for the X Server window manager backend
- * Creates an "XServer" and a WindowManager, and sets up event callbacks, and starts the event loop
-*/
-		Logger glogger(std::cout, LogLevel::VERBOSE);
+Logger glogger(std::cout, LogLevel::VERBOSE);
 
 
 #define _DEBUG_PRINT_
