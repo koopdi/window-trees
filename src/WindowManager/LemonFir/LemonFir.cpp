@@ -66,7 +66,6 @@ void LemonFir::remWindow(long windowID)
 	std::vector<long> windows = server->getWindows(screen);
 	for (long ID : windows) {
 	}
-	// print();
 }
 
 void LemonFir::render(ServerInterface* server)
@@ -79,22 +78,13 @@ void LemonFir::render(ServerInterface* server)
 
 void LemonFir::rotateSplit(long windowID)
 {
-	// cout << "Rotating window #" << windowID << endl;
-	// getParent(windowID);
 	NodePtr* parent = getParent(windowID);
-	// cout << "Parent split aqcuired." << endl;
 
 	if (Split* s = getSplit(parent)) {
-		// cout << "Rotating Split with children: ";
-		// cout << s->left->type << ": ";
 		if (Pane* p = getPane(s->left)) {
-			// cout << p->windowID;
 		}
-		// cout << " and " << s->right->type << ": ";
 		if (Pane* p = getPane(s->right)) {
-			// cout << p->windowID;
 		}
-		// cout << endl;
 		s->vSplit = !s->vSplit;
 	}
 }
@@ -124,7 +114,6 @@ void LemonFir::swapGroups(long windowA, long windowB)
 
 void LemonFir::resize(Area area)
 {
-	// cout << "LemonFir, got resize event, does nothing." << endl;
 }
 
 // Private Methods -----------------------------------------
