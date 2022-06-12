@@ -126,7 +126,6 @@ NodePtr& LemonFir::nextOpen(NodePtr& node)
 		// Return the open spot in the new split.
 		return newSplit->right;
 	}
-	throw string("LemonFir, Next Open: ERROR, unhandled recursive case");
 }
 
 void LemonFir::render(NodePtr node, Area& space)
