@@ -7,8 +7,11 @@
 
 using namespace std;
 
+// not implemented
 void HeapTree::swapWindows(long windowA, long windowB){ /*do nothing*/ }
 
+
+// not implemented
 void HeapTree::rotateSplit(long windowID) { /*do nothing*/ }
 
 /**
@@ -33,21 +36,6 @@ HeapTree::HeapTree() {
  */
 HeapTree::HeapTree(ServerInterface* server): HeapTree() {
 	this->server = server;
-
-	auto what = server->getScreens();
-	auto who = *(what.begin());
-
-	area = server->getScreenSize(who);
-	cout << "area: " << area.width << "x" << area.height <<endl;
-	cout << "x: " << area.x << " y: " << area.y << endl;
-
-	area = server->getScreenSize(99);
-	cout << "area: " << area.width << "x" << area.height <<endl;
-	cout << "x: " << area.x << " y: " << area.y << endl;
-
-	area = server->getScreenSize(143);
-	cout << "area: " << area.width << "x" << area.height <<endl;
-	cout << "x: " << area.x << " y: " << area.y << endl;
 }
 
 /**
@@ -91,9 +79,9 @@ void HeapTree::render(ServerInterface* server) {
  * the new window as a child of the parent of the target window, and makes the target window the
  * child of the new parent. It then swaps the target window and the new window in the heap.
  *
- * @param windowID
- * @return true
- * @return false
+ * @param windowID an ID for a window
+ * @return true // add successful
+ * @return false // add failed
  */
 bool HeapTree::add(int windowID) // TODO: change part1Size when moving nodes
 {
