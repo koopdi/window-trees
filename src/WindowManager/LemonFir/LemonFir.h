@@ -94,6 +94,8 @@ private:
 
 	/// Display the contents of this tree.
 	void print();
+	/// Recursive helper for print.
+	/// \param node the current node in the tree.
 	void print(NodePtr node);
 
 	/// Recursively traverse the tree and layout the panes.
