@@ -260,7 +260,7 @@ NodePtr* LemonFir::getParent(NodePtr* node, long targetID)
 
 NodePtr* LemonFir::getTreePane(long targetID)
 {
-	getTreePane(&tree, targetID);
+	return getTreePane(&tree, targetID);
 }
 
 NodePtr* LemonFir::getTreePane(NodePtr* node, long targetID)

@@ -115,7 +115,17 @@ private:
 	 */
 	NodePtr* getParent(NodePtr* node, long targetID);
 
-
+	/**
+	 * @brief Get the Tree Pane object.
+	 * @param targetID The ID of the window in the pane to get.
+	 * @return NodePtr* A raw pointer to a smart pointer to a pane.
+	 */
 	NodePtr* getTreePane(long targetID);
+	/**
+	 * @brief Recursive helper for getTreePane.
+	 * @param node The current node
+	 * @param targetID The ID of the window in the pane to get.
+	 * @return NodePtr* A raw pointer to a smart pointer to a pane.
+	 */
 	NodePtr* getTreePane(NodePtr* node, long targetID);
 };
