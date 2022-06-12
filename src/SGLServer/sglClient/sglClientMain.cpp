@@ -6,6 +6,7 @@
  * @file sglClientMain.cpp
  * @author Andrew Hanson, Christen Spadevechia, Travis McKinney
  * @brief An interactive graphics environment to test Windowing.
+ * @date 6/10/2022
  */
 
 #include <iostream>
