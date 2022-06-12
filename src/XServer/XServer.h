@@ -38,8 +38,6 @@ class XServer : public ServerInterface
 private:
 	//stores a pointer to an X display
 	Display* display;
-	//stores the logger for XServer
-	Logger log;
 	//stores the index of the default X screen
 	int defaultScreeen;
 	//stores pointers to each screen

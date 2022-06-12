@@ -1,4 +1,5 @@
 #include "XServer.h"
+extern Logger glogger;
 
 /**
  * @file XServer.h
@@ -34,7 +35,7 @@ ev::Event XServer::convertXEvent(XEvent& xEv){
 		case ButtonPress:
 		case ButtonRelease:
 		ev.type = ev::EventType::MOUSE;
-		log.warn("Unideal mouse event conversion in convertXEvent");
+		glogger.warn("Unideal mouse event conversion in convertXEvent");
 		break;
 
 		case KeyPress:
@@ -42,11 +43,11 @@ ev::Event XServer::convertXEvent(XEvent& xEv){
 		ev.type = ev::EventType::KEY;
 		ev.key.isUpEv = xEv.xkey.state; //maybe
 		ev.key.winID = xEv.xkey.window;
-		log.warn("Unideal key event conversion in convertXEvent");
+		glogger.warn("Unideal key event conversion in convertXEvent");
 		break;
 
 		default:
-		log.erro("BAD XEVENT CONVERSION");
+		glogger.erro("BAD XEVENT CONVERSION");
 		throw std::string("Failed to convert XEvent");
 		break;
 	}
@@ -58,8 +59,8 @@ ev::Event XServer::convertXEvent(XEvent& xEv){
 //calls init and enters the event loop
 void XServer::run()
 { //														HALF IMPLEMENTED
-	log.warn("The X backend is intended as a proof of concept");
-	log.info("The X backend will not work for any windows that have children");
+	glogger.warn("The X backend is intended as a proof of concept");
+	glogger.info("The X backend will not work for any windows that have children");
 
 	XSelectInput(display,
 	             DefaultRootWindow(display),
@@ -78,7 +79,7 @@ InitHandlerFn XServer::getDefaultInitFn(){
 	return [this](ServerInterface* server)
 	{
 		Area area = server->getArea(DefaultRootWindow(display));
-		log.info("RESOLUTION:" + std::to_string(area.width) + "x" + std::to_string(area.height));
+		glogger.info("RESOLUTION:" + std::to_string(area.width) + "x" + std::to_string(area.height));
 	};
 }
 
@@ -98,7 +99,7 @@ void XServer::eventLoop()
 		{
 		case DestroyNotify:
 		if(!windows.count(event.xdestroywindow.window)){
-			log.info("[XServerBackend]: dropped (likely dupe) destroy event for missing windowID " +
+			glogger.info("[XServerBackend]: dropped (likely dupe) destroy event for missing windowID " +
 				std::to_string(event.xdestroywindow.window));
 			break;
 		} else {
@@ -128,7 +129,7 @@ void XServer::eventLoop()
 			break;
 
 		default:
-			log.verb("[XServerBackend]: dropped event of type \"" +
+			glogger.verb("[XServerBackend]: dropped event of type \"" +
 			         std::to_string(event.type) + "\"");
 		}
 	}
@@ -138,25 +139,24 @@ void XServer::eventLoop()
 //handler function for XLib errors (allows for recovery from some errors)
 int XServer::XErrorHandlerFn(Display* display, XErrorEvent* error){
 	char txtBuff[errorSize];
-	Logger logger;
 
 	XGetErrorText(display, error->error_code, txtBuff, errorSize);
-	logger.warn(std::string(txtBuff));
+	glogger.warn(std::string(txtBuff));
 
 	switch (error->error_code){
 	case BadWindow:
-		logger.info("An invalid windowID reached the X Backend");
+		glogger.info("An invalid windowID reached the X Backend");
 	break;
 
 	case BadAccess:
-		logger.verb("BadAccess is often reported on failure to bind to the X server");
-		logger.verb("Is an X server running on the correct display?");
-		logger.verb("TIP: relaunch the X server and this program");
-		logger.exit("Failed to gain access to critical X resource");
+		glogger.verb("BadAccess is often reported on failure to bind to the X server");
+		glogger.verb("Is an X server running on the correct display?");
+		glogger.verb("TIP: relaunch the X server and this program");
+		glogger.exit("Failed to gain access to critical X resource");
 	break;
 
 	default:
-		logger.exit("This type of error is either unrecoverable or not in scope to be handled");
+		glogger.exit("This type of error is either unrecoverable or not in scope to be handled");
 	}
 
 	return 0;
@@ -168,30 +168,29 @@ int XServer::XErrorHandlerFn(Display* display, XErrorEvent* error){
 //sets an XErrorHandler to allow recovery from recoverable errors
 XServer::XServer()
 {
-	Logger log = Logger(std::cout, LogLevel::VERBOSE);
-	log.info("---Using X Server Backend---");
+	glogger.info("---Using X Server Backend---");
 
-	log.verb("Getting $DISPLAY environment variable...");
+	glogger.verb("Getting $DISPLAY environment variable...");
 	const char* display_var = ":9"; // std::getenv("DISPLAY");
 	if (display_var == nullptr)
 	{
-		log.exit("$DISPLAY not set; Exiting.");
+		glogger.exit("$DISPLAY not set; Exiting.");
 	}
 
-	log.verb("Opening X display...");
+	glogger.verb("Opening X display...");
 	if (!(display = XOpenDisplay(display_var)))
 	{
-		log.exit("Failed to get X display; Exiting.");
+		glogger.exit("Failed to get X display; Exiting.");
 	}
 
 	int screenCount = ScreenCount(display);
-	log.verb("Display " + std::string(display_var) + " has " +
+	glogger.verb("Display " + std::string(display_var) + " has " +
 	         std::to_string(screenCount) + " screen(s).");
 
-	log.verb("Getting default screen...");
+	glogger.verb("Getting default screen...");
 	defaultScreeen = DefaultScreen(display);
 
-	log.verb("Getting other screens...");
+	glogger.verb("Getting other screens...");
 	for (int i = 0; i < screenCount; i++)
 	{
 		screens.push_back(XScreenOfDisplay(display, i));
@@ -233,7 +232,7 @@ void XServer::setArea(long windowID, Area area)
 	changes.y      = area.y;
 	changes.width  = area.width;
 	changes.height = area.height;
-	log.info("conf'd window with id:" + std::to_string(windowID));
+	glogger.info("conf'd window with id:" + std::to_string(windowID));
 	XConfigureWindow(display, (Window)windowID, areaBitmask, &changes);
 }
 
